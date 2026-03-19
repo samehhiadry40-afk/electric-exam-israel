@@ -198,6 +198,32 @@
     .spinner{width:40px;height:40px;border:4px solid var(--n200);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
 
+    /* FEEDBACK BUTTONS */
+    .feedback-btns{position:fixed;bottom:1.5rem;left:1.5rem;display:flex;flex-direction:column;gap:.5rem;z-index:150}
+    .feedback-btn{display:flex;align-items:center;gap:.5rem;padding:.55rem 1rem;border-radius:30px;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .2s;white-space:nowrap}
+    .feedback-btn-bug{background:#e02424;color:white}.feedback-btn-bug:hover{background:#c81e1e;transform:translateY(-2px)}
+    .feedback-btn-idea{background:#0e9f6e;color:white}.feedback-btn-idea:hover{background:#057a55;transform:translateY(-2px)}
+
+    /* FEEDBACK MODAL */
+    .fb-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:1rem}
+    .fb-modal-overlay.show{display:flex}
+    .fb-modal{background:white;border-radius:14px;padding:2rem;max-width:500px;width:100%;box-shadow:0 20px 40px rgba(0,0,0,.2)}
+    .fb-modal-header{display:flex;align-items:center;gap:.75rem;margin-bottom:1.25rem}
+    .fb-modal-icon{font-size:1.75rem}
+    .fb-modal-title{font-size:1.15rem;font-weight:800;color:var(--n800)}
+    .fb-modal-close{margin-right:auto;background:none;border:none;font-size:1.3rem;cursor:pointer;color:var(--n400);line-height:1;padding:.2rem}
+    .fb-modal-close:hover{color:var(--n700)}
+    .fb-field{margin-bottom:1rem}
+    .fb-label{display:block;font-size:.83rem;font-weight:600;color:var(--n700);margin-bottom:.35rem}
+    .fb-input,.fb-textarea,.fb-select{width:100%;padding:.6rem .85rem;border:2px solid var(--n200);border-radius:8px;font-family:inherit;font-size:.88rem;color:var(--n800);outline:none;transition:border-color .2s;background:white;direction:rtl}
+    .fb-input:focus,.fb-textarea:focus,.fb-select:focus{border-color:var(--primary)}
+    .fb-textarea{min-height:110px;resize:vertical}
+    .fb-actions{display:flex;gap:.7rem;justify-content:flex-end;margin-top:1.25rem}
+    .fb-submit-bug{background:#e02424;color:white}
+    .fb-submit-bug:hover{background:#c81e1e}
+    .fb-submit-idea{background:#0e9f6e;color:white}
+    .fb-submit-idea:hover{background:#057a55}
+
     @media(max-width:640px){
       .nav{padding:0 .875rem}
       .main{padding:1rem .875rem}
@@ -1561,6 +1587,114 @@ function showTheoryGrid(){
 // START
 // ============================================================
 init();
+</script>
+
+<!-- ===== FLOATING FEEDBACK BUTTONS ===== -->
+<div class="feedback-btns">
+  <button class="feedback-btn feedback-btn-idea" onclick="openFbModal('idea')">💡 הצעת שיפור</button>
+  <button class="feedback-btn feedback-btn-bug" onclick="openFbModal('bug')">🐛 דיווח באג</button>
+</div>
+
+<!-- BUG REPORT MODAL -->
+<div class="fb-modal-overlay" id="fb-bug-modal">
+  <div class="fb-modal">
+    <div class="fb-modal-header">
+      <span class="fb-modal-icon">🐛</span>
+      <span class="fb-modal-title">דיווח על באג</span>
+      <button class="fb-modal-close" onclick="closeFbModal('bug')" title="סגור">✕</button>
+    </div>
+    <div class="fb-field">
+      <label class="fb-label">כותרת קצרה *</label>
+      <input class="fb-input" id="bug-title" type="text" placeholder="תאר בקצרה את הבעיה...">
+    </div>
+    <div class="fb-field">
+      <label class="fb-label">מספר שאלה (אם רלוונטי)</label>
+      <input class="fb-input" id="bug-qid" type="number" placeholder="למשל: 324">
+    </div>
+    <div class="fb-field">
+      <label class="fb-label">תיאור הבעיה בפירוט *</label>
+      <textarea class="fb-textarea" id="bug-desc" placeholder="מה קרה? מה ציפית שיקרה? כיצד ניתן לשחזר?"></textarea>
+    </div>
+    <div class="fb-actions">
+      <button class="btn btn-outline" onclick="closeFbModal('bug')">ביטול</button>
+      <button class="btn fb-submit-bug" onclick="submitBug()">📧 שלח דיווח</button>
+    </div>
+  </div>
+</div>
+
+<!-- IMPROVEMENT MODAL -->
+<div class="fb-modal-overlay" id="fb-idea-modal">
+  <div class="fb-modal">
+    <div class="fb-modal-header">
+      <span class="fb-modal-icon">💡</span>
+      <span class="fb-modal-title">הצעת שיפור</span>
+      <button class="fb-modal-close" onclick="closeFbModal('idea')" title="סגור">✕</button>
+    </div>
+    <div class="fb-field">
+      <label class="fb-label">כותרת ההצעה *</label>
+      <input class="fb-input" id="idea-title" type="text" placeholder="תאר בקצרה את ההצעה...">
+    </div>
+    <div class="fb-field">
+      <label class="fb-label">קטגוריה</label>
+      <select class="fb-select" id="idea-category">
+        <option value="תוכן">תוכן / שאלות</option>
+        <option value="ממשק">ממשק משתמש</option>
+        <option value="פונקציונליות">פונקציונליות חדשה</option>
+        <option value="ביצועים">ביצועים / מהירות</option>
+        <option value="אחר">אחר</option>
+      </select>
+    </div>
+    <div class="fb-field">
+      <label class="fb-label">פירוט ההצעה *</label>
+      <textarea class="fb-textarea" id="idea-desc" placeholder="תאר את ההצעה בפירוט. מה ישתפר? כיצד ייראה?"></textarea>
+    </div>
+    <div class="fb-actions">
+      <button class="btn btn-outline" onclick="closeFbModal('idea')">ביטול</button>
+      <button class="btn fb-submit-idea" onclick="submitIdea()">📧 שלח הצעה</button>
+    </div>
+  </div>
+</div>
+
+<script>
+function openFbModal(type){
+  document.getElementById('fb-'+type+'-modal').classList.add('show');
+}
+function closeFbModal(type){
+  document.getElementById('fb-'+type+'-modal').classList.remove('show');
+}
+// Close on overlay click
+['bug','idea'].forEach(type=>{
+  document.getElementById('fb-'+type+'-modal').addEventListener('click',function(e){
+    if(e.target===this) closeFbModal(type);
+  });
+});
+function submitBug(){
+  const title=document.getElementById('bug-title').value.trim();
+  const qid=document.getElementById('bug-qid').value.trim();
+  const desc=document.getElementById('bug-desc').value.trim();
+  if(!title||!desc){alert('נא למלא כותרת ותיאור.');return;}
+  const subject=encodeURIComponent('🐛 דיווח באג: '+title);
+  let body='כותרת: '+title+'\n';
+  if(qid) body+='שאלה מספר: '+qid+'\n';
+  body+='\nתיאור:\n'+desc;
+  window.location.href='mailto:samehhiadry40@gmail.com?subject='+subject+'&body='+encodeURIComponent(body);
+  closeFbModal('bug');
+  document.getElementById('bug-title').value='';
+  document.getElementById('bug-qid').value='';
+  document.getElementById('bug-desc').value='';
+}
+function submitIdea(){
+  const title=document.getElementById('idea-title').value.trim();
+  const cat=document.getElementById('idea-category').value;
+  const desc=document.getElementById('idea-desc').value.trim();
+  if(!title||!desc){alert('נא למלא כותרת ופירוט.');return;}
+  const subject=encodeURIComponent('💡 הצעת שיפור: '+title);
+  const body='כותרת: '+title+'\nקטגוריה: '+cat+'\n\nפירוט:\n'+desc;
+  window.location.href='mailto:samehhiadry40@gmail.com?subject='+subject+'&body='+encodeURIComponent(body);
+  closeFbModal('idea');
+  document.getElementById('idea-title').value='';
+  document.getElementById('idea-desc').value='';
+}
 </script>
 </body>
 </html>
