@@ -1269,8 +1269,12 @@ function buildStudyQuestionHTML(q){
 
   let hintHTML='';
   if(hintShown&&q.explanation&&answered===undefined){
-    const hint=q.explanation.substring(0,180);
-    hintHTML=`<div class="hint-box show"><div class="hint-title">💡 רמז</div>${escHtml(hint)}...</div>`;
+    const hintText = buildHintText(q.explanation, q.correct_answer);
+    if(hintText){
+      hintHTML=`<div class="hint-box show"><div class="hint-title">💡 רמז — חשוב, אל תגזום!</div>${escHtml(hintText)}</div>`;
+    } else {
+      hintHTML=`<div class="hint-box show"><div class="hint-title">💡 רמז</div>חשוב על נושא <strong>${escHtml(q.topic)}</strong> ועל הנתונים שבשאלה.</div>`;
+    }
   }
 
   const imgHTML = buildImageHTML(q.image, '', q.pdf_page);
@@ -1290,7 +1294,7 @@ function buildStudyQuestionHTML(q){
       ${hintHTML}
       ${feedbackHTML}
       <div class="action-row">
-        ${answered===undefined&&q.explanation?`<button class="btn btn-warning" onclick="showHint(${q.id})">💡 רמז (H)</button>`:''}
+        ${answered===undefined&&q.explanation?`<button class="btn btn-warning" onclick="showHint(${q.id})" title="רמז ללא תשובה סופית">💡 רמז (H)</button>`:''}
         <div class="spacer"></div>
         ${studyIndex>0?'<button class="btn btn-outline" onclick="prevQuestion()">◄ הקודמת (→)</button>':''}
         ${studyIndex<studyQuestions.length-1?'<button class="btn btn-primary" onclick="nextQuestion()">הבאה ► (←)</button>':''}
@@ -1301,6 +1305,73 @@ function buildStudyQuestionHTML(q){
 
 function studyAnswer(qId,num){if(studyAnswered[qId]!==undefined)return;studyAnswered[qId]=num;renderStudyQuestion();}
 function showHint(qId){studyHintShown[qId]=true;renderStudyQuestion();}
+
+/**
+ * Generate a hint from explanation WITHOUT revealing the final answer.
+ * Removes any clause/sentence that directly states the answer number/letter.
+ */
+function buildHintText(explanation, correctAnswer) {
+  if (!explanation) return null;
+
+  // Patterns that reveal the answer - remove whole clause around them
+  const answerPatterns = [
+    // "התשובה היא X" / "לכן התשובה X" / "התשובה הנכונה X" etc.
+    /[^\u05D0-\u05EA\w]*ה?תשובה[^\u05D0-\u05EA\w]*(?:הנכונה|היא|הנה|הסופית)?[^\u05D0-\u05EA\w]*[1-4][^\u05D0-\u05EA\w]*/g,
+    // "ולכן X" where X is a digit at the start of a conclusion
+    /ולכן\s+(?:ה?תשובה[^.]*[1-4])/g,
+    // any sentence ending with just a number like ". 2 ." or ". התשובה 3."
+    /[.]\s*[1-4]\s*[.]/g,
+    // "לכן התשובה היא" sentence
+    /לכן\s+(?:ה?תשובה[^.]*\.)/g,
+  ];
+
+  let text = explanation;
+
+  // Split into sentences and filter out ones that reveal the answer
+  // Split on Hebrew sentence-ending punctuation
+  const sentences = text.split(/(?<=[.!?])\s+/);
+  const filtered = sentences.filter(sentence => {
+    const lower = sentence;
+    // Drop sentences that say "התשובה היא X" where X is a number 1-4
+    if (/ה?תשובה\s*(?:היא|הנכונה|הנה|הסופית)?\s*[1-4]/.test(lower)) return false;
+    if (/לכן\s+ה?תשובה/.test(lower)) return false;
+    // Drop sentences that are ONLY a number (leftovers)
+    if (/^\s*[1-4]\s*\.?\s*$/.test(lower)) return false;
+    return true;
+  });
+
+  let hint = filtered.join(' ').trim();
+
+  // Also remove inline "התשובה היא X" fragments that survived sentence-split
+  hint = hint.replace(/[,\s]*ו?ל?כן\s+ה?תשובה\s*(?:היא|הנכונה|הנה)?\s*[1-4][^.]*\./g, '.');
+  hint = hint.replace(/[,\s]*ה?תשובה\s*(?:היא|הנכונה|הנה)?\s*[1-4]\s*\./g, '.');
+
+  // Clean up double punctuation / excess whitespace
+  hint = hint.replace(/\.\s*\./g, '.').replace(/\s{2,}/g, ' ').trim();
+
+  // If hint is now too short or empty, build a topic-based hint instead
+  if (hint.length < 30) {
+    // Fallback: show just the first ~120 chars of the explanation minus answer lines
+    const lines = explanation.split('\n');
+    const filtered2 = lines.filter(l =>
+      !/ה?תשובה\s*(?:היא|הנכונה)?\s*[1-4]/.test(l) &&
+      !/לכן\s+ה?תשובה/.test(l)
+    );
+    hint = filtered2.join('\n').trim().substring(0, 200);
+  }
+
+  if (hint.length < 20) return null; // nothing useful
+
+  // Truncate at 250 chars, cut at last complete word
+  if (hint.length > 250) {
+    hint = hint.substring(0, 250);
+    const lastSpace = hint.lastIndexOf(' ');
+    if (lastSpace > 150) hint = hint.substring(0, lastSpace);
+    hint += '...';
+  }
+
+  return hint;
+}
 function prevQuestion(){if(studyIndex>0){studyIndex--;renderStudyQuestion();}}
 function nextQuestion(){if(studyIndex<studyQuestions.length-1){studyIndex++;renderStudyQuestion();}}
 function randomQuestion(){studyIndex=Math.floor(Math.random()*studyQuestions.length);studyAnswered={};studyHintShown={};renderStudyQuestion();}
