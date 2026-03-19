@@ -1,0 +1,1494 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>מאגר שאלות חשמל — בחינת רישוי מהנדס</title>
+  <link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary:#1a56db;--primary-dark:#1e429f;--primary-light:#e8f0fe;
+      --secondary:#0e9f6e;--secondary-light:#e3f9f5;
+      --danger:#e02424;--danger-light:#fde8e8;
+      --warning:#d97706;--warning-light:#fef3c7;
+      --n50:#f9fafb;--n100:#f3f4f6;--n200:#e5e7eb;--n300:#d1d5db;
+      --n400:#9ca3af;--n500:#6b7280;--n600:#4b5563;--n700:#374151;--n800:#1f2937;
+      --radius:12px;
+      --shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -1px rgba(0,0,0,.06);
+      --shadow-lg:0 10px 15px -3px rgba(0,0,0,.1);
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Heebo',sans-serif;background:var(--n50);color:var(--n800);min-height:100vh;direction:rtl}
+
+    /* NAV */
+    .nav{background:linear-gradient(135deg,#1a1a2e,#0f3460);color:white;padding:0 1.5rem;display:flex;align-items:center;justify-content:space-between;height:64px;position:sticky;top:0;z-index:100;box-shadow:0 2px 10px rgba(0,0,0,.3)}
+    .nav-brand{display:flex;align-items:center;gap:.75rem}
+    .nav-brand-title{font-size:.95rem;font-weight:700}
+    .nav-brand-sub{font-size:.68rem;opacity:.6;font-weight:400}
+    .nav-tabs{display:flex;gap:.25rem}
+    .nav-tab{padding:.45rem .9rem;border-radius:8px;cursor:pointer;font-size:.83rem;font-weight:500;color:rgba(255,255,255,.7);transition:all .2s;border:none;background:transparent;font-family:inherit}
+    .nav-tab:hover{background:rgba(255,255,255,.1);color:white}
+    .nav-tab.active{background:rgba(255,255,255,.2);color:white}
+
+    /* SHORTCUTS BAR */
+    .shortcut-bar{background:linear-gradient(90deg,#1e3a5f,#1a56db);color:rgba(255,255,255,.85);padding:.35rem 1.5rem;font-size:.75rem;display:flex;gap:1.5rem;align-items:center;flex-wrap:wrap}
+    .shortcut-bar kbd{background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3);border-radius:4px;padding:.1rem .4rem;font-family:monospace;font-size:.78rem;color:white}
+
+    .main{max-width:1100px;margin:0 auto;padding:1.5rem}
+    .page{display:none}
+    .page.active{display:block}
+
+    /* CARD */
+    .card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;margin-bottom:1.5rem}
+    .card-header{font-size:1.05rem;font-weight:700;margin-bottom:1rem;padding-bottom:.75rem;border-bottom:2px solid var(--n100)}
+
+    /* BUTTONS */
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;padding:.6rem 1.25rem;border-radius:8px;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;border:none;transition:all .2s}
+    .btn-primary{background:var(--primary);color:white}.btn-primary:hover{background:var(--primary-dark)}
+    .btn-success{background:var(--secondary);color:white}
+    .btn-danger{background:var(--danger);color:white}
+    .btn-outline{background:transparent;border:2px solid var(--n300);color:var(--n700)}.btn-outline:hover{border-color:var(--primary);color:var(--primary)}
+    .btn-warning{background:var(--warning);color:white}
+    .btn-lg{padding:.875rem 2rem;font-size:1rem;border-radius:10px}
+    .btn:disabled{opacity:.5;cursor:not-allowed}
+
+    /* TOPIC CHIPS */
+    .topic-filters{display:flex;flex-wrap:wrap;gap:.5rem;margin-bottom:1.25rem}
+    .topic-chip{padding:.35rem .8rem;border-radius:20px;font-size:.78rem;font-weight:500;cursor:pointer;border:1.5px solid var(--n300);background:white;color:var(--n600);transition:all .2s}
+    .topic-chip:hover{border-color:var(--primary);color:var(--primary)}
+    .topic-chip.active{background:var(--primary);border-color:var(--primary);color:white}
+
+    /* QUESTION */
+    .question-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
+    .question-header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;padding:1.1rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
+    .question-num-label{font-size:.82rem;opacity:.85}
+    .question-id-label{font-size:.7rem;opacity:.55;margin-top:.15rem}
+    .question-topic-badge{background:rgba(255,255,255,.2);padding:.2rem .7rem;border-radius:20px;font-size:.75rem;font-weight:500;text-align:center}
+    .question-body{padding:1.5rem}
+    .question-text{font-size:.97rem;line-height:1.75;color:var(--n800);font-weight:500;margin-bottom:1rem}
+
+    /* QUESTION IMAGE */
+    .question-image-wrap{margin-bottom:1.25rem;border:2px solid var(--n200);border-radius:10px;overflow:hidden;background:var(--n50);text-align:center}
+    .question-image-wrap img{max-width:100%;height:auto;display:block;margin:0 auto}
+    .image-caption{font-size:.72rem;color:var(--n400);padding:.35rem;text-align:center;background:var(--n100)}
+
+    /* OPTIONS */
+    .options-grid{display:flex;flex-direction:column;gap:.7rem}
+    .option{padding:.8rem 1.1rem;border:2px solid var(--n200);border-radius:10px;cursor:pointer;display:flex;align-items:flex-start;gap:.8rem;transition:all .2s;background:white}
+    .option:hover:not(.disabled){border-color:var(--primary);background:var(--primary-light)}
+    .option.selected{border-color:var(--primary);background:var(--primary-light)}
+    .option.correct{border-color:var(--secondary);background:var(--secondary-light)}
+    .option.wrong{border-color:var(--danger);background:var(--danger-light)}
+    .option.disabled{cursor:default}
+    .option.kbd-focus{outline:3px solid var(--warning);outline-offset:2px}
+    .option-num{width:26px;height:26px;border-radius:50%;background:var(--n200);display:flex;align-items:center;justify-content:center;font-size:.82rem;font-weight:700;flex-shrink:0;color:var(--n700)}
+    .option.selected .option-num{background:var(--primary);color:white}
+    .option.correct .option-num{background:var(--secondary);color:white}
+    .option.wrong .option-num{background:var(--danger);color:white}
+    .option-text{font-size:.92rem;line-height:1.55;color:var(--n700);flex:1}
+
+    /* FEEDBACK */
+    .feedback{margin-top:1.1rem;border-radius:10px;padding:1.1rem;display:none}
+    .feedback.show{display:block}
+    .feedback.correct-fb{background:var(--secondary-light);border:1.5px solid var(--secondary)}
+    .feedback.wrong-fb{background:var(--danger-light);border:1.5px solid var(--danger)}
+    .feedback-title{font-weight:700;font-size:.95rem;margin-bottom:.4rem}
+    .feedback.correct-fb .feedback-title{color:var(--secondary)}
+    .feedback.wrong-fb .feedback-title{color:var(--danger)}
+    .feedback-explanation{font-size:.87rem;line-height:1.7;color:var(--n700);margin-top:.65rem;padding-top:.65rem;border-top:1px solid rgba(0,0,0,.1);white-space:pre-line}
+
+    /* HINT */
+    .hint-box{background:var(--warning-light);border:1.5px solid var(--warning);border-radius:10px;padding:.9rem 1.1rem;margin-top:.9rem;font-size:.87rem;color:var(--n800);line-height:1.6;display:none}
+    .hint-box.show{display:block}
+    .hint-title{font-weight:700;color:var(--warning);margin-bottom:.2rem}
+
+    /* ACTION ROW */
+    .action-row{display:flex;gap:.65rem;flex-wrap:wrap;margin-top:1.4rem;padding-top:1.1rem;border-top:1px solid var(--n200);align-items:center}
+    .action-row .spacer{flex:1}
+
+    /* STUDY NAV */
+    .study-nav{display:flex;align-items:center;justify-content:space-between;margin-bottom:1.25rem;flex-wrap:wrap;gap:.7rem}
+    .study-nav-info{font-size:.87rem;color:var(--n500);font-weight:500}
+    .progress-bar-wrap{height:4px;background:var(--n200);border-radius:2px;margin-bottom:1.25rem;overflow:hidden}
+    .progress-bar{height:100%;background:var(--primary);border-radius:2px;transition:width .3s}
+
+    /* SEARCH */
+    .search-box{position:relative;margin-bottom:1.1rem}
+    .search-input{width:100%;padding:.7rem 1rem .7rem 2.5rem;border:2px solid var(--n200);border-radius:10px;font-family:inherit;font-size:.88rem;outline:none;transition:border-color .2s;text-align:right;background:white}
+    .search-input:focus{border-color:var(--primary)}
+    .search-icon{position:absolute;left:.8rem;top:50%;transform:translateY(-50%);color:var(--n400)}
+
+    /* EXAM */
+    .exam-start-screen{text-align:center;padding:3rem 1rem}
+    .exam-start-icon{font-size:4rem;margin-bottom:.75rem}
+    .exam-info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;max-width:480px;margin:0 auto 2rem}
+    .exam-info-item{background:var(--primary-light);border-radius:10px;padding:1rem .5rem;text-align:center}
+    .exam-info-val{font-size:1.75rem;font-weight:800;color:var(--primary)}
+    .exam-info-label{font-size:.73rem;color:var(--n500);margin-top:.2rem}
+    .exam-header{display:flex;align-items:center;justify-content:space-between;background:linear-gradient(135deg,#1a1a2e,#0f3460);color:white;padding:1rem 1.5rem;border-radius:var(--radius);margin-bottom:1.25rem;box-shadow:var(--shadow)}
+    .exam-timer{font-size:2rem;font-weight:800;letter-spacing:.05em;font-variant-numeric:tabular-nums}
+    .exam-timer.warning{color:#fbbf24}
+    .exam-timer.danger{color:#f87171;animation:blink 1s infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.5}}
+    .exam-q-nav{display:flex;flex-wrap:wrap;gap:.35rem;margin-bottom:1.25rem}
+    .exam-q-dot{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:600;cursor:pointer;border:2px solid var(--n300);background:white;color:var(--n600);transition:all .15s}
+    .exam-q-dot:hover{border-color:var(--primary);color:var(--primary)}
+    .exam-q-dot.answered{background:var(--primary);border-color:var(--primary);color:white}
+    .exam-q-dot.current{border-color:var(--primary-dark);box-shadow:0 0 0 2px var(--primary)}
+    .exam-q-dot.skipped{background:var(--warning);border-color:var(--warning);color:white}
+
+    /* RESULTS */
+    .results-header{text-align:center;padding:2.5rem 1rem;background:linear-gradient(135deg,#1a1a2e,#0f3460);border-radius:var(--radius);color:white;margin-bottom:1.5rem}
+    .results-score{font-size:5rem;font-weight:900;line-height:1;margin:.4rem 0}
+    .results-score.pass{color:#34d399}
+    .results-score.fail{color:#f87171}
+    .results-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:1.5rem}
+    .stat-card{background:white;border-radius:10px;padding:1.1rem;text-align:center;box-shadow:var(--shadow)}
+    .stat-val{font-size:2rem;font-weight:800}
+    .stat-val.green{color:var(--secondary)}.stat-val.red{color:var(--danger)}.stat-val.blue{color:var(--primary)}
+    .stat-label{font-size:.78rem;color:var(--n500);margin-top:.2rem}
+    .result-item{background:white;border-radius:10px;padding:1.1rem;margin-bottom:.7rem;box-shadow:var(--shadow);border-right:4px solid}
+    .result-item.correct-item{border-color:var(--secondary)}
+    .result-item.wrong-item{border-color:var(--danger)}
+    .result-q-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:.4rem;gap:.5rem}
+    .result-q-text{font-size:.87rem;font-weight:600;flex:1;line-height:1.5}
+    .result-badge{font-size:.73rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;flex-shrink:0}
+    .badge-correct{background:var(--secondary-light);color:var(--secondary)}
+    .badge-wrong{background:var(--danger-light);color:var(--danger)}
+    .result-answers{font-size:.82rem;color:var(--n600);margin-top:.4rem;line-height:1.5}
+    .result-explain-btn{font-size:.78rem;color:var(--primary);cursor:pointer;border:none;background:none;font-family:inherit;font-weight:600;margin-top:.4rem;padding:0}
+    .result-explain-btn:hover{text-decoration:underline}
+    .result-explanation{margin-top:.65rem;padding-top:.65rem;border-top:1px dashed var(--n200);font-size:.82rem;color:var(--n600);line-height:1.65;display:none;white-space:pre-line}
+    .result-img{max-width:100%;border-radius:6px;margin-top:.5rem;border:1px solid var(--n200)}
+
+    /* THEORY */
+    .theory-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:1rem}
+    .theory-chapter-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.25rem;cursor:pointer;transition:all .2s;border:2px solid transparent}
+    .theory-chapter-card:hover{border-color:var(--primary);box-shadow:var(--shadow-lg);transform:translateY(-2px)}
+    .theory-chapter-icon{font-size:1.75rem;margin-bottom:.5rem}
+    .theory-chapter-title{font-size:.92rem;font-weight:700;margin-bottom:.2rem;color:var(--n800)}
+    .theory-chapter-summary{font-size:.78rem;color:var(--n400);line-height:1.4}
+    .theory-chapter-page h1{font-size:1.6rem;font-weight:800;margin-bottom:1.5rem;color:var(--n800)}
+    .theory-section-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.5rem;margin-bottom:1.1rem}
+    .theory-section-card h2{font-size:1rem;font-weight:700;color:var(--primary);margin-bottom:.9rem;padding-bottom:.5rem;border-bottom:2px solid var(--primary-light)}
+    .theory-body{font-size:.88rem;line-height:1.85;color:var(--n700);white-space:pre-line}
+    .theory-body strong{color:var(--n900);font-weight:700}
+    .theory-body code{background:var(--n100);padding:.1rem .4rem;border-radius:4px;font-family:monospace;font-size:.85em}
+
+    /* HOME */
+    .home-hero{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);border-radius:var(--radius);padding:3rem 2rem;color:white;text-align:center;margin-bottom:2rem}
+    .home-hero-title{font-size:2.1rem;font-weight:900;margin-bottom:.4rem}
+    .home-hero-sub{font-size:.95rem;opacity:.75;max-width:600px;margin:0 auto 2rem;line-height:1.6}
+    .home-cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.1rem}
+    .home-feature-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.6rem;cursor:pointer;transition:all .2s;border:2px solid transparent;text-align:center}
+    .home-feature-card:hover{border-color:var(--primary);box-shadow:var(--shadow-lg);transform:translateY(-3px)}
+    .feature-icon{font-size:2.75rem;margin-bottom:.9rem}
+    .feature-title{font-size:1.1rem;font-weight:700;margin-bottom:.4rem}
+    .feature-desc{font-size:.85rem;color:var(--n500);line-height:1.6}
+
+    /* MODAL */
+    .modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:200;display:none;align-items:center;justify-content:center;padding:1rem}
+    .modal-overlay.show{display:flex}
+    .modal-box{background:white;border-radius:var(--radius);padding:2rem;max-width:480px;width:100%;box-shadow:var(--shadow-lg)}
+    .modal-title{font-size:1.2rem;font-weight:800;margin-bottom:.7rem}
+    .modal-body{font-size:.88rem;color:var(--n600);line-height:1.65;margin-bottom:1.4rem}
+    .modal-actions{display:flex;gap:.7rem;justify-content:flex-end}
+
+    .loading{display:flex;align-items:center;justify-content:center;min-height:50vh;gap:1rem;color:var(--n400);font-size:1.1rem;flex-direction:column}
+    .spinner{width:40px;height:40px;border:4px solid var(--n200);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
+    @keyframes spin{to{transform:rotate(360deg)}}
+
+    @media(max-width:640px){
+      .nav{padding:0 .875rem}
+      .main{padding:1rem .875rem}
+      .shortcut-bar{display:none}
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-brand">
+    <span style="font-size:1.6rem">⚡</span>
+    <div>
+      <div class="nav-brand-title">בחינת רישוי חשמל</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.1 | 958 שאלות</div>
+    </div>
+  </div>
+  <div class="nav-tabs">
+    <button class="nav-tab active" onclick="showPage('home')">🏠 ראשי</button>
+    <button class="nav-tab" onclick="showPage('study')">📚 לימוד</button>
+    <button class="nav-tab" onclick="showPage('exam')">📝 מבחן</button>
+    <button class="nav-tab" onclick="showPage('theory')">📖 תיאוריה</button>
+  </div>
+</nav>
+
+<div class="shortcut-bar" id="shortcut-bar-study" style="display:none">
+  <span>קיצורי מקלדת:</span>
+  <span><kbd>→</kbd> הבאה</span>
+  <span><kbd>←</kbd> הקודמת</span>
+  <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> בחר תשובה</span>
+  <span><kbd>H</kbd> רמז</span>
+  <span><kbd>R</kbd> אקראי</span>
+</div>
+<div class="shortcut-bar" id="shortcut-bar-exam" style="display:none">
+  <span>קיצורי מקלדת:</span>
+  <span><kbd>→</kbd> הבאה</span>
+  <span><kbd>←</kbd> הקודמת</span>
+  <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> בחר תשובה</span>
+  <span><kbd>S</kbd> דלג</span>
+  <span><kbd>Esc</kbd> סיים מבחן</span>
+</div>
+
+<div id="loading-screen" class="loading">
+  <div class="spinner"></div>
+  <div>טוען מאגר שאלות...</div>
+  <div id="load-status" style="font-size:.82rem;color:var(--n300)"></div>
+</div>
+
+<div id="app" class="main" style="display:none">
+
+  <!-- HOME -->
+  <div id="page-home" class="page active">
+    <div class="home-hero">
+      <div style="font-size:3rem;margin-bottom:.6rem">⚡</div>
+      <div class="home-hero-title">מאגר שאלות — רישוי חשמל מהנדס</div>
+      <div class="home-hero-sub">הכנה מקיפה לבחינת רישוי — 958 שאלות עם תמונות ותרשימים, סימולציית מבחן, חומר תיאורטי מפורט</div>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
+        <button class="btn btn-primary btn-lg" onclick="showPage('study')">📚 התחל ללמוד</button>
+        <button class="btn btn-lg" style="background:rgba(255,255,255,.15);color:white;border:2px solid rgba(255,255,255,.3)" onclick="showPage('exam')">📝 סימולציית מבחן</button>
+      </div>
+    </div>
+    <div class="home-cards">
+      <div class="home-feature-card" onclick="showPage('study')">
+        <div class="feature-icon">📚</div>
+        <div class="feature-title">מצב לימוד</div>
+        <div class="feature-desc">958 שאלות עם תמונות ותרשימים. סינון לפי נושא, חיפוש, הסברים, רמזים. קיצורי מקלדת.</div>
+      </div>
+      <div class="home-feature-card" onclick="showPage('exam')">
+        <div class="feature-icon">📝</div>
+        <div class="feature-title">סימולציית מבחן</div>
+        <div class="feature-desc">50 שאלות אקריות, שעון 3 שעות, תשובות מעורבבות. ציון עובר 80. דו"ח מפורט עם הסברים.</div>
+      </div>
+      <div class="home-feature-card" onclick="showPage('theory')">
+        <div class="feature-icon">📖</div>
+        <div class="feature-title">חומר תיאורטי</div>
+        <div class="feature-desc">סיכומים מקיפים: ארקות TN/TT/IT, שנאים, הגנות, כבלים, מנועים, בטיחות, PV ועוד.</div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:1.5rem">
+      <div class="card-header">📊 סטטיסטיקת מאגר</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:1rem" id="home-stats"></div>
+    </div>
+  </div>
+
+  <!-- STUDY -->
+  <div id="page-study" class="page">
+    <div class="card">
+      <div class="card-header">🔍 מצב לימוד — בחר נושא</div>
+      <div class="search-box">
+        <input type="text" class="search-input" id="search-input" placeholder="חפש שאלה..." oninput="onSearch(this.value)">
+        <span class="search-icon">🔍</span>
+      </div>
+      <div class="topic-filters" id="topic-filters"></div>
+    </div>
+    <div class="study-nav">
+      <div class="study-nav-info" id="study-nav-info">טוען...</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="prevQuestion()" id="btn-prev">◄ הקודמת</button>
+        <button class="btn btn-outline" onclick="nextQuestion()" id="btn-next">הבאה ►</button>
+        <button class="btn btn-outline" onclick="randomQuestion()" title="שאלה אקראית (R)">🎲</button>
+      </div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="study-progress-bar"></div></div>
+    <div id="study-question-container"></div>
+  </div>
+
+  <!-- EXAM -->
+  <div id="page-exam" class="page">
+    <div id="exam-start" class="card">
+      <div class="exam-start-screen">
+        <div class="exam-start-icon">📝</div>
+        <div style="font-size:2rem;font-weight:800;margin-bottom:.4rem">סימולציית מבחן רישוי</div>
+        <div style="font-size:.95rem;color:var(--n500);max-width:500px;margin:0 auto 1.75rem;line-height:1.6">50 שאלות אקריות, תשובות מעורבבות אקראית, שעון 3 שעות. ציון עובר 80/100 (2 נקודות לשאלה). אין רמזים במבחן. ניתן לדלג ולחזור.</div>
+        <div class="exam-info-grid">
+          <div class="exam-info-item"><div class="exam-info-val">50</div><div class="exam-info-label">שאלות</div></div>
+          <div class="exam-info-item"><div class="exam-info-val">3:00</div><div class="exam-info-label">שעות</div></div>
+          <div class="exam-info-item"><div class="exam-info-val">80</div><div class="exam-info-label">ציון עובר</div></div>
+        </div>
+        <button class="btn btn-primary btn-lg" onclick="startExam()">🚀 התחל מבחן</button>
+      </div>
+    </div>
+    <div id="exam-active" style="display:none">
+      <div class="exam-header">
+        <div>
+          <div class="exam-timer" id="exam-timer">3:00:00</div>
+          <div style="font-size:.83rem;opacity:.7;margin-top:.25rem" id="exam-progress-text">שאלה 1 מתוך 50</div>
+        </div>
+        <div style="text-align:left">
+          <div style="font-size:.82rem;opacity:.7;margin-bottom:.5rem">ענית על <span id="exam-answered">0</span>/50</div>
+          <button class="btn btn-danger" style="font-size:.78rem;padding:.35rem .8rem" onclick="confirmFinishExam()">סיים מבחן (Esc)</button>
+        </div>
+      </div>
+      <div class="exam-q-nav" id="exam-q-nav"></div>
+      <div id="exam-question-container"></div>
+      <div style="display:flex;gap:.7rem;justify-content:space-between;margin-top:1.1rem;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="examPrev()" id="exam-prev-btn">◄ הקודמת</button>
+        <button class="btn btn-warning" onclick="examSkip()">דלג (S)</button>
+        <button class="btn btn-primary" onclick="examNext()" id="exam-next-btn">הבאה ►</button>
+      </div>
+    </div>
+    <div id="exam-results" style="display:none">
+      <div class="results-header">
+        <div style="font-size:.88rem;opacity:.7;margin-bottom:.25rem">תוצאות המבחן</div>
+        <div class="results-score" id="results-score">—</div>
+        <div style="font-size:1.2rem;font-weight:700" id="results-status"></div>
+        <div style="font-size:.88rem;opacity:.7;margin-top:.25rem" id="results-subtitle"></div>
+      </div>
+      <div class="results-stats" id="results-stats"></div>
+      <div class="card">
+        <div class="card-header">📋 פירוט תשובות</div>
+        <div id="results-detail"></div>
+      </div>
+      <div style="text-align:center;margin-top:1rem">
+        <button class="btn btn-primary btn-lg" onclick="resetExam()">🔄 מבחן חדש</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- THEORY -->
+  <div id="page-theory" class="page">
+    <div id="theory-grid-view">
+      <div class="card">
+        <div class="card-header">📖 חומר תיאורטי — לחץ על נושא לקריאה מלאה</div>
+        <div class="theory-grid" id="theory-grid"></div>
+      </div>
+    </div>
+    <div id="theory-chapter-view" style="display:none" class="theory-chapter-page">
+      <div style="margin-bottom:1.1rem">
+        <button class="btn btn-outline" onclick="showTheoryGrid()">◄ חזרה לנושאים</button>
+      </div>
+      <div id="theory-chapter-content"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="modal-overlay" id="modal-overlay">
+  <div class="modal-box">
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-body" id="modal-body"></div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">ביטול</button>
+      <button class="btn btn-danger" id="modal-confirm-btn">סיים</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ============================================================
+// COMPREHENSIVE THEORY DATA
+// Real electrical engineering theory for the Israeli electrician
+// licensing exam (מהנדס level)
+// ============================================================
+
+const THEORY_CHAPTERS = [
+  {
+    id: 'earthing',
+    icon: '🔌',
+    title: 'הארקות ואיפוס — TN, TT, IT',
+    summary: 'מערכות הגנה מפני חישמול, שיטות ארקה, השוואת פוטנציאלים',
+    sections: [
+      {
+        title: 'מהי הגנה מפני חישמול?',
+        body: `כאשר מתרחשת תקלה חשמלית (קצר בין מוליך פאזה לגוף מתכתי נגיש), עלול אדם הנוגע בגוף להתחשמל. ההגנה מפני חישמול נועדת:
+• להבטיח ניתוק מהיר של הזרם לפני שייגרם נזק לאדם
+• להגביל את מתח המגע (Vc) לערכים בטוחים — עד 50V AC בתנאים רגילים, 25V AC בתנאים לחים
+• לספק מסלול ארקה נמוך-עכבה לזרם התקלה
+
+שתי הגישות העיקריות:
+1. **ניתוק אוטומטי** — הגנה ניתקת בעת תקלה (שיטות TN, TT)
+2. **הגנה כפולה / הפרד מגן** — אין חלקים מתכתיים נגישים כלל (מחלקה II, שנאי הפרד)`,
+      },
+      {
+        title: 'שיטת TN — איפוס (Neutral-Earth bonded)',
+        body: `בשיטת TN נקודת הניטרל של מקור הזינה (שנאי / גנרטור) מחוברת ישירות לאדמה, וכל הגופים המתכתיים הנגישים מחוברים לאותו מוליך.
+
+**TN-C:** מוליך אחד משמש גם כניטרל (N) וגם כהארקת הגנה (PE). נקרא PEN. **אסור** במעגלים עם מוליך < 10 מ"מ² נחושת, אסור לאחר פיצול בניין.
+
+**TN-S:** מוליך N ומוליך PE **נפרדים** לאורך כל המתקן. בטוח יותר — אין זרם עבודה במוליך ה-PE.
+
+**TN-C-S:** TN-C בצד הרשת הציבורית, TN-S בתוך המבנה. נפוץ מאוד — ה-PEN "מתפצל" ב-TTP הראשי. לאחר הפיצול **חובה** לשמור על הפרדה בין N ל-PE.
+
+**תנאי הניתוק ב-TN:** לולאת התקלה צריכה לספק זרם קצר מינימלי שיפעיל את ההגנה תוך הזמן הנדרש:
+> Ik = U₀ / Zs
+כאשר U₀ = 230V (מתח מופע), Zs = עכבת לולאת התקלה.
+לדוגמה: עבור מפסק אוטומטי C16 נדרש Ik_min ≈ 80A לניתוק תוך 0.4 שניות.`,
+      },
+      {
+        title: 'שיטת TT — הארקת הגנה',
+        body: `בשיטת TT נקודת הניטרל מחוברת לאדמה בצד הרשת, ואילו הגופים במתקן מחוברים לאלקטרודת הארקה **עצמאית**.
+
+**עיקרון הניתוק:**
+> Zs × IΔn ≤ 50V
+כאשר Zs = התנגדות אלקטרודת הארקה, IΔn = זרם הפעלת מפסק המגן.
+
+**דרישה מרכזית:** חובה להתקין מפסק מגן (RCD) כהגנה בלעדית! בלעדיו, עכבת לולאת התקלה גבוהה מדי לניתוק על ידי נתיך / מפסק אוטומטי.
+
+**מאפיינים:**
+• שיטה נפוצה בבתי מגורים ישנים, חקלאות, מתקנים ארעיים
+• אם התנגדות אלקטרודת ההארקה ≤ 167Ω, מפסק מגן של 300mA יספק הגנה (Vc ≤ 50V)
+• אם ≤ 1667Ω — מפסק מגן 30mA יספק הגנה
+
+**חיסרון:** תקלת ארקה אחת גורמת לניתוק מיידי.`,
+      },
+      {
+        title: 'שיטת IT — זינה צפה',
+        body: `בשיטת IT אין חיבור מכוון בין מקור הזינה לאדמה. הגופים מוארקים דרך אלקטרודת הארקה.
+
+**יתרון עיקרי:** תקלת ארקה **ראשונה** אינה גורמת לניתוק — המתקן ממשיך לפעול! לכן שיטה זו נפוצה במקומות בהם רציפות הפעולה קריטית: חדרי ניתוח, כריות, מכרות.
+
+**חובת ניטור:** יש להתקין מוניטור בידוד (IMD / RIM) שמחפש תקלת ארקה ומאותת עליה, כדי שהאחראי יתקן לפני שתתרחש תקלה שנייה.
+
+**תנאי בידוד:** התנגדות הבידוד בין כל מוליך לאדמה ≥ 50kΩ (לרשתות AC).
+
+**תקלה שנייה:** אם יתרחשו שתי תקלות בו-זמנית, מגיב כמו TN (ניתוק) — לכן חיוני לתקן את התקלה הראשונה.`,
+      },
+      {
+        title: 'הארקת יסוד (Foundation Earth Electrode)',
+        body: `הארקת יסוד היא מערכת מוליכים (פלדה, נחושת) המוטמנת בבטון יסוד המבנה. ערכה כ-1-2Ω בדרך כלל.
+
+**מטרות הארקת יסוד:**
+• ייצוב פוטנציאל פס השוואת הפוטנציאלים (TTP)
+• הגנה מפני ברקים (LPS)
+• מסלול ארקה נמוך-עכבה לזרמי תקלה
+
+**דרישות תקנות החשמל:**
+• חובה בשיטת TN (איפוס) — גורמת לכך שניתוק מוליך האפס לא יגרום לעלייה מסוכנת של הפוטנציאל
+• בשיטת TT — לא חובה בדרך כלל, אבל מומלץ
+• התנגדות: ≤ 2Ω (דרישת תקן ת"י 900)
+
+**ממה עשויה:** פס נחושת ≥ 16מ"מ², או ברזל מצופה אבץ ≥ 50מ"מ², לאורך מחיצות הבטון.`,
+      },
+      {
+        title: 'פס השוואת פוטנציאלים (TTP/MET)',
+        body: `פס השוואת הפוטנציאלים (TTP — Terminal Transformation Point) הוא נקודת החיבור המרכזית של כל ארקות ההגנה במבנה.
+
+**מה מחבר ל-TTP:**
+• מוליך ה-PE מהרשת (או נקודת ה-PEN→N/PE)
+• הארקת יסוד
+• השוואת פוטנציאלים ראשית: צנרת מים, גז, חימום, מבנה מתכתי
+
+**השוואת פוטנציאלים משלימה:** בחדרי אמבטיה, מתקנים רטובים — יש לחבר כל גוף מתכתי נגיש נוסף (כיורים, צינורות) ל-TTP מקומי.
+
+**כלל חיוני:** אסור לחבר פסי TTP של שני מבנים נפרדים! זרם עבודה (אי-איזון פאזות) יזרום במוליך הגישור ויגרום: קורוזיה, שדות מגנטיים, מסלולי זרם לא מבוקרים.`,
+      },
+    ]
+  },
+  {
+    id: 'transformers',
+    icon: '🔄',
+    title: 'שנאים — תיאוריה מקיפה',
+    summary: 'עקרון פעולה, סוגים, חיבורים, חישובים, חיבור מקביל',
+    sections: [
+      {
+        title: 'עקרון פעולה',
+        body: `שנאי פועל על עיקרון **אינדוקציה אלקטרומגנטית** (חוק פאראדיי). שינוי בזרם בסליל הראשוני יוצר שדה מגנטי משתנה בליבה, אשר מייצר מתח אינדוקטיבי בסליל המשני.
+
+**יחס השנאי (a):**
+> a = N₁/N₂ = U₁/U₂ = I₂/I₁
+
+כאשר: N = מספר כריכות, U = מתח, I = זרם.
+
+**הספק:** בשנאי אידיאלי ההספק נשמר: S₁ = S₂ = U×I [VA].
+
+**שנאי שמן (ONAN):** גרעין ברזל צולם שטוף בשמן. משמש במתח גבוה (6.3kV, 10kV, 20kV). קירור טבעי / מאולץ.
+
+**שנאי יבש (ANAN):** ניתן להתקנה בתוך מבנים. בידוד אפוקסי. מחלקת חום C.`,
+      },
+      {
+        title: 'קבוצות חיבורים (Vector Groups)',
+        body: `קבוצת החיבורים מגדירה את צורת חיבור הסלילים (כוכב/משולש) ואת הזזת הפאזה בין ראשוני למשני.
+
+**סימון:** Dy11, Yd11, Yy0, Dyn11, וכדומה.
+• **D** = משולש (Delta), **Y** = כוכב (Star)
+• אות קטנה = משני, גדולה = ראשוני
+• **n** = נקודת כוכב מחוברת (neutral accessible)
+• **המספר** = הזזת הפאזה ב-30° × המספר (11 = 330° = -30°)
+
+**Dyn11** — הנפוץ ביותר בישראל לשנאי הורד:
+• ראשוני: חיבור משולש (לרשת 20kV)
+• משני: כוכב עם ניטרל מוצא (380/220V, TN-C-S)
+• הזזת 30° — חיובי להגנת ממסרים
+
+**חשיבות לחיבור מקביל:** שני שנאים לחיבור מקביל **חייבים** להיות באותה קבוצת חיבורים, אחרת יזרום זרם גבוה מאוד בין השנאים גם ללא עומס.`,
+      },
+      {
+        title: 'מתח קצר (Uk%) ועכבת שנאי',
+        body: `**מתח קצר Uk%:** מתח שיש להפעיל על הראשוני (כ-% מהמתח הנקוב) כדי להזרים זרם מלא במשני כאשר המשני מקוצר.
+
+ערכים אופייניים: 4–6% לשנאים בינוניים, 6–8% לגדולים.
+
+**חישוב זרם קצר בצד משני:**
+> Ik = In / (Uk% / 100) = (S_n / (√3 × U_n)) / (Uk% / 100)
+
+**דוגמה:** שנאי 630kVA, 20/0.4kV, Uk=6%:
+> In (משני) = 630000 / (√3 × 400) ≈ 909A
+> Ik_max = 909 / 0.06 ≈ 15,150A ≈ 15.15kA
+
+**משמעות Uk%:**
+• נמוך: עכבה נמוכה, זרם קצר גבוה, ויסות מתח טוב
+• גבוה: עכבה גבוהה, זרם קצר נמוך, ויסות מתח קשה`,
+      },
+      {
+        title: 'חיבור שנאים במקביל',
+        body: `**תנאים לחיבור מקביל תקין:**
+
+1. **מתחים נקובים זהים** — ראשוני ומשני
+2. **קבוצת חיבורים זהה** — אחרת: זרם גבוה מאוד + נזק לשנאים!
+3. **Uk% דומה** — סטייה מרבית ±10% מהממוצע המשוקלל. אחרת: חלוקת עומס לא שווה
+4. **יחס הספקים ≤ 3:1** — לחלוקת עומס סבירה
+5. **קוטביות (Polarity)** — סדר הפאזות חייב להיות זהה
+
+**חלוקת עומס בין שנאים מקבילים:**
+> I₁/I₂ = S₁/S₂ × (Uk₂%/Uk₁%)
+
+שנאי עם Uk% נמוך יקבל יותר עומס יחסית להספקו.
+
+**בדיקה לפני גישור:** לפני סגירת מגשר בין שני לוחות מ"ג — יש למדוד הפרשי מתחים בין כל פאזה מקבילה. אם ≠ 0: בדוק סדר פאזות, מתח, ו-Uk%.`,
+      },
+    ]
+  },
+  {
+    id: 'solar',
+    icon: '☀️',
+    title: 'מערכות סולאריות פוטו-וולטאיות (PV)',
+    summary: 'פנלים, אינוורטרים, מחרוזות, הגנות, חיבור לרשת',
+    sections: [
+      {
+        title: 'עקרון הפיכת אנרגיה סולארית לחשמל',
+        body: `פנל PV מורכב מתאים פוטו-וולטאיים (סיליקון). כאשר פוטונים מהאור פוגעים בתא, הם משחררים אלקטרונים וייצרים מתח DC.
+
+**פרמטרי פנל:**
+• **Voc** — מתח פתוח (ללא עומס), מקסימלי. מושפע מהטמפרטורה (יורד ~0.35%/°C)
+• **Isc** — זרם קצר (עומס מלא). כמעט לא מושפע מהטמפרטורה
+• **Vmp/Imp** — מתח/זרם בנקודת הספק מרבי (MPPT)
+• **Pmax** — הספק מרבי [Wp] בתנאי STC (1000W/m², 25°C)
+
+**מקדם ביצוע (PR):** יחס האנרגיה שהופקה בפועל לאנרגיה הפוטנציאלית (מחדירות). ערך טיפוסי: 75–85%.`,
+      },
+      {
+        title: 'מחרוזות (Strings) וקינפיגורציה',
+        body: `**חיבור טורי (String):** מגדיל מתח — הזרם זהה לפנל אחד.
+> V_string = N_panels × Vmp
+
+**חיבור מקבילי:** מגדיל זרם — המתח זהה לפנל אחד.
+> I_parallel = N_strings × Imp
+
+**הגבלות מתח:**
+• מותר עד **1000Vdc** במתקנים עם כניסה ציבורית (ת"י 900 / IEC 60364)
+• מותר עד **1500Vdc** במתקנים מסחריים / תעשייתיים
+
+**חישוב מספר פנלים במחרוזת:**
+> N_max = Vmax_inverter / Voc(0°C)  (לטמפרטורה מינימלית — Voc מרבי)
+> N_min = Vmppt_min / Vmp(70°C)    (לטמפרטורה מרבית — Vmp מינימלי)`,
+      },
+      {
+        title: 'אינוורטר ומעקב MPPT',
+        body: `**אינוורטר (Inverter):** ממיר DC → AC. מחובר לרשת. חייב לעמוד בתקנות הרשת (הגנות: Under/Over Voltage, Under/Over Frequency, Anti-Islanding).
+
+**MPPT (Maximum Power Point Tracking):** אלגוריתם שמתאים עצמית את עכבת הקלט לנקודת הספק מרבי של הפנלים, כי Vmp משתנה עם הטמפרטורה ועם קרינה.
+
+**Anti-Islanding:** הגנה חובה — כאשר נקטעת הזנת הרשת, האינוורטר מנתק תוך ≤2 שניות. מסיבה בטיחותית: למניעת הזנה לרשת "מתה" (סכנה לחשמלאים).
+
+**ממשק הרשת:** הזרמת הספק לרשת מחייבת אישור חברת החשמל וחיבור דו-כיווני (מד חשמל ייצואני).`,
+      },
+      {
+        title: 'הגנות ודרישות בטיחות',
+        body: `**הגנות בצד DC:**
+• **DC Disconnect** — ניתוק DC ידני לפני האינוורטר
+• **Surge Protection DC** (SPD) — הגנת ברקים/פריצות
+• **String Fuses** — נתיכים לכל מחרוזת (נדרש כאשר ≥3 מחרוזות מקבילות)
+• **Reverse Blocking Diodes** — מניעת זרם הפוך (מוכלל לרוב ב-combiner box)
+
+**הגנות בצד AC:**
+• מפסק אוטומטי + מפסק מגן 30mA (לדירות)
+• הגנת ממסר אל-אקארו (Anti-Islanding Relay)
+
+**ארקה בצד DC:**
+• שיטת IT (בדרך כלל — SN-floating) — לא מאוחד ישירות לאדמה
+• הגנת בידוד DC מוניטור (Ground Fault Detection Relay)`,
+      },
+    ]
+  },
+  {
+    id: 'capacitors',
+    icon: '⚡',
+    title: 'קבלים, פיצוי הספק והרמוניות',
+    summary: 'גורם הספק, חישוב עוצמת קבלים, הרמוניות ונזקיהן',
+    sections: [
+      {
+        title: 'גורם הספק (Power Factor)',
+        body: `**הגדרה:** cosφ = P / S, כאשר:
+• **P** = הספק ממשי [kW] — עבודה מועילה
+• **Q** = הספק ריאקטיבי [kVAr] — אנרגיה נצברת ומשוחררת (מנועים, שנאים)
+• **S** = הספק נראה [kVA] — מכפלת מתח בזרם
+
+**ייצוג:** S² = P² + Q²
+
+**ערכים טיפוסיים:**
+• מנוע אסינכרוני: cosφ = 0.7–0.9
+• תאורת פלורסנט עם בלסט מגנטי: cosφ ≈ 0.5
+• LED: cosφ > 0.9
+• כבשן תעשייתי: cosφ ≈ 1.0
+
+**דרישת רשות החשמל:** על צרכנים גדולים לשמור cosφ ≥ 0.9. ירידה מתחת ל-0.85 גוררת קנסות.`,
+      },
+      {
+        title: 'פיצוי הספק עם קבלים',
+        body: `**עיקרון:** קבלים מייצרים הספק ריאקטיבי קיבולי (Q_C < 0) שמפצה על ההספק הריאקטיבי האינדוקטיבי (Q_L > 0) של העומסים.
+
+**חישוב עוצמת קבלים:**
+> Q_C = P × (tanφ₁ − tanφ₂)
+
+כאשר φ₁ = זווית לפני פיצוי, φ₂ = זווית לאחר פיצוי (מטרה).
+
+**דוגמה:** P=60kW, cosφ₁=0.7 (tanφ=1.02), רוצים cosφ₂=0.95 (tanφ=0.33):
+> Q_C = 60 × (1.02 − 0.33) = 60 × 0.69 ≈ 41.4 kVAr
+
+**חיבור קבלים:**
+• **בחיבור משולש (Δ):** המתח על כל קבל = Uline = 400V
+• **בחיבור כוכב (Y):** המתח על כל קבל = Uphase = 230V
+• אותו הספק ריאקטיבי: ΔC = C_Δ × 3
+
+לכן: בחיבור משולש ניתן להשתמש בקבלים קטנים **פי 3** קיבול לאותו Q.`,
+      },
+      {
+        title: 'הרמוניות (Harmonics)',
+        body: `**הגדרה:** ריבוי של גלי סינוס בתדרים שהם מכפלות שלמות של 50Hz (100, 150, 200, 250Hz...).
+
+**מקורות הרמוניות:**
+• ממירי תדר (VFD)
+• אספקות כוח מיתוג (SMPS) — מחשבים, LED
+• קשתות חשמליות — כבשנים, ריתוך
+• שנאי ריווי — בהפעלה
+
+**THD (Total Harmonic Distortion):**
+> THD_I = √(I₂² + I₃² + I₅² + ...) / I₁ × 100%
+ת"י 61000-2-2 מגביל THD_V ≤ 5% ברשת ציבורית.
+
+**נזקי הרמוניות:**
+• **לקבלים:** עכבת קבל = 1/(2πfC) — ירידה בתדר גבוה → זרם גבוה → חימום ונזק
+• **לשנאים:** הפסדי ברזל גדלים, Neutral מוצף (הרמוניה ה-3 מצטברת בניטרל)
+• **למנועים:** ויברציה, ירידת יעילות
+• **לממסרים:** פעולה שגויה
+
+**תיקון:** סינון פאסיבי (LC) או פאסיבי (PAPF), מגנוע (detuning reactor) בטורי עם קבל.`,
+      },
+    ]
+  },
+  {
+    id: 'protection',
+    icon: '🔒',
+    title: 'הגנות — נתיכים, מפסקים, RCD',
+    summary: 'סוגי הגנות, עקומות זמן-זרם, בחירה וקואורדינציה',
+    sections: [
+      {
+        title: 'נתיכים (Fuses)',
+        body: `**עקרון הפעולה:** אלמנט מתכתי נמס כאשר הזרם עובר ערך מסוים לאורך זמן מסוים. העלייה בחום: Q = I²×R×t.
+
+**סוגים:**
+• **gG** — כלל-שימוש (General purpose). פועל בהעמסת יתר ובקצר. נפוץ למוליכים.
+• **aM** — מנועים. לא פועל על העמסת יתר, רק על קצר. מאפשר זרם הפעלה גבוה.
+• **gR / aR** — לחצי מוליכים (ממירים, תיריסטורים). פעולה מהירה מאוד.
+
+**בחירת נתיך לפי תנאי ת"י 900:**
+> Ib ≤ In ≤ Iz  (זרם עבודה ≤ זרם נתיך ≤ פחת מותר למוליך)
+> If ≤ 1.45 × Iz (זרם נמסה המובטח ≤ 1.45 × פחת המוליך)
+
+**הגנת כבל מפני קצר:**
+> S² ≥ I²×t / k²  → S ≥ I√t / k
+כאשר k=115 לנחושת/PVC, k=143 לנחושת/XLPE`,
+      },
+      {
+        title: 'מפסק אוטומטי (Circuit Breaker / MCB)',
+        body: `**שני מנגנוני הפעלה:**
+
+1. **תרמי (Bimetal):** סליל בימטלי מתקפל בחום מזרם עמסת יתר → פעולה איטית. ניתן לכיוון.
+
+2. **מגנטי (Instantaneous):** סולנואיד שנמשך בזרם קצר גבוה → פעולה מיידית (< 20ms).
+
+**קטגוריות (Tripping Classes):**
+• **B** — מגנטי פועל ב-3–5×In. מוגדר לעומסים רגילים, תאורה.
+• **C** — מגנטי פועל ב-5–10×In. עומסים אינדוקטיביים, מנועים קטנים.
+• **D** — מגנטי פועל ב-10–20×In. מנועים גדולים עם זרם הפעלה גבוה.
+
+**כושר הפסקה (Breaking Capacity / Icn):**
+> דרישה: Icn ≥ Ik_max בנקודת ההתקנה
+כאשר Ik_max = U₀ / Zs_total (כולל עכבת שנאי + קוו הזנה).
+
+**קואורדינציה:** ההגנה הקרובה לתקלה חייבת לפעול לפני ההגנה "מעליה". לכן: In(מעלה) > In(מטה), ולפעמים דרוש כיוון זמן-עיכוב.`,
+      },
+      {
+        title: 'מפסק מגן לזרם דלף (RCD / RCCB)',
+        body: `**עקרון הפעולה:** שנאי טורואיד מחובר סביב כל המוליכים (L+N, או L1+L2+L3+N). בפעולה תקינה: סכום הזרמים = 0. בתקלה (זרם דלף לאדמה) נוצרת אסימטריה → שנאי מרגיש ← ממסר מנתק.
+
+**סוגי מפסקי מגן לפי תקן IEC 61008:**
+• **AC:** מגיב לזרם דלף סינוסואידי (50Hz) בלבד
+• **A:** מגיב לזרם AC + פולסים DC חד-כיוויים (נפוץ לאינוורטרים PV, VFD)
+• **B:** מגיב לכל סוגי הזרם כולל DC חלק — נדרש לתחנות טעינה EV, ממירים
+• **F:** מגיב לזרם בתדרים גבוהים (200Hz)
+
+**זרמי הפעלה (IΔn):**
+• **30mA** — הגנה על בני אדם (ניתוק לפני מוות: < 40ms לזרם 150mA)
+• **100–300mA** — הגנה על רכוש (מניעת שרפות)
+• **1–3A** — הגנה על קווי הזנה ראשיים
+
+**בדיקה חודשית:** ת"י 900 מחייב לחץ על כפתור T אחת לחודש לבדיקת תקינות.
+
+**הגנה בלעדית ב-TT:** כאשר מפסק מגן הוא אמצעי ההגנה היחיד:
+> Ra × IΔn ≤ 50V → Ra ≤ 50/0.3 = 167Ω (לIΔn=300mA)`,
+      },
+    ]
+  },
+  {
+    id: 'cables',
+    icon: '🔗',
+    title: 'כבלים ומוליכים — בחירה, התקנה, חישובים',
+    summary: 'סוגי כבלים, נשיאת זרם, נפילת מתח, הגנת קצר',
+    sections: [
+      {
+        title: 'סוגי כבלים',
+        body: `**כבלי מתח נמוך (עד 1kV):**
+• **NYY / N2XY:** נחושת, PVC/XLPE. לשימוש כללי. N2XY — XLPE עמיד לטמפרטורה גבוהה יותר (90°C).
+• **H07RN-F:** גומי. גמיש. לאתרי בנייה, ציוד נייד — עמיד לשפשוף.
+• **NYMHY:** גמיש, PVC. לחיבורים פנימיים.
+• **NYA / H07V-U:** מוליך יחיד לצינורות. צבעים: חום/שחור/אפור (פאזות), כחול (N), ירוק-צהוב (PE).
+
+**כבלי מתח גבוה:**
+• **N2XS(F)2Y:** XLPE, מסך נחושת. 6-36kV.
+• **N2XSEY:** XLPE, מסך פלדה. לקבורה.
+• הסימון: [N₁] = בידוד ראשוני, [X] = XLPE, [S] = מסך, [F] = פוליאסטר, [Y] = PVC.
+
+**פרמטרים לבחירה:**
+• מתח נקוב (U₀/U [kV])
+• טמפרטורת הפעלה (90°C ל-XLPE, 70°C לPVC)
+• סוג התקנה (קבורה, תוך קיר, אוויר פתוח)`,
+      },
+      {
+        title: 'בחירת חתך מוליך — נשיאת זרם',
+        body: `**שיטת הבחירה לפי ת"י 900 / IEC 60364-5-52:**
+
+**שלב 1 — זרם עבודה:** Ib = P / (√3 × U × cosφ)
+
+**שלב 2 — זרם מותר Iz:**
+טבלה לפי חתך × שיטת התקנה × טמפרטורת סביבה.
+> Iz ≥ Ib
+
+**שלב 3 — גורמי תיקון (Derating Factors):**
+• **Ca** — טמפרטורת סביבה ≠ 30°C
+• **Cf** — קיבוץ מוליכים (כאשר יש כמה כבלים צמודים, קירור גרוע)
+• **Cs** — קבורה (depth, soil resistivity)
+
+**חתך מינימלי:**
+• מוליכי פאזה (בחישוב): ≥ 2.5מ"מ² לבנייה, ≥ 1.5מ"מ² לתאורה פנים
+• מוליך PE: אם ≤ 16מ"מ² → PE = L; אם 16-35 → PE = 16מ"מ²; אם > 35 → PE = L/2`,
+      },
+      {
+        title: 'חישוב נפילת מתח',
+        body: `**נפילת מתח (ΔU%):**
+> ΔU% = (2 × I × L × ρ) / (A × U_n) × 100%
+
+כאשר:
+• I = זרם [A], L = אורך מוליך כיוון [m]
+• ρ = התנגדות סגולית [Ω·mm²/m]: נחושת = 0.0175, אלומיניום = 0.028
+• A = שטח חתך [mm²], U_n = מתח נקוב [V]
+
+**דרישות ת"י 900:**
+• ממוצב חיבור לצרכנים: ΔU ≤ 4% (בדרך כלל)
+• מתקנים תעשייתיים: ΔU ≤ 6%
+• שרשרת הזנה: הסכום הכולל ≤ מגבלה הנ"ל
+
+**דוגמה:**
+קו חד-פאזי: 230V, זרם 80A, אורך 150m, נחושת 16מ"מ²:
+> ΔV = 2 × 80 × 150 × 0.0175 / 16 = 26.25V
+> ΔU% = 26.25/230 × 100 = 11.4% ← גבוה מדי! צריך חתך גדול יותר.`,
+      },
+    ]
+  },
+  {
+    id: 'motors',
+    icon: '⚙️',
+    title: 'מנועים חשמליים אסינכרוניים',
+    summary: 'עקרון פעולה, הפעלה, הגנות, ממסר תרמי',
+    sections: [
+      {
+        title: 'עקרון פעולה',
+        body: `**המנוע האסינכרוני (Induction Motor):**
+
+הסטטור יוצר שדה מגנטי מסתובב בתדר סינכרוני: ns = 120f / P (פ"ד), כאשר f=50Hz, P = מספר קטבים.
+
+הרוטור "מפגר" מאחורי השדה בסליפ s = (ns-n)/ns × 100%.
+בסליפ טיפוסי: 1–5%. סליפ גורם לזרם אינדוקטיבי ולהספק.
+
+**הספק:**
+> P = √3 × U × I × cosφ × η
+כאשר η = יעילות (80–95%).
+
+**זרם הפעלה (Starting Current):**
+בהפעלה ישירה (DOL): I_start ≈ 5–8 × I_nominal. גורם לצנחה זמנית במתח הרשת.`,
+      },
+      {
+        title: 'שיטות הפעלה',
+        body: `**הפעלה ישירה (DOL — Direct On-Line):**
+• פשוטה וזולה. זרם הפעלה גבוה = 5–8×In.
+• מותרת לפי תקנות לרשת ציבורית עד ~4kW בדרך כלל (תלוי ברשת).
+
+**הפעלת כוכב-משולש (Star-Delta / Y-Δ):**
+• הפעלה בכוכב: מתח לכל סליל = Uphase → זרם פי √3 נמוך יותר.
+• לאחר האצה: מעבר למשולש (מתח מלא).
+• הפחתת זרם הפעלה פי 3.
+• מגרעה: עצמת הפעלה יורדת פי 3 — לא מתאים לעומס גבוה בהפעלה.
+
+**ממיר תדר (VFD — Variable Frequency Drive):**
+• שולט על תדר ומתח → שליטה מלאה על מהירות.
+• הפעלה רכה (Soft Start), חיסכון אנרגיה בעומסים משתנים.
+• יוצר הרמוניות — נדרש סינון.`,
+      },
+      {
+        title: 'הגנות מנוע',
+        body: `**ממסר תרמי (Thermal Relay / Overload Relay):**
+• מגן מפני העמסת יתר ממושכת.
+• בימטל מתקפל → מנתק את הסולנואיד של הקונטקטור.
+• כיוון: I_set = In × 1.0–1.15 (בדרך כלל 105–115% מהזרם הנקוב).
+• כלל: I_set ≤ In_motor
+
+**נתיך aM:**
+• מסוג "Motor Starting" — לא נמס בזרם ההפעלה הגבוה.
+• מגן רק מפני קצר — לא מפני העמסת יתר!
+• מותאם יחד עם ממסר תרמי.
+
+**מפסק מוטורי (Motor Circuit Breaker / MPCB):**
+• משלב מבטח + ממסר תרמי + מגנטי יחידה אחת.
+
+**הגנת העדר מופע (Phase Failure Relay):**
+• ניתוק בעת היעדר אחד ממוליכי הפאזה — מונע נזק לסלילים.`,
+      },
+    ]
+  },
+  {
+    id: 'buildings',
+    icon: '🏢',
+    title: 'מבנים רב-קומות וגנרטורים',
+    summary: 'דרישות חשמל, גנרטור גיבוי, מערכות החלפה',
+    sections: [
+      {
+        title: 'הגדרות — מבנה רב-קומות',
+        body: `לפי תקנות החשמל (תש"ם 1979 ותיקוניהן):
+
+**בניין רב-קומות מוגדר:**
+• מבנה הגבוה מ-**6 קומות** מעל הקרקע, **או**
+• גובה מ-**20 מטר** ממפלס הקרקע לרצפת הקומה העליונה
+
+**דרישות ייחודיות:**
+• **לוחות-משנה בכל קומה** — כל קומה מקבלת לוח משנה מפוצל (לא לרכז הכל בלוח ראשי).
+• **מעלית:** מנוע מעלית — מעגל ייעודי, עם אמצעי כיבוי חירום.
+• **גנרטור גיבוי:** חובה בבניינים מעל **29 מטר** (בניין גבוה לפי חוק התכנון), ובמגורים מעל **24 קומות**.
+• **חדר שנאים:** גובה מינימלי **2.0 מ'** (2.5 מ' מומלץ). שתי כניסות אם מאחורי לוח חשמל ≥ 6 מ'.`,
+      },
+      {
+        title: 'גנרטור גיבוי — עקרונות',
+        body: `**שימוש:**
+• אספקת חשמל לצרכנים קריטיים בעת הפסקת רשת ציבורית.
+• מחוייב: מעלית, תאורת חירום, משאבות כיבוי, מערכות בטיחות.
+
+**מפסק מחלף (ATS — Automatic Transfer Switch):**
+• חייב להיות **4-קוטבי** (מנתק גם L1, L2, L3 וגם N).
+• מניעת חיבור מקביל בין גנרטור לרשת (Anti-paralleling).
+• כולל מניעת חיבור גב-אל-גב (Back-feed Prevention).
+
+**הארקה בצד גנרטור:**
+• שיטת הגנת הגנרטור = שיטת הגנת הרשת.
+• אם בבניין TN-C-S: גם בגנרטור חייבים TN-C-S.
+• **הארקת שיטה (Neutral Earthing):** נקודת הכוכב של גנרטור מחוברת לאדמה. **חייב** להיות נפרד מהארקת השיטה של השנאי!
+• **השוואת פוטנציאלים** מסביב לגנרטור — חובה.`,
+      },
+      {
+        title: 'מתקנים ארעיים ואתרי בנייה',
+        body: `**אתר בנייה — דרישות מיוחדות (ת"י 900 חלק 704):**
+
+• **כבלים:** H07RN-F (גמיש, גומי) — עמיד לשפשוף, לחות, שמן.
+• **שקעים:** לפי ת"י 1109 (CEE Form / IEC 60309) — עם הארקה, צבע ידועים לפי מתח. **אסור** שקעים רגילים (ת"י 32) — אלא אם כן מוגנים בארון נעול.
+• **בית תקע ותאורה:** גובה מינימלי 1.5 מ' מהקרקע.
+• **מפסק מגן 30mA:** חובה בכל מעגל סופי לציוד נייד.
+• **בדיקת מפסק מגן:** אחת לשבוע! (באתר בנייה — תדיר יותר מהרגיל).
+• **לוח הזנה:** מחובר לגנרטור או לשנאי ייחודי. חייב נתיך/מפסק ראשי.`,
+      },
+    ]
+  },
+  {
+    id: 'safety',
+    icon: '⚠️',
+    title: 'בטיחות בעבודות חשמל',
+    summary: 'עבודה במתקן חי, ציוד מגן, נהלי בטיחות',
+    sections: [
+      {
+        title: 'עקרונות כלליים',
+        body: `**"חמשת הכללים הזהובים" לעבודה בטוחה:**
+1. **ניתוק** — נתק את המתקן ממקורות כל האנרגיה
+2. **מניעת חיבור מחדש** — נעל / שלט "אל תפעיל" (Lockout/Tagout)
+3. **בדיקת העדר מתח** — מכשיר בדיקה מאושר לפני כל עבודה
+4. **הארקה ומקצור** — חבר מקצרים מטלטלים
+5. **גידור ושילוט** — חסם גישה לאזור עבודה
+
+**הרישיונות הנדרשים:**
+• עבודה בלוח מ"נ < 1kV: רישיון חשמלאי מוסמך (ג') לפחות
+• עבודה בלוח מ"ג (מתח גבוה): רישיון חשמלאי מורשה מ"ג
+• עבודה במתקן חי: רישיון מיוחד + אישור כתוב מהממונה`,
+      },
+      {
+        title: 'עבודה במתקן חי (Live Working)',
+        body: `**מתי מותרת עבודה במתקן חי?**
+רק כאשר ניתוק אינו אפשרי מסיבות טכניות או בטיחותיות, ובתנאים:
+
+1. **הוראות עבודה בכתב** — מפורטות, חתומות על ידי אחראי.
+2. **ציוד מגן אישי (PPE):**
+   • כפפות בידוד חשמלי מאושרות (Class 0-4 לפי IEC 60903)
+   • יריעות גומי / מכסים בידוד
+   • מגן פנים / משקפי גנה
+   • בגדים עמידים לקשת חשמלית (Arc Flash — קטגוריית ATPV לפי NFPA 70E)
+3. **כלים מבודדים:** עד 1000V AC (VDE / IEC 60900)
+4. **עובד שני:** חייב להיות נוכח כ"משמר" — לא לוקח חלק בעבודה עצמה.
+5. **תדירות בדיקת ציוד מגן:** יריעות גומי וכיסויים — **בדיקת מעבדה** אחת ל-12 חודשים. כפפות — בדיקה חזותית לפני כל שימוש.`,
+      },
+      {
+        title: 'הארקת מקצרים מטלטלים',
+        body: `**מטרה:** מניעת מתח מסוכן כתוצאה מ:
+• שגיאה בזיהוי הקו / הפעלה בטעות
+• מתח אינדוקציה מקווים סמוכים
+• מתח שיורי בקבלים
+
+**סדר פעולות להתקנת מקצרים:**
+1. ניתוק צד מ"נ
+2. ניתוק צד מ"ג (מנתק / נתיכים)
+3. בדיקת העדר מתח בצד מ"ג
+4. **התקנת מקצרים מטלטלים בצד מ"ג**
+5. **התקנת מקצרים מטלטלים בצד מ"נ**
+6. הגדרת אזור עבודה ושילוט
+
+**הסרה בסדר הפוך:** נ"מ קודם, מ"ג אחרון.`,
+      },
+    ]
+  },
+  {
+    id: 'panels',
+    icon: '🗄️',
+    title: 'לוחות חשמל — תכנון, התקנה, דרישות',
+    summary: 'סוגי לוחות, דרישות מרחב, בחירת ציוד, נגישות',
+    sections: [
+      {
+        title: 'סוגי לוחות חשמל',
+        body: `**לפי ייעוד:**
+• **לוח ראשי (Main Distribution Board / MDB):** מקבל זינה מהשנאי / ממונה חשמל. מחלק למשנאים.
+• **לוח-משנה (Sub-Distribution Board / SDB):** מקבל זינה מלוח ראשי. מחלק לקומות / אזורים.
+• **לוח-מוצא (Final Distribution Board):** מקבל זינה מלוח-משנה. מחלק למעגלים סופיים (תאורה, שקעים).
+
+**לפי מבנה:**
+• **פתוח (Form 1):** ציוד חשוף. אסור בגישה ציבורית.
+• **סגור חלקית (Form 2-4):** הפרדה בין חלקים חיים. נפוץ בתעשייה.
+• **ארון חשמל (Enclosed):** IP ≥ 20 (IP54 לחוץ, IP65 לסביבה קשה).`,
+      },
+      {
+        title: 'דרישות התקנה',
+        body: `**גובה התקנה לפי תקנות:**
+• גובה מינימלי מוליך התקנה מהרצפה: **0.3 מ'**
+• גובה מרבי לאמצעי הפעלה ידניים (כולל נתיכים): **1.8 מ'**
+• גובה מומלץ לאלמנטים עיקריים: 0.7–1.8 מ'
+
+**מרחק גישה:**
+• מאחורי לוח: לפחות **0.8 מ'** חופשיים לעבודה
+• בין שני לוחות מתמודדים: **1.0 מ'**
+• כניסה שנייה: נדרשת אם אורך המעבר > **6 מ'**
+
+**מרחק מארון בזק / ארון תקשורת:** **0.6 מ'** לפחות.
+
+**IP (Ingress Protection):**
+• IP20 — פנים בניין, יבש
+• IP44 — חוץ / לחות
+• IP54 — אבק ורסס
+• IP65 — הגנה מלאה מרסיסי מים, סביבה קשה`,
+      },
+    ]
+  },
+  {
+    id: 'hv',
+    icon: '🌩️',
+    title: 'רשתות מתח גבוה — עקרונות',
+    summary: 'רמות מתח, שנאי הורד, הגנות, בדיקות',
+    sections: [
+      {
+        title: 'רמות מתח בישראל',
+        body: `**רשת ציבורית:**
+• **מתח עליון:** 400kV, 161kV — קווי העברה ארצית
+• **מתח בינוני:** 22kV, 33kV — רשת חלוקה ראשית (בחברת החשמל: 22kV)
+• **מתח נמוך:** 0.4kV (400V/230V) — רשת צרכנים
+
+**חיבור צרכנים גדולים:** ישירות ל-22kV (מפעלים, מרכזי קניות). הצרכן אחראי על שנאי ההורד ועל הגנות.
+
+**הגדרות:**
+• **מתח נמוך (LV):** עד 1kV AC
+• **מתח גבוה (HV/MV):** 1kV–35kV ("מתח בינוני" MT)
+• **מתח גבוה מאוד (EHV):** מעל 35kV`,
+      },
+      {
+        title: 'הגנות ברשת מתח גבוה',
+        body: `**ממסר הגנת זרם יתר (Overcurrent Relay, 51):** מפעיל מפסק בזרם מעל ערך מסוים לאחר עיכוב זמן.
+
+**ממסר הגנת הפרש (Differential Relay, 87):** משווה זרמים בצד ראשוני ומשני של שנאי. תקלה פנימית → הפרש קיים → ניתוק מיידי.
+
+**ממסר הגנת ריצה לאדמה (Earth Fault Relay, 51N):** מזהה זרם תקלה לאדמה.
+
+**חיבור חוזר אוטומטי (Auto-Recloser):** 
+ברשתות עיליות (מ"ג) — רוב התקלות הן ארעיות (ברק, ענף). הרצ'לוזר מנתק ומחבר שוב אוטומטית (1–3 נסיונות) לפני ניתוק סופי.
+
+**קיצור (Earthing Switch):** ניתן להארקת הקו בידי מחלקה לפני עבודה — חייב להיות בלוח מ"ג.`,
+      },
+    ]
+  },
+];
+
+
+// ============================================================
+// STATE
+// ============================================================
+let DB = null;
+let studyQuestions = [], studyIndex = 0, studyAnswered = {}, studyHintShown = {};
+let activeTopics = new Set(), searchQuery = '';
+let examQuestions = [], examIndex = 0, examAnswers = {}, examSkipped = new Set();
+let examTimer = null, examSecondsLeft = 3*60*60, examFinished = false;
+let currentPage = 'home';
+
+// ============================================================
+// INIT
+// ============================================================
+async function init() {
+  try {
+    document.getElementById('load-status').textContent = 'טוען שאלות...';
+    const res = await fetch('questions_db.json');
+    if (!res.ok) throw new Error('Failed to load');
+    const data = await res.json();
+    DB = data.questions;
+    document.getElementById('loading-screen').style.display = 'none';
+    document.getElementById('app').style.display = 'block';
+    initHome(); initStudy(); initTheory();
+    setupKeyboard();
+  } catch(e) {
+    document.getElementById('loading-screen').innerHTML =
+      `<div style="color:var(--danger);text-align:center;padding:2rem">
+        <div style="font-size:2rem;margin-bottom:.5rem">⚠️</div>
+        <div>שגיאה בטעינת הנתונים</div>
+        <div style="font-size:.82rem;margin-top:.5rem;color:var(--n400)">יש לפתוח את האתר דרך שרת אינטרנט (לא ישירות מהקובץ)</div>
+      </div>`;
+  }
+}
+
+// ============================================================
+// HELPERS
+// ============================================================
+function shuffle(arr) {
+  const a=[...arr];
+  for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
+  return a;
+}
+function escHtml(s) {
+  return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+function buildImageHTML(imgPath, caption='') {
+  if (!imgPath) return '';
+  return `<div class="question-image-wrap">
+    <img src="${escHtml(imgPath)}" alt="תרשים לשאלה" loading="lazy" onerror="this.parentElement.style.display='none'">
+    ${caption ? `<div class="image-caption">${escHtml(caption)}</div>` : ''}
+  </div>`;
+}
+
+// ============================================================
+// PAGE NAV
+// ============================================================
+function showPage(page) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  const map={home:0,study:1,exam:2,theory:3};
+  if(map[page]!==undefined) document.querySelectorAll('.nav-tab')[map[page]].classList.add('active');
+  currentPage = page;
+  document.getElementById('shortcut-bar-study').style.display = page==='study'?'flex':'none';
+  document.getElementById('shortcut-bar-exam').style.display = (page==='exam'&&document.getElementById('exam-active').style.display!=='none')?'flex':'none';
+}
+
+// ============================================================
+// KEYBOARD SHORTCUTS
+// ============================================================
+function setupKeyboard() {
+  document.addEventListener('keydown', e => {
+    const tag = document.activeElement.tagName;
+    if (tag==='INPUT'||tag==='TEXTAREA') return;
+
+    if (currentPage === 'study') {
+      if (e.key==='ArrowRight' || e.key==='ArrowLeft') {
+        e.preventDefault();
+        if (e.key==='ArrowRight') prevQuestion();
+        else nextQuestion();
+      } else if (e.key>='1'&&e.key<='4') {
+        const q = studyQuestions[studyIndex];
+        if (q && studyAnswered[q.id]===undefined) studyAnswer(q.id, parseInt(e.key));
+      } else if (e.key.toLowerCase()==='h') {
+        const q = studyQuestions[studyIndex];
+        if (q && studyAnswered[q.id]===undefined && q.explanation) showHint(q.id);
+      } else if (e.key.toLowerCase()==='r') {
+        randomQuestion();
+      }
+    }
+
+    if (currentPage === 'exam' && !examFinished && document.getElementById('exam-active').style.display!=='none') {
+      if (e.key==='ArrowRight') { e.preventDefault(); examPrev(); }
+      else if (e.key==='ArrowLeft') { e.preventDefault(); examNext(); }
+      else if (e.key>='1'&&e.key<='4') examAnswer(parseInt(e.key));
+      else if (e.key.toLowerCase()==='s') examSkip();
+      else if (e.key==='Escape') confirmFinishExam();
+    }
+  });
+}
+
+// ============================================================
+// HOME
+// ============================================================
+function initHome() {
+  const topicSet = new Set(DB.map(q=>q.topic));
+  const withExpl = DB.filter(q=>q.explanation).length;
+  const withImg = DB.filter(q=>q.image).length;
+  document.getElementById('home-stats').innerHTML = [
+    {val:DB.length, label:'שאלות', color:'var(--primary)'},
+    {val:topicSet.size, label:'נושאים', color:'var(--secondary)'},
+    {val:withImg, label:'עם תמונה/תרשים', color:'var(--primary)'},
+    {val:withExpl, label:'עם הסבר', color:'var(--secondary)'},
+  ].map(s=>`<div style="text-align:center;padding:1rem;background:var(--n50);border-radius:10px">
+    <div style="font-size:2rem;font-weight:800;color:${s.color}">${s.val}</div>
+    <div style="font-size:.78rem;color:var(--n500);margin-top:.2rem">${s.label}</div>
+  </div>`).join('');
+}
+
+// ============================================================
+// STUDY MODE
+// ============================================================
+function initStudy() {
+  const topicCounts={};
+  DB.forEach(q=>{topicCounts[q.topic]=(topicCounts[q.topic]||0)+1});
+  const container=document.getElementById('topic-filters');
+  container.innerHTML=`<div class="topic-chip active" data-topic="all" onclick="toggleTopic('all')">הכל (${DB.length})</div>`;
+  Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).forEach(([topic,count])=>{
+    container.innerHTML+=`<div class="topic-chip" data-topic="${escHtml(topic)}" onclick="toggleTopic('${escHtml(topic)}')">${escHtml(topic)} (${count})</div>`;
+  });
+  updateStudyList();
+}
+
+function toggleTopic(topic) {
+  const chips=document.querySelectorAll('.topic-chip');
+  if(topic==='all'){
+    activeTopics.clear();chips.forEach(c=>c.classList.remove('active'));chips[0].classList.add('active');
+  } else {
+    chips[0].classList.remove('active');
+    const chip=[...chips].find(c=>c.dataset.topic===topic);
+    if(activeTopics.has(topic)){activeTopics.delete(topic);chip?.classList.remove('active');}
+    else{activeTopics.add(topic);chip?.classList.add('active');}
+    if(activeTopics.size===0) chips[0].classList.add('active');
+  }
+  studyIndex=0;studyAnswered={};studyHintShown={};updateStudyList();
+}
+
+function onSearch(val){searchQuery=val.trim().toLowerCase();studyIndex=0;updateStudyList();}
+
+function updateStudyList(){
+  studyQuestions=DB.filter(q=>{
+    const tm=activeTopics.size===0||activeTopics.has(q.topic);
+    const sm=!searchQuery||q.question.toLowerCase().includes(searchQuery)||q.options.some(o=>o.toLowerCase().includes(searchQuery));
+    return tm&&sm;
+  });
+  renderStudyQuestion();
+}
+
+function renderStudyQuestion(){
+  const container=document.getElementById('study-question-container');
+  const info=document.getElementById('study-nav-info');
+  const pb=document.getElementById('study-progress-bar');
+  if(studyQuestions.length===0){
+    container.innerHTML='<div style="text-align:center;padding:3rem;color:var(--n400)"><div style="font-size:2.5rem;margin-bottom:.5rem">🔍</div>לא נמצאו שאלות</div>';
+    info.textContent='אין שאלות';pb.style.width='0%';return;
+  }
+  const q=studyQuestions[studyIndex];
+  pb.style.width=((studyIndex+1)/studyQuestions.length*100)+'%';
+  info.textContent=`שאלה ${studyIndex+1} מתוך ${studyQuestions.length}`;
+  document.getElementById('btn-prev').disabled=studyIndex===0;
+  document.getElementById('btn-next').disabled=studyIndex===studyQuestions.length-1;
+  container.innerHTML=buildStudyQuestionHTML(q);
+}
+
+function buildStudyQuestionHTML(q){
+  const answered=studyAnswered[q.id];
+  const hintShown=studyHintShown[q.id];
+  let optHTML='';
+  q.options.forEach((opt,i)=>{
+    if(!opt)return;
+    const num=i+1;
+    let cls='option';
+    if(answered!==undefined){
+      cls+=' disabled';
+      if(num===q.correct_answer)cls+=' correct';
+      else if(num===answered)cls+=' wrong';
+    }
+    optHTML+=`<div class="${cls}" onclick="studyAnswer(${q.id},${num})" id="study-opt-${q.id}-${num}">
+      <div class="option-num">${num}</div>
+      <div class="option-text">${escHtml(opt)}</div>
+    </div>`;
+  });
+
+  let feedbackHTML='';
+  if(answered!==undefined){
+    const isCorr=answered===q.correct_answer;
+    const cls=isCorr?'correct-fb':'wrong-fb';
+    const title=isCorr?'✅ תשובה נכונה!':
+      `❌ תשובה שגויה — התשובה הנכונה היא ${q.correct_answer}. ${escHtml(q.options[q.correct_answer-1]||'')}`;
+    const expl=q.explanation?`<div class="feedback-explanation">${escHtml(q.explanation)}</div>`:'';
+    feedbackHTML=`<div class="feedback ${cls} show"><div class="feedback-title">${title}</div>${expl}</div>`;
+  }
+
+  let hintHTML='';
+  if(hintShown&&q.explanation&&answered===undefined){
+    const hint=q.explanation.substring(0,180);
+    hintHTML=`<div class="hint-box show"><div class="hint-title">💡 רמז</div>${escHtml(hint)}...</div>`;
+  }
+
+  const imgHTML = buildImageHTML(q.image, q.image ? 'תרשים / איור לשאלה' : '');
+
+  return `<div class="question-card">
+    <div class="question-header">
+      <div>
+        <div class="question-num-label">שאלה מספר ${q.id}</div>
+        <div class="question-id-label">מזהה: ${q.pdf_id||'—'}</div>
+      </div>
+      <div class="question-topic-badge">${escHtml(q.topic)}</div>
+    </div>
+    <div class="question-body">
+      <div class="question-text">${escHtml(q.question)}</div>
+      ${imgHTML}
+      <div class="options-grid">${optHTML}</div>
+      ${hintHTML}
+      ${feedbackHTML}
+      <div class="action-row">
+        ${answered===undefined&&q.explanation?`<button class="btn btn-warning" onclick="showHint(${q.id})">💡 רמז (H)</button>`:''}
+        <div class="spacer"></div>
+        ${studyIndex>0?'<button class="btn btn-outline" onclick="prevQuestion()">◄ הקודמת (→)</button>':''}
+        ${studyIndex<studyQuestions.length-1?'<button class="btn btn-primary" onclick="nextQuestion()">הבאה ► (←)</button>':''}
+      </div>
+    </div>
+  </div>`;
+}
+
+function studyAnswer(qId,num){if(studyAnswered[qId]!==undefined)return;studyAnswered[qId]=num;renderStudyQuestion();}
+function showHint(qId){studyHintShown[qId]=true;renderStudyQuestion();}
+function prevQuestion(){if(studyIndex>0){studyIndex--;renderStudyQuestion();}}
+function nextQuestion(){if(studyIndex<studyQuestions.length-1){studyIndex++;renderStudyQuestion();}}
+function randomQuestion(){studyIndex=Math.floor(Math.random()*studyQuestions.length);studyAnswered={};studyHintShown={};renderStudyQuestion();}
+
+// ============================================================
+// EXAM MODE — answers shuffled, images shown
+// ============================================================
+function startExam(){
+  const raw=[...DB].sort(()=>Math.random()-.5).slice(0,50);
+  examQuestions=raw.map(q=>{
+    const opts=q.options.map((text,i)=>({origNum:i+1,text})).filter(o=>o.text);
+    const shuf=shuffle(opts);
+    const shuffleMap={},reverseMap={};
+    shuf.forEach((opt,i)=>{shuffleMap[i+1]=opt.origNum;reverseMap[opt.origNum]=i+1;});
+    return {...q,shuffledOptions:shuf.map(o=>o.text),shuffleMap,reverseMap,correctShuffled:reverseMap[q.correct_answer]};
+  });
+  examIndex=0;examAnswers={};examSkipped=new Set();examFinished=false;examSecondsLeft=3*60*60;
+  document.getElementById('exam-start').style.display='none';
+  document.getElementById('exam-results').style.display='none';
+  document.getElementById('exam-active').style.display='block';
+  document.getElementById('shortcut-bar-exam').style.display='flex';
+  buildExamNav();renderExamQuestion();startExamTimer();
+}
+
+function startExamTimer(){
+  if(examTimer)clearInterval(examTimer);
+  examTimer=setInterval(()=>{examSecondsLeft--;updateTimerDisplay();if(examSecondsLeft<=0){clearInterval(examTimer);finishExam();}},1000);
+}
+function updateTimerDisplay(){
+  const h=Math.floor(examSecondsLeft/3600),m=Math.floor((examSecondsLeft%3600)/60),s=examSecondsLeft%60;
+  const el=document.getElementById('exam-timer');
+  el.textContent=`${h}:${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+  el.className='exam-timer'+(examSecondsLeft<600?' danger':examSecondsLeft<1800?' warning':'');
+}
+
+function buildExamNav(){
+  const nav=document.getElementById('exam-q-nav');nav.innerHTML='';
+  examQuestions.forEach((q,i)=>{
+    const dot=document.createElement('div');
+    dot.className='exam-q-dot';dot.textContent=i+1;dot.id=`exam-dot-${i}`;
+    dot.onclick=()=>{examIndex=i;renderExamQuestion();};nav.appendChild(dot);
+  });
+  updateExamNav();
+}
+function updateExamNav(){
+  examQuestions.forEach((q,i)=>{
+    const dot=document.getElementById(`exam-dot-${i}`);if(!dot)return;
+    dot.className='exam-q-dot';
+    if(i===examIndex)dot.classList.add('current');
+    if(examAnswers[i]!==undefined)dot.classList.add('answered');
+    else if(examSkipped.has(i))dot.classList.add('skipped');
+  });
+  document.getElementById('exam-answered').textContent=Object.keys(examAnswers).length;
+  document.getElementById('exam-progress-text').textContent=`שאלה ${examIndex+1} מתוך 50`;
+}
+
+function renderExamQuestion(){
+  const q=examQuestions[examIndex];const userAns=examAnswers[examIndex];
+  let optHTML='';
+  q.shuffledOptions.forEach((opt,i)=>{
+    const num=i+1;let cls='option';
+    if(userAns===num)cls+=' selected';
+    optHTML+=`<div class="${cls}" onclick="examAnswer(${num})"><div class="option-num">${num}</div><div class="option-text">${escHtml(opt)}</div></div>`;
+  });
+  const imgHTML = buildImageHTML(q.image, '');
+  document.getElementById('exam-question-container').innerHTML=`<div class="question-card">
+    <div class="question-header">
+      <div>
+        <div class="question-num-label">שאלה ${examIndex+1} מתוך 50</div>
+        <div class="question-id-label">מספר: ${q.id}</div>
+      </div>
+      <div class="question-topic-badge">${escHtml(q.topic)}</div>
+    </div>
+    <div class="question-body">
+      <div class="question-text">${escHtml(q.question)}</div>
+      ${imgHTML}
+      <div class="options-grid">${optHTML}</div>
+    </div>
+  </div>`;
+  document.getElementById('exam-prev-btn').disabled=examIndex===0;
+  document.getElementById('exam-next-btn').disabled=examIndex===49;
+  updateExamNav();
+}
+
+function examAnswer(n){if(examFinished)return;examAnswers[examIndex]=n;renderExamQuestion();}
+function examNext(){if(examIndex<49){examIndex++;renderExamQuestion();}}
+function examPrev(){if(examIndex>0){examIndex--;renderExamQuestion();}}
+function examSkip(){examSkipped.add(examIndex);if(examIndex<49){examIndex++;renderExamQuestion();}else updateExamNav();}
+
+function confirmFinishExam(){
+  const unanswered=50-Object.keys(examAnswers).length;
+  document.getElementById('modal-title').textContent='סיום מבחן';
+  document.getElementById('modal-body').textContent=unanswered>0?`עדיין לא ענית על ${unanswered} שאלות. האם לסיים?`:'האם לסיים את המבחן?';
+  document.getElementById('modal-confirm-btn').onclick=finishExam;
+  document.getElementById('modal-overlay').classList.add('show');
+}
+function closeModal(){document.getElementById('modal-overlay').classList.remove('show');}
+
+function finishExam(){
+  closeModal();
+  if(examTimer)clearInterval(examTimer);
+  examFinished=true;
+  document.getElementById('shortcut-bar-exam').style.display='none';
+
+  let correct=0;
+  examQuestions.forEach((q,i)=>{
+    const userShuf=examAnswers[i];
+    const userOrig=userShuf?q.shuffleMap[userShuf]:undefined;
+    if(userOrig===q.correct_answer)correct++;
+  });
+  const score=correct*2,pass=score>=80;
+  const skipped=50-Object.keys(examAnswers).length,wrong=50-correct-skipped;
+
+  document.getElementById('exam-active').style.display='none';
+  document.getElementById('exam-results').style.display='block';
+  const scoreEl=document.getElementById('results-score');
+  scoreEl.textContent=score;scoreEl.className='results-score '+(pass?'pass':'fail');
+  document.getElementById('results-status').textContent=pass?'✅ עברת!':'❌ לא עברת';
+  document.getElementById('results-subtitle').textContent=`${correct} נכון | ${wrong} שגוי | ${skipped} לא נענה | ציון: ${score}/100`;
+  document.getElementById('results-stats').innerHTML=`
+    <div class="stat-card"><div class="stat-val green">${correct}</div><div class="stat-label">נכון (+${correct*2} נק')</div></div>
+    <div class="stat-card"><div class="stat-val red">${wrong}</div><div class="stat-label">שגוי</div></div>
+    <div class="stat-card"><div class="stat-val blue">${skipped}</div><div class="stat-label">לא נענה</div></div>`;
+
+  let detailHTML='';
+  examQuestions.forEach((q,i)=>{
+    const userShuf=examAnswers[i];
+    const userOrig=userShuf?q.shuffleMap[userShuf]:undefined;
+    const isCorr=userOrig===q.correct_answer;
+    const cls=isCorr?'correct-item':'wrong-item';
+    const badge=isCorr?'<span class="result-badge badge-correct">✅ נכון</span>':'<span class="result-badge badge-wrong">❌ שגוי</span>';
+    const userText=userOrig?escHtml(q.options[userOrig-1]||''):'לא נענה';
+    const correctText=escHtml(q.options[q.correct_answer-1]||'');
+    const imgThumb=q.image?`<img src="${escHtml(q.image)}" class="result-img" alt="" onerror="this.style.display='none'" loading="lazy">`:'';
+    detailHTML+=`<div class="result-item ${cls}">
+      <div class="result-q-header">
+        <div class="result-q-text">${i+1}. ${escHtml(q.question.substring(0,110))}${q.question.length>110?'...':''}</div>
+        ${badge}
+      </div>
+      ${imgThumb}
+      <div class="result-answers">
+        ${userOrig?`תשובתך: ${userText}<br>`:'<span style="color:var(--warning)">לא נענה</span><br>'}
+        ${!isCorr?`<span style="color:var(--secondary)">✓ נכון: ${correctText}</span>`:''}
+      </div>
+      ${q.explanation?`<button class="result-explain-btn" onclick="toggleExpl(${i})">📖 הסבר מפורט</button><div class="result-explanation" id="result-expl-${i}">${escHtml(q.explanation)}</div>`:''}
+    </div>`;
+  });
+  document.getElementById('results-detail').innerHTML=detailHTML;
+}
+
+function toggleExpl(i){const el=document.getElementById(`result-expl-${i}`);el.style.display=el.style.display==='block'?'none':'block';}
+function resetExam(){document.getElementById('exam-results').style.display='none';document.getElementById('exam-start').style.display='block';}
+
+// ============================================================
+// THEORY
+// ============================================================
+function initTheory(){
+  const grid=document.getElementById('theory-grid');grid.innerHTML='';
+  const topicCounts={};DB.forEach(q=>{topicCounts[q.topic]=(topicCounts[q.topic]||0)+1});
+  THEORY_CHAPTERS.forEach(ch=>{
+    const count=topicCounts[ch.title]||0;
+    grid.innerHTML+=`<div class="theory-chapter-card" onclick="showTheoryChapter('${ch.id}')">
+      <div class="theory-chapter-icon">${ch.icon}</div>
+      <div class="theory-chapter-title">${escHtml(ch.title)}</div>
+      <div class="theory-chapter-summary">${escHtml(ch.summary)}</div>
+      ${count>0?`<div style="margin-top:.5rem;font-size:.72rem;color:var(--primary);font-weight:600">${count} שאלות במאגר</div>`:''}
+    </div>`;
+  });
+}
+
+function showTheoryChapter(id){
+  const ch=THEORY_CHAPTERS.find(c=>c.id===id);if(!ch)return;
+  document.getElementById('theory-grid-view').style.display='none';
+  document.getElementById('theory-chapter-view').style.display='block';
+  let html=`<h1>${ch.icon} ${escHtml(ch.title)}</h1>`;
+  ch.sections.forEach(sec=>{
+    let body=escHtml(sec.body);
+    body=body.replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>');
+    body=body.replace(/`([^`]+)`/g,'<code>$1</code>');
+    html+=`<div class="theory-section-card"><h2>${escHtml(sec.title)}</h2><div class="theory-body">${body}</div></div>`;
+  });
+  document.getElementById('theory-chapter-content').innerHTML=html;
+  window.scrollTo(0,0);
+}
+
+function showTheoryGrid(){
+  document.getElementById('theory-grid-view').style.display='block';
+  document.getElementById('theory-chapter-view').style.display='none';
+}
+
+// ============================================================
+// START
+// ============================================================
+init();
+</script>
+</body>
+</html>
