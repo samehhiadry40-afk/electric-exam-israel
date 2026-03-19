@@ -1104,16 +1104,11 @@ function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
 function buildImageHTML(imgPath, caption='', pdfPage=null) {
-  const pageRef = pdfPage ? `<div class="image-caption" style="background:#fff3cd;color:#856404;font-size:.8rem;padding:.4rem .7rem">📄 תרשים בעמוד <strong>${pdfPage}</strong> בקובץ ה-PDF</div>` : '';
-  if (!imgPath) {
-    return pdfPage ? `<div class="question-image-wrap">${pageRef}</div>` : '';
-  }
+  if (!imgPath) return '';
   return `<div class="question-image-wrap">
     <img src="${escHtml(imgPath)}" alt="תרשים לשאלה" loading="lazy"
-      onerror="this.style.display='none';this.nextElementSibling&&(this.nextElementSibling.style.display='block')">
-    <div class="image-caption" style="display:none;background:#fff3cd;color:#856404;font-size:.8rem;padding:.4rem .7rem">⚠️ התרשים לא נטען — עמוד <strong>${pdfPage||'?'}</strong> בקובץ ה-PDF</div>
+      onerror="this.parentElement.style.display='none'">
     ${caption ? `<div class="image-caption">${escHtml(caption)}</div>` : ''}
-    ${pageRef}
   </div>`;
 }
 
@@ -1505,8 +1500,7 @@ function finishExam(){
     const badge=isCorr?'<span class="result-badge badge-correct">✅ נכון</span>':'<span class="result-badge badge-wrong">❌ שגוי</span>';
     const userText=userOrig?escHtml(q.options[userOrig-1]||''):'לא נענה';
     const correctText=escHtml(q.options[q.correct_answer-1]||'');
-    const imgThumb=q.image?`<img src="${escHtml(q.image)}" class="result-img" alt="" onerror="this.style.display='none'" loading="lazy">`:
-      (q.pdf_page?`<div style="font-size:.78rem;color:#856404;background:#fff3cd;padding:.3rem .6rem;border-radius:6px;margin:.35rem 0">📄 תרשים בעמוד ${q.pdf_page} בקובץ ה-PDF</div>`:'');
+    const imgThumb=q.image?`<img src="${escHtml(q.image)}" class="result-img" alt="" onerror="this.style.display='none'" loading="lazy">`:'';
     detailHTML+=`<div class="result-item ${cls}">
       <div class="result-q-header">
         <div class="result-q-text">${i+1}. ${escHtml(q.question.substring(0,110))}${q.question.length>110?'...':''}</div>
