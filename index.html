@@ -317,6 +317,7 @@
     <button class="nav-tab" onclick="showPage('exam')">📝 מבחן</button>
     <button class="nav-tab" onclick="showPage('theory')">📖 תיאוריה</button>
     <button class="nav-tab" onclick="showPage('tips')">📋 TIPS ספר</button>
+    <button class="nav-tab" onclick="showPage('admin')">⚙️ ניהול</button>
   </div>
 </nav>
 
@@ -449,6 +450,102 @@
       </div>
       <div style="text-align:center;margin-top:1rem">
         <button class="btn btn-primary btn-lg" onclick="resetExam()">🔄 מבחן חדש</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN -->
+  <div id="page-admin" class="page">
+    <div class="main" style="max-width:780px;margin:0 auto">
+      <div class="card" style="margin-bottom:1.5rem">
+        <div class="card-header">⚙️ ניהול מאגר שאלות</div>
+        <div style="padding:1.25rem;display:flex;gap:1rem;flex-wrap:wrap;align-items:center">
+          <span id="admin-stats" style="font-size:.9rem;color:var(--n600)"></span>
+          <span id="admin-missing-badge" style="background:var(--warning-light);color:var(--warning);border-radius:20px;padding:.25rem .75rem;font-size:.8rem;font-weight:700"></span>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:1.5rem">
+        <div class="card-header">➕ הוספת שאלה חדשה</div>
+        <div style="padding:1.25rem;display:flex;flex-direction:column;gap:1rem">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+            <div>
+              <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">מספר שאלה (ID) *</label>
+              <input id="adm-id" type="number" class="fb-input" placeholder="למשל: 6" min="1" max="9999">
+            </div>
+            <div>
+              <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">PDF ID</label>
+              <input id="adm-pdfid" type="text" class="fb-input" placeholder="למשל: 14006">
+            </div>
+          </div>
+          <div>
+            <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">נושא *</label>
+            <select id="adm-topic" class="fb-select"></select>
+          </div>
+          <div>
+            <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">טקסט השאלה *</label>
+            <textarea id="adm-question" class="fb-textarea" placeholder="הכנס את השאלה..." style="min-height:80px"></textarea>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:.75rem">
+            <div>
+              <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">אפשרות 1 *</label>
+              <input id="adm-opt1" type="text" class="fb-input" placeholder="אפשרות 1">
+            </div>
+            <div>
+              <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">אפשרות 2 *</label>
+              <input id="adm-opt2" type="text" class="fb-input" placeholder="אפשרות 2">
+            </div>
+            <div>
+              <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">אפשרות 3 *</label>
+              <input id="adm-opt3" type="text" class="fb-input" placeholder="אפשרות 3">
+            </div>
+            <div>
+              <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">אפשרות 4</label>
+              <input id="adm-opt4" type="text" class="fb-input" placeholder="אפשרות 4 (אופציונלי)">
+            </div>
+          </div>
+          <div style="display:grid;grid-template-columns:1fr 2fr;gap:.75rem">
+            <div>
+              <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">תשובה נכונה *</label>
+              <select id="adm-correct" class="fb-select">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+              </select>
+            </div>
+            <div>
+              <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">עמוד PDF</label>
+              <input id="adm-page" type="number" class="fb-input" placeholder="עמוד ב-PDF">
+            </div>
+          </div>
+          <div>
+            <label style="font-size:.82rem;font-weight:600;color:var(--n700);display:block;margin-bottom:.3rem">הסבר</label>
+            <textarea id="adm-expl" class="fb-textarea" placeholder="הסבר לתשובה הנכונה..." style="min-height:70px"></textarea>
+          </div>
+          <div id="adm-error" style="color:var(--danger);font-size:.85rem;display:none"></div>
+          <div style="display:flex;gap:.75rem">
+            <button class="btn btn-primary" onclick="adminAddQuestion()" style="flex:1">✅ הוסף שאלה למאגר</button>
+            <button class="btn btn-outline" onclick="adminClearForm()">🗑️ נקה</button>
+          </div>
+          <div id="adm-success" style="display:none;background:var(--secondary-light);border:1.5px solid var(--secondary);border-radius:8px;padding:.75rem;font-size:.87rem;color:var(--secondary)"></div>
+        </div>
+      </div>
+
+      <div class="card" style="margin-bottom:1.5rem">
+        <div class="card-header">📋 שאלות חסרות (39)</div>
+        <div style="padding:1rem">
+          <p style="font-size:.85rem;color:var(--n600);margin-bottom:.75rem">לחץ על מספר שאלה חסרה כדי למלא אותה אוטומטית בטופס למעלה:</p>
+          <div id="admin-missing-list" style="display:flex;flex-wrap:wrap;gap:.4rem"></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">💾 ייצוא JSON לעדכון הקובץ</div>
+        <div style="padding:1.25rem">
+          <p style="font-size:.85rem;color:var(--n600);margin-bottom:.75rem">לאחר הוספת שאלות, לחץ כאן להורדת קובץ <code>questions_db.json</code> המעודכן ולהחלפת הקובץ הקיים:</p>
+          <button class="btn btn-primary" onclick="adminExportJSON()" style="width:100%">⬇️ הורד questions_db.json מעודכן</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1480,6 +1577,7 @@ function showPage(page) {
   if(drawer){drawer.classList.remove('hidden');drawer.classList.remove('open');}
   document.getElementById('shortcut-bar-study').style.display = page==='study'?'flex':'none';
   document.getElementById('shortcut-bar-exam').style.display = (page==='exam'&&document.getElementById('exam-active').style.display!=='none')?'flex':'none';
+  if(page==='admin') initAdminPage();
 }
 
 // ============================================================
@@ -1566,6 +1664,7 @@ function onSearch(val){searchQuery=val.trim().toLowerCase();studyIndex=0;updateS
 
 function updateStudyList(){
   studyQuestions=DB.filter(q=>{
+    if(q.image_options_missing||q.needs_manual_review) return false;
     const tm=activeTopics.size===0||activeTopics.has(q.topic);
     const sm=!searchQuery||q.question.toLowerCase().includes(searchQuery)||q.options.some(o=>o.toLowerCase().includes(searchQuery));
     return tm&&sm;
@@ -1614,7 +1713,7 @@ function buildStudyQuestionHTML(q){
     const cls=isCorr?'correct-fb':'wrong-fb';
     const title=isCorr?'✅ תשובה נכונה!':
       `❌ תשובה שגויה — התשובה הנכונה היא ${q.correct_answer}. ${escHtml(q.options[q.correct_answer-1]||'')}`;
-    const expl=q.explanation?`<div class="feedback-explanation">${escHtml(q.explanation)}</div>`:'';
+    const expl=q.explanation?`<div class="feedback-explanation">${escHtml(cleanExplanation(q.explanation))}</div>`:'';
     feedbackHTML=`<div class="feedback ${cls} show"><div class="feedback-title">${title}</div>${expl}</div>`;
   }
 
@@ -1658,11 +1757,27 @@ function studyAnswer(qId,num){if(studyAnswered[qId]!==undefined)return;studyAnsw
 function showHint(qId){studyHintShown[qId]=true;renderStudyQuestion();}
 
 /**
+ * Remove "התשובה היא X" phrases from explanation text.
+ * The correct answer is already shown visually; these OCR artifacts are misleading.
+ */
+function cleanExplanation(text) {
+  if (!text) return text;
+  let t = text;
+  // Remove "התשובה היא X ." / "התשובה הנכונה היא X" / "ולכן התשובה היא X ." variants
+  t = t.replace(/[,\s]*ו?ל?כן\s+ה?תשובה\s*(?:היא|הנכונה|הנה|הסופית)?\s*[1-4]\s*\.?/g, '');
+  t = t.replace(/ה?תשובה\s*(?:היא|הנכונה|הנה|הסופית)?\s*[1-4]\s*\.?/g, '');
+  // Clean up leftover punctuation / whitespace
+  t = t.replace(/\(\s*\)/g, '').replace(/,\s*\./g, '.').replace(/\.\s*\./g, '.').replace(/\s{2,}/g, ' ').trim();
+  return t;
+}
+
+/**
  * Generate a hint from explanation WITHOUT revealing the final answer.
  * Removes any clause/sentence that directly states the answer number/letter.
  */
 function buildHintText(explanation, correctAnswer) {
   if (!explanation) return null;
+  explanation = cleanExplanation(explanation);
 
   // Patterns that reveal the answer - remove whole clause around them
   const answerPatterns = [
@@ -1731,7 +1846,7 @@ function randomQuestion(){studyIndex=Math.floor(Math.random()*studyQuestions.len
 // EXAM MODE — answers shuffled, images shown
 // ============================================================
 function startExam(){
-  const raw=[...DB].sort(()=>Math.random()-.5).slice(0,50);
+  const raw=[...DB].filter(q=>!q.image_options_missing&&!q.needs_manual_review).sort(()=>Math.random()-.5).slice(0,50);
   examQuestions=raw.map(q=>{
     const opts=q.options.map((text,i)=>({origNum:i+1,text})).filter(o=>o.text);
     const shuf=shuffle(opts);
@@ -1867,7 +1982,7 @@ function finishExam(){
         ${userOrig?`תשובתך: ${userText}<br>`:'<span style="color:var(--warning)">לא נענה</span><br>'}
         ${!isCorr?`<span style="color:var(--secondary)">✓ נכון: ${correctText}</span>`:''}
       </div>
-      ${q.explanation?`<button class="result-explain-btn" onclick="toggleExpl(${i})">📖 הסבר מפורט</button><div class="result-explanation" id="result-expl-${i}">${escHtml(q.explanation)}</div>`:''}
+      ${q.explanation?`<button class="result-explain-btn" onclick="toggleExpl(${i})">📖 הסבר מפורט</button><div class="result-explanation" id="result-expl-${i}">${escHtml(cleanExplanation(q.explanation))}</div>`:''}
     </div>`;
   });
   document.getElementById('results-detail').innerHTML=detailHTML;
@@ -2025,6 +2140,127 @@ function submitIdea(){
   closeFbModal('idea');
   document.getElementById('idea-title').value='';
   document.getElementById('idea-desc').value='';
+}
+</script>
+
+<script>
+// ============================================================
+// ADMIN PAGE
+// ============================================================
+let adminDB = null; // working copy of DB for admin edits
+
+const MISSING_IDS = [6,38,78,94,135,192,231,290,305,311,332,342,360,390,415,417,450,475,476,481,505,520,536,550,564,595,645,647,663,666,673,674,677,721,771,852,860,915,949];
+
+function initAdminPage() {
+  // Clone DB for editing
+  adminDB = JSON.parse(JSON.stringify({questions: DB, missing_ids: MISSING_IDS}));
+
+  // Stats
+  const total = DB.length;
+  const withExpl = DB.filter(q=>q.explanation&&q.explanation.trim()).length;
+  document.getElementById('admin-stats').textContent = total + ' שאלות במאגר | ' + withExpl + ' עם הסבר';
+  document.getElementById('admin-missing-badge').textContent = MISSING_IDS.length + ' שאלות חסרות';
+
+  // Populate topic dropdown
+  const topics = [...new Set(DB.map(q=>q.topic))].sort();
+  const sel = document.getElementById('adm-topic');
+  sel.innerHTML = topics.map(t=>`<option value="${escHtml(t)}">${escHtml(t)}</option>`).join('');
+
+  // Missing IDs list
+  const list = document.getElementById('admin-missing-list');
+  list.innerHTML = MISSING_IDS.map(id => {
+    const exists = DB.find(q=>q.id===id);
+    if (exists) return ''; // already added this session
+    return `<button onclick="adminPrefillId(${id})" style="padding:.3rem .65rem;border-radius:6px;border:1.5px solid var(--warning);background:var(--warning-light);color:var(--warning);font-weight:700;font-size:.8rem;cursor:pointer">${id}</button>`;
+  }).join('');
+}
+
+function adminPrefillId(id) {
+  document.getElementById('adm-id').value = id;
+  document.getElementById('adm-id').focus();
+  // Try to guess PDF page from neighbors
+  const sorted = [...DB].sort((a,b)=>a.id-b.id);
+  const prev = sorted.filter(q=>q.id<id).pop();
+  const next = sorted.find(q=>q.id>id);
+  if (prev && prev.pdf_page) document.getElementById('adm-page').value = prev.pdf_page;
+  if (prev && prev.topic) document.getElementById('adm-topic').value = prev.topic;
+  window.scrollTo({top: document.getElementById('adm-id').getBoundingClientRect().top + window.scrollY - 100, behavior:'smooth'});
+}
+
+function adminClearForm() {
+  ['adm-id','adm-pdfid','adm-question','adm-opt1','adm-opt2','adm-opt3','adm-opt4','adm-expl','adm-page'].forEach(id=>{
+    const el = document.getElementById(id);
+    if (el) el.value = '';
+  });
+  document.getElementById('adm-correct').value = '1';
+  document.getElementById('adm-error').style.display = 'none';
+  document.getElementById('adm-success').style.display = 'none';
+}
+
+function adminAddQuestion() {
+  const errEl = document.getElementById('adm-error');
+  const okEl = document.getElementById('adm-success');
+  errEl.style.display = 'none';
+  okEl.style.display = 'none';
+
+  const id = parseInt(document.getElementById('adm-id').value);
+  const topic = document.getElementById('adm-topic').value.trim();
+  const question = document.getElementById('adm-question').value.trim();
+  const opt1 = document.getElementById('adm-opt1').value.trim();
+  const opt2 = document.getElementById('adm-opt2').value.trim();
+  const opt3 = document.getElementById('adm-opt3').value.trim();
+  const opt4 = document.getElementById('adm-opt4').value.trim();
+  const correct = parseInt(document.getElementById('adm-correct').value);
+  const pdfid = document.getElementById('adm-pdfid').value.trim();
+  const page = parseInt(document.getElementById('adm-page').value) || null;
+  const expl = document.getElementById('adm-expl').value.trim();
+
+  // Validation
+  if (!id || isNaN(id)) { errEl.textContent='נא להכניס מספר שאלה תקין'; errEl.style.display='block'; return; }
+  if (DB.find(q=>q.id===id)) { errEl.textContent='שאלה מספר '+id+' כבר קיימת במאגר!'; errEl.style.display='block'; return; }
+  if (!question) { errEl.textContent='נא להכניס טקסט שאלה'; errEl.style.display='block'; return; }
+  if (!opt1||!opt2||!opt3) { errEl.textContent='נא להכניס לפחות 3 אפשרויות'; errEl.style.display='block'; return; }
+
+  const newQ = {
+    id, pdf_id: pdfid||null, topic, question,
+    options: [opt1, opt2, opt3, opt4||''],
+    correct_answer: correct,
+    explanation: expl||null,
+    image: null,
+    pdf_page: page
+  };
+
+  // Add to working DB (sorted by id)
+  DB.push(newQ);
+  DB.sort((a,b)=>a.id-b.id);
+
+  okEl.innerHTML = '✅ שאלה <strong>' + id + '</strong> נוספה בהצלחה! לחץ "הורד JSON" להורדת הקובץ המעודכן.';
+  okEl.style.display = 'block';
+  adminClearForm();
+
+  // Refresh missing list
+  const list = document.getElementById('admin-missing-list');
+  list.querySelectorAll('button').forEach(btn => {
+    if (parseInt(btn.textContent) === id) btn.remove();
+  });
+  document.getElementById('admin-stats').textContent = DB.length + ' שאלות במאגר';
+}
+
+function adminExportJSON() {
+  const sorted = [...DB].sort((a,b)=>a.id-b.id);
+  const exportData = {
+    version: '7.1',
+    total: sorted.length,
+    missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
+    audit_date: new Date().toISOString().slice(0,10),
+    questions: sorted
+  };
+  const blob = new Blob([JSON.stringify(exportData, null, 2)], {type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'questions_db.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 </script>
 
