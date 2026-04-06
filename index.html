@@ -198,7 +198,7 @@
     .spinner{width:40px;height:40px;border:4px solid var(--n200);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* FEEDBACK SLIDE DRAWER */
+    /* FEEDBACK SLIDE DRAWER — desktop */
     .slide-drawer-tab{position:fixed;left:0;top:50%;transform:translateY(-50%);width:22px;height:60px;background:var(--primary);border-radius:0 8px 8px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;font-size:.75rem;box-shadow:2px 2px 8px rgba(0,0,0,.22);transition:background .2s,width .2s;user-select:none;writing-mode:vertical-rl;z-index:151}
     .slide-drawer-tab:hover{background:var(--primary-dark);width:26px}
     .slide-drawer-panel{position:fixed;left:0;top:50%;transform:translateY(-50%) translateX(calc(-100% - 4px));transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;gap:.5rem;padding:.75rem .6rem;background:white;border-radius:0 14px 14px 0;box-shadow:3px 4px 18px rgba(0,0,0,.18);pointer-events:none;z-index:150}
@@ -207,6 +207,14 @@
     .feedback-btn{display:flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:30px;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .2s;white-space:nowrap}
     .feedback-btn-bug{background:#e02424;color:white}.feedback-btn-bug:hover{background:#c81e1e}
     .feedback-btn-idea{background:#0e9f6e;color:white}.feedback-btn-idea:hover{background:#057a55}
+    /* FEEDBACK SLIDE DRAWER — mobile FAB */
+    @media(max-width:640px){
+      .slide-drawer-tab{writing-mode:horizontal-tb;width:48px;height:48px;top:auto;bottom:1.25rem;left:1rem;transform:none;border-radius:50%;font-size:1.3rem}
+      .slide-drawer-tab:hover{width:48px}
+      .slide-drawer-panel{top:auto;bottom:5rem;left:1rem;transform:translateY(10px);opacity:0;visibility:hidden;pointer-events:none;border-radius:14px;flex-direction:column;padding:.6rem;transition:transform .22s ease,opacity .22s,visibility .22s}
+      .slide-drawer.open .slide-drawer-panel{transform:translateY(0);opacity:1;visibility:visible;pointer-events:auto}
+      .slide-drawer.hidden .slide-drawer-tab,.slide-drawer.hidden .slide-drawer-panel{display:none}
+    }
 
     /* FEEDBACK MODAL */
     .fb-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:1rem}
@@ -1469,7 +1477,7 @@ function showPage(page) {
   if(map[page]!==undefined) document.querySelectorAll('.nav-tab')[map[page]].classList.add('active');
   currentPage = page;
   const drawer=document.getElementById('slide-drawer');
-  if(drawer){drawer.classList.toggle('hidden',page==='study'||page==='exam');drawer.classList.remove('open');}
+  if(drawer){drawer.classList.remove('hidden');drawer.classList.remove('open');}
   document.getElementById('shortcut-bar-study').style.display = page==='study'?'flex':'none';
   document.getElementById('shortcut-bar-exam').style.display = (page==='exam'&&document.getElementById('exam-active').style.display!=='none')?'flex':'none';
 }
