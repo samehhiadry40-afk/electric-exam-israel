@@ -198,17 +198,16 @@
     .spinner{width:40px;height:40px;border:4px solid var(--n200);border-top-color:var(--primary);border-radius:50%;animation:spin .8s linear infinite}
     @keyframes spin{to{transform:rotate(360deg)}}
 
-    /* FEEDBACK FAB */
-    .fab-container{position:fixed;bottom:.5rem;left:.5rem;display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;z-index:150}
-    .fab-options{display:flex;flex-direction:column;gap:.5rem;transition:opacity .2s,transform .2s;transform-origin:bottom left}
-    .fab-options:not(.open){opacity:0;transform:translateY(8px);pointer-events:none}
-    .fab-options.open{opacity:1;transform:translateY(0)}
-    .fab-main{width:48px;height:48px;border-radius:50%;border:none;background:var(--primary);color:white;font-size:1.35rem;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);transition:transform .2s,background .2s;display:flex;align-items:center;justify-content:center;line-height:1}
-    .fab-main:hover{background:var(--primary-dark);transform:scale(1.08)}
-    .fab-main.open{transform:rotate(45deg)}
-    .feedback-btn{display:flex;align-items:center;gap:.5rem;padding:.55rem 1rem;border-radius:30px;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .2s;white-space:nowrap}
-    .feedback-btn-bug{background:#e02424;color:white}.feedback-btn-bug:hover{background:#c81e1e;transform:translateY(-2px)}
-    .feedback-btn-idea{background:#0e9f6e;color:white}.feedback-btn-idea:hover{background:#057a55;transform:translateY(-2px)}
+    /* FEEDBACK SLIDE DRAWER */
+    .slide-drawer{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:150;display:flex;flex-direction:row;align-items:center}
+    .slide-drawer.hidden{display:none}
+    .slide-drawer-panel{display:flex;flex-direction:column;gap:.5rem;padding:.75rem .6rem;background:white;border-radius:0 14px 14px 0;box-shadow:3px 4px 18px rgba(0,0,0,.18);transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);pointer-events:none}
+    .slide-drawer.open .slide-drawer-panel{transform:translateX(0);pointer-events:auto}
+    .slide-drawer-tab{width:22px;height:60px;background:var(--primary);border-radius:0 8px 8px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;font-size:.75rem;box-shadow:2px 2px 8px rgba(0,0,0,.22);transition:background .2s,width .2s;flex-shrink:0;user-select:none;writing-mode:vertical-rl}
+    .slide-drawer-tab:hover{background:var(--primary-dark);width:26px}
+    .feedback-btn{display:flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:30px;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .2s;white-space:nowrap}
+    .feedback-btn-bug{background:#e02424;color:white}.feedback-btn-bug:hover{background:#c81e1e}
+    .feedback-btn-idea{background:#0e9f6e;color:white}.feedback-btn-idea:hover{background:#057a55}
 
     /* FEEDBACK MODAL */
     .fb-modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:none;align-items:center;justify-content:center;padding:1rem}
@@ -1470,6 +1469,8 @@ function showPage(page) {
   const map={home:0,study:1,exam:2,theory:3,tips:4};
   if(map[page]!==undefined) document.querySelectorAll('.nav-tab')[map[page]].classList.add('active');
   currentPage = page;
+  const drawer=document.getElementById('slide-drawer');
+  if(drawer){drawer.classList.toggle('hidden',page==='study'||page==='exam');drawer.classList.remove('open');}
   document.getElementById('shortcut-bar-study').style.display = page==='study'?'flex':'none';
   document.getElementById('shortcut-bar-exam').style.display = (page==='exam'&&document.getElementById('exam-active').style.display!=='none')?'flex':'none';
 }
@@ -1911,13 +1912,13 @@ function showTheoryGrid(){
 init();
 </script>
 
-<!-- ===== FLOATING FEEDBACK FAB ===== -->
-<div class="fab-container">
-  <div class="fab-options" id="fab-options">
-    <button class="feedback-btn feedback-btn-bug" onclick="openFbModal('bug');toggleFab(false)">🐛 דיווח באג</button>
-    <button class="feedback-btn feedback-btn-idea" onclick="openFbModal('idea');toggleFab(false)">💡 הצעת שיפור</button>
+<!-- ===== SLIDE DRAWER FEEDBACK ===== -->
+<div class="slide-drawer" id="slide-drawer">
+  <div class="slide-drawer-panel" id="slide-panel">
+    <button class="feedback-btn feedback-btn-bug" onclick="openFbModal('bug');closeDrawer()">🐛 דיווח באג</button>
+    <button class="feedback-btn feedback-btn-idea" onclick="openFbModal('idea');closeDrawer()">💡 הצעת שיפור</button>
   </div>
-  <button class="fab-main" id="fab-main" onclick="toggleFab()" title="משוב">＋</button>
+  <div class="slide-drawer-tab" onclick="toggleDrawer()" title="משוב">💬</div>
 </div>
 
 <!-- BUG REPORT MODAL -->
@@ -1981,12 +1982,11 @@ init();
 </div>
 
 <script>
-function toggleFab(force){
-  const opts=document.getElementById('fab-options');
-  const btn=document.getElementById('fab-main');
-  const open=(force===undefined)?!opts.classList.contains('open'):(force===true);
-  opts.classList.toggle('open',open);
-  btn.classList.toggle('open',open);
+function toggleDrawer(){
+  document.getElementById('slide-drawer').classList.toggle('open');
+}
+function closeDrawer(){
+  document.getElementById('slide-drawer').classList.remove('open');
 }
 function openFbModal(type){
   document.getElementById('fb-'+type+'-modal').classList.add('show');
