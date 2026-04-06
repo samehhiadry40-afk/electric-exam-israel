@@ -199,12 +199,11 @@
     @keyframes spin{to{transform:rotate(360deg)}}
 
     /* FEEDBACK SLIDE DRAWER */
-    .slide-drawer{position:fixed;left:0;top:50%;transform:translateY(-50%);z-index:150;display:flex;flex-direction:row;align-items:center}
-    .slide-drawer.hidden{display:none}
-    .slide-drawer-panel{display:flex;flex-direction:column;gap:.5rem;padding:.75rem .6rem;background:white;border-radius:0 14px 14px 0;box-shadow:3px 4px 18px rgba(0,0,0,.18);transform:translateX(-100%);transition:transform .28s cubic-bezier(.4,0,.2,1);pointer-events:none}
-    .slide-drawer.open .slide-drawer-panel{transform:translateX(0);pointer-events:auto}
-    .slide-drawer-tab{width:22px;height:60px;background:var(--primary);border-radius:0 8px 8px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;font-size:.75rem;box-shadow:2px 2px 8px rgba(0,0,0,.22);transition:background .2s,width .2s;flex-shrink:0;user-select:none;writing-mode:vertical-rl}
+    .slide-drawer-tab{position:fixed;left:0;top:50%;transform:translateY(-50%);width:22px;height:60px;background:var(--primary);border-radius:0 8px 8px 0;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;font-size:.75rem;box-shadow:2px 2px 8px rgba(0,0,0,.22);transition:background .2s,width .2s;user-select:none;writing-mode:vertical-rl;z-index:151}
     .slide-drawer-tab:hover{background:var(--primary-dark);width:26px}
+    .slide-drawer-panel{position:fixed;left:0;top:50%;transform:translateY(-50%) translateX(calc(-100% - 4px));transition:transform .28s cubic-bezier(.4,0,.2,1);display:flex;flex-direction:column;gap:.5rem;padding:.75rem .6rem;background:white;border-radius:0 14px 14px 0;box-shadow:3px 4px 18px rgba(0,0,0,.18);pointer-events:none;z-index:150}
+    .slide-drawer.open .slide-drawer-panel{transform:translateY(-50%) translateX(22px);pointer-events:auto}
+    .slide-drawer.hidden .slide-drawer-tab,.slide-drawer.hidden .slide-drawer-panel{display:none}
     .feedback-btn{display:flex;align-items:center;gap:.5rem;padding:.5rem .9rem;border-radius:30px;font-family:inherit;font-size:.8rem;font-weight:700;cursor:pointer;border:none;box-shadow:0 4px 12px rgba(0,0,0,.2);transition:all .2s;white-space:nowrap}
     .feedback-btn-bug{background:#e02424;color:white}.feedback-btn-bug:hover{background:#c81e1e}
     .feedback-btn-idea{background:#0e9f6e;color:white}.feedback-btn-idea:hover{background:#057a55}
