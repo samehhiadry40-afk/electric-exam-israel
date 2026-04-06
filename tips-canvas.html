@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="he">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIPS - ספר תקנות החשמל בבחינה</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;600;700;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0e1a;
+    --surface: #111827;
+    --surface2: #1a2235;
+    --accent: #f59e0b;
+    --accent2: #10b981;
+    --accent3: #3b82f6;
+    --danger: #ef4444;
+    --purple: #8b5cf6;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --border: #1e293b;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Heebo', sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 40% at 80% 10%, rgba(245,158,11,0.08) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 50% at 10% 80%, rgba(16,185,129,0.05) 0%, transparent 60%),
+      radial-gradient(ellipse 50% 30% at 50% 50%, rgba(59,130,246,0.03) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+  }
+
+  /* ===== HEADER ===== */
+  header {
+    text-align: center;
+    margin-bottom: 60px;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(245,158,11,0.12);
+    border: 1px solid rgba(245,158,11,0.25);
+    color: var(--accent);
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 7px 18px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+  }
+
+  h1 {
+    font-size: clamp(2.2rem, 5vw, 3.8rem);
+    font-weight: 900;
+    line-height: 1.05;
+    background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 40%, #d97706 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    margin-bottom: 14px;
+    letter-spacing: -1px;
+  }
+
+  .subtitle {
+    color: var(--muted);
+    font-size: 1rem;
+    font-weight: 300;
+  }
+
+  /* ===== QUICK REF ===== */
+  .quick-ref {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+    margin-bottom: 60px;
+    padding: 28px 24px;
+    background: var(--surface);
+    border-radius: 18px;
+    border: 1px solid var(--border);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .quick-ref::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+  }
+
+  .quick-ref-label {
+    width: 100%;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+
+  .reg-chip {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    background: var(--surface2);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 12px 16px;
+    cursor: default;
+    transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    min-width: 76px;
+  }
+
+  .reg-chip:hover {
+    border-color: var(--accent);
+    background: rgba(245,158,11,0.1);
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 8px 24px rgba(245,158,11,0.15);
+  }
+
+  .reg-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--accent);
+    line-height: 1;
+  }
+
+  .reg-label {
+    font-size: 10px;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  /* ===== SECTION TITLE ===== */
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 28px;
+  }
+
+  .section-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .section-title h2 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--text);
+  }
+
+  /* ===== TIPS GRID ===== */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(310px, 1fr));
+    gap: 16px;
+    margin-bottom: 60px;
+  }
+
+  .tip-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 22px;
+    transition: all 0.25s cubic-bezier(0.34, 1.2, 0.64, 1);
+    position: relative;
+    overflow: hidden;
+    cursor: default;
+  }
+
+  .tip-card::after {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    width: 0; height: 100%;
+    border-radius: 0 16px 16px 0;
+    background: var(--c, var(--accent));
+    opacity: 0;
+    transition: all 0.25s;
+  }
+
+  .tip-card:hover {
+    border-color: var(--c, var(--accent));
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(0,0,0,0.35);
+  }
+
+  .tip-card:hover::after {
+    opacity: 1;
+    width: 4px;
+  }
+
+  .tip-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .tip-num {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    font-weight: 700;
+    padding: 3px 9px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    margin-top: 3px;
+    letter-spacing: 0.5px;
+  }
+
+  .tip-title {
+    font-size: 0.97rem;
+    font-weight: 700;
+    color: var(--text);
+    line-height: 1.35;
+  }
+
+  .tip-body {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  .tip-body code {
+    font-family: 'IBM Plex Mono', monospace;
+    background: rgba(245,158,11,0.08);
+    border: 1px solid rgba(245,158,11,0.15);
+    color: var(--accent2);
+    padding: 1px 6px;
+    border-radius: 5px;
+    font-size: 0.82rem;
+    direction: ltr;
+    display: inline-block;
+  }
+
+  .hl { color: var(--accent); font-weight: 700; }
+  .hl2 { color: var(--accent2); font-weight: 600; }
+  .hl3 { color: #60a5fa; font-weight: 600; }
+
+  /* ===== TABLE ===== */
+  .table-wrap {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 60px;
+  }
+
+  .table-head-bar {
+    padding: 22px 28px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--surface2);
+  }
+
+  .table-head-bar h3 { font-size: 1rem; font-weight: 700; }
+  .table-count {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    background: rgba(255,255,255,0.04);
+    padding: 4px 10px;
+    border-radius: 6px;
+  }
+
+  table { width: 100%; border-collapse: collapse; }
+
+  th {
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--muted);
+    padding: 13px 28px;
+    text-align: right;
+    background: rgba(30,41,59,0.4);
+    border-bottom: 1px solid var(--border);
+  }
+
+  td {
+    padding: 14px 28px;
+    font-size: 0.88rem;
+    border-bottom: 1px solid rgba(30,41,59,0.5);
+    vertical-align: middle;
+  }
+
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: rgba(245,158,11,0.025); }
+
+  .topic-name { font-weight: 600; color: var(--text); }
+
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; }
+
+  .tag {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 4px 10px;
+    border-radius: 7px;
+  }
+
+  .tag-gold { background: rgba(245,158,11,0.12); color: #f59e0b; border: 1px solid rgba(245,158,11,0.25); }
+  .tag-green { background: rgba(16,185,129,0.1); color: #10b981; border: 1px solid rgba(16,185,129,0.2); }
+  .tag-blue { background: rgba(59,130,246,0.1); color: #60a5fa; border: 1px solid rgba(59,130,246,0.2); }
+  .tag-purple { background: rgba(139,92,246,0.1); color: #a78bfa; border: 1px solid rgba(139,92,246,0.2); }
+
+  .note-col { font-size: 0.77rem; color: var(--muted); font-style: italic; line-height: 1.5; }
+
+  /* ===== FORMULAS ===== */
+  .formulas-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 14px;
+    margin-bottom: 60px;
+  }
+
+  .formula-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 20px 22px;
+    transition: border-color 0.2s;
+  }
+
+  .formula-card:hover { border-color: var(--accent3); }
+
+  .formula-label {
+    font-size: 0.7rem;
+    font-weight: 800;
+    color: var(--accent3);
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 12px;
+  }
+
+  .formula-eq {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--accent);
+    background: var(--surface2);
+    padding: 12px 16px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    direction: ltr;
+    text-align: left;
+    line-height: 1.7;
+  }
+
+  .formula-note { font-size: 0.78rem; color: var(--muted); line-height: 1.5; }
+
+  /* ===== FOOTER ===== */
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.8rem;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ===== ANIMATIONS ===== */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .a1 { animation: fadeUp 0.5s ease both; }
+  .a2 { animation: fadeUp 0.5s 0.1s ease both; }
+  .a3 { animation: fadeUp 0.5s 0.2s ease both; }
+  .a4 { animation: fadeUp 0.5s 0.3s ease both; }
+  .a5 { animation: fadeUp 0.5s 0.4s ease both; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <!-- ===== HEADER ===== -->
+  <header class="a1">
+    <div class="badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
+    <h1>TIPS לעבודה עם ספר<br>תקנות החשמל</h1>
+    <p class="subtitle">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.1</p>
+  </header>
+
+  <!-- ===== QUICK REF CHIPS ===== -->
+  <div class="quick-ref a2">
+    <div class="quick-ref-label">⚡ תקנות קריטיות — סמן אותן לפני הבחינה</div>
+    <div class="reg-chip"><span class="reg-num">3</span><span class="reg-label">הארקת יסוד</span></div>
+    <div class="reg-chip"><span class="reg-num">6</span><span class="reg-label">זרם יתר</span></div>
+    <div class="reg-chip"><span class="reg-num">8</span><span class="reg-label">לוחות</span></div>
+    <div class="reg-chip"><span class="reg-num">11</span><span class="reg-label">גנרטורים</span></div>
+    <div class="reg-chip"><span class="reg-num">14</span><span class="reg-label">מתקן חי</span></div>
+    <div class="reg-chip"><span class="reg-num">15</span><span class="reg-label">מובלים</span></div>
+    <div class="reg-chip"><span class="reg-num">18</span><span class="reg-label">צינורות</span></div>
+    <div class="reg-chip"><span class="reg-num">19</span><span class="reg-label">מעגלים</span></div>
+    <div class="reg-chip"><span class="reg-num">42</span><span class="reg-label">ניתוק</span></div>
+    <div class="reg-chip"><span class="reg-num">47</span><span class="reg-label">קבלים</span></div>
+    <div class="reg-chip"><span class="reg-num">55</span><span class="reg-label">בדיקות</span></div>
+    <div class="reg-chip"><span class="reg-num">70</span><span class="reg-label">עמידות</span></div>
+    <div class="reg-chip"><span class="reg-num">ת׳ 1</span><span class="reg-label">תוספת ראשונה</span></div>
+    <div class="reg-chip"><span class="reg-num">ת׳ 2</span><span class="reg-label">ערכי Iz</span></div>
+    <div class="reg-chip"><span class="reg-num">ת׳ 3</span><span class="reg-label">שיטות התקנה</span></div>
+  </div>
+
+  <!-- ===== TIPS ===== -->
+  <section class="a3">
+    <div class="section-title">
+      <div class="section-icon" style="background:rgba(245,158,11,0.12)">💡</div>
+      <h2>15 טיפים לניצחון בבחינה</h2>
+    </div>
+
+    <div class="tips-grid">
+
+      <div class="tip-card" style="--c:#f59e0b">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(245,158,11,0.12);color:#f59e0b">TIP 01</span>
+          <span class="tip-title">סמן עמודים קריטיים לפני הבחינה</span>
+        </div>
+        <div class="tip-body">הדבק לשוניות צבעוניות על תקנות <span class="hl">6, 8, 14, 19, 42, 47, 55, 70</span> ועל שלוש התוספות. חיסכון של 2–3 דקות בכל שאלה.</div>
+      </div>
+
+      <div class="tip-card" style="--c:#10b981">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(16,185,129,0.12);color:#10b981">TIP 02</span>
+          <span class="tip-title">תקנה 6 — הנוסחה הכי חשובה</span>
+        </div>
+        <div class="tip-body">כמעט כל חישוב כבל מתחיל כאן:<br>
+          נתיכים: <code>I₂ ≤ 1.45·Iz</code> ו <code>Iz ≥ 1.1·In</code><br>
+          מא"ז: <code>Iz ≥ 0.89·In</code> (ועדת פירושים 10-13)</div>
+      </div>
+
+      <div class="tip-card" style="--c:#3b82f6">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(59,130,246,0.12);color:#60a5fa">TIP 03</span>
+          <span class="tip-title">שלוש התוספות — שלוש שאלות נפרדות</span>
+        </div>
+        <div class="tip-body">
+          <span class="hl">תוספת 1:</span> מקדמי תיקון (טמפ', צפיפות)<br>
+          <span class="hl">תוספת 2:</span> טבלאות Iz (90.5 / 90.6 / 90.7)<br>
+          <span class="hl">תוספת 3:</span> שיטות התקנה → מצא שיטה → לך לטבלה
+        </div>
+      </div>
+
+      <div class="tip-card" style="--c:#8b5cf6">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(139,92,246,0.12);color:#a78bfa">TIP 04</span>
+          <span class="tip-title">קוד שיטות ההתקנה — קרא מהר</span>
+        </div>
+        <div class="tip-body">
+          <code>י"ג</code> = מגש לא מחורר → טבלה 90.5<br>
+          <code>ט"ז</code> = סולם כבלים → טבלה 90.7<br>
+          <code>ל"א</code> = קבור באדמה → טבלה 90.6
+        </div>
+      </div>
+
+      <div class="tip-card" style="--c:#ef4444">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(239,68,68,0.12);color:#ef4444">TIP 05</span>
+          <span class="tip-title">חדר רחצה → ישר תקנה 19 + תרשים אזורים</span>
+        </div>
+        <div class="tip-body">כל שאלה על מקלחת/אמבטיה — פתח ישר לתקנה 19. בדוק אזור 0/1/2/3 לפי מרחק אופקי ואנכי. תרשים האזורים מצוי בתוך התקנה.</div>
+      </div>
+
+      <div class="tip-card" style="--c:#f59e0b">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(245,158,11,0.12);color:#f59e0b">TIP 06</span>
+          <span class="tip-title">הארקה TT → תקנה 70 ישירות</span>
+        </div>
+        <div class="tip-body">נוסחה: <code>RE ≤ 50V / ΔI</code><br>זמן ניתוק → תקנה 42(ב).<br>שיטת TN עם זמן ניתוק → תקנה 42(א) + תחום מגנטי מא"ז.</div>
+      </div>
+
+      <div class="tip-card" style="--c:#10b981">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(16,185,129,0.12);color:#10b981">TIP 07</span>
+          <span class="tip-title">גנרטורים → תקנה 11(ב) בלבד</span>
+        </div>
+        <div class="tip-body">90% מהשאלות על גנרטורים עוסקות בסעיף ב — היכן מחברים את התקן הבקרה (לפני מערכת ההחלפה, בצד חח"י בלבד).</div>
+      </div>
+
+      <div class="tip-card" style="--c:#3b82f6">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(59,130,246,0.12);color:#60a5fa">TIP 08</span>
+          <span class="tip-title">בדיקות מינימום → תקנה 55</span>
+        </div>
+        <div class="tip-body">התנגדות בידוד מינימלית: <code>1 MΩ</code> למתקנים עד 500V.<br>כל שאלה על ערך מינימום של מדידה/בדיקה → תקנה 55.</div>
+      </div>
+
+      <div class="tip-card" style="--c:#8b5cf6">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(139,92,246,0.12);color:#a78bfa">TIP 09</span>
+          <span class="tip-title">קבל לשיפור cosφ → תקנה 47</span>
+        </div>
+        <div class="tip-body">סעיף א: חובת נגד פריקה.<br>סעיף ב: <code>t = 60 שניות</code>, מתח יורד ל-<code>≤ 50V</code>.<br>נוסחה: <code>R ≤ t / (C·ln(U₀/Uc))</code></div>
+      </div>
+
+      <div class="tip-card" style="--c:#ef4444">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(239,68,68,0.12);color:#ef4444">TIP 10</span>
+          <span class="tip-title">לוח סוג 2 = חישוב לולאת תקלה שונה!</span>
+        </div>
+        <div class="tip-body">לוח מבודד (סוג 2) → לפי תקנה 8: לולאת התקלה נחשבת לפי <strong>המפסק הגדול בלוח</strong>, לא מפסק ההזנה. חריג חשוב!</div>
+      </div>
+
+      <div class="tip-card" style="--c:#f59e0b">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(245,158,11,0.12);color:#f59e0b">TIP 11</span>
+          <span class="tip-title">קוטר צינור → תקנה 15(ג)</span>
+        </div>
+        <div class="tip-body">מוליך בודד: <code>D_פנימי = 1.65 × Ø_מוליך</code><br>לשניים ויותר מוליכים — יש נוסחה שונה + טבלה בתקנה.</div>
+      </div>
+
+      <div class="tip-card" style="--c:#10b981">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(16,185,129,0.12);color:#10b981">TIP 12</span>
+          <span class="tip-title">עבודה במתקן חי → תקנות 1 + 14</span>
+        </div>
+        <div class="tip-body">תקנה 1: הגדרת "עבודה במתקן חי" — כוללת מדידה!<br>תקנה 14: כיצד לבצע — ציוד מגן אישי בחלקים חיים.</div>
+      </div>
+
+      <div class="tip-card" style="--c:#3b82f6">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(59,130,246,0.12);color:#60a5fa">TIP 13</span>
+          <span class="tip-title">מתקן חקלאי → תקנה 1(א) + 10×</span>
+        </div>
+        <div class="tip-body">דרישה ייחודית: זרם קצר מינימלי ≥ <code>10 × זרם הפעלת מפ"ז</code>.<br>בנוסף לכל דרישות תקנה 42 הרגילות.</div>
+      </div>
+
+      <div class="tip-card" style="--c:#8b5cf6">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(139,92,246,0.12);color:#a78bfa">TIP 14</span>
+          <span class="tip-title">מערכות PV → פרק ייעודי — סוף הספר</span>
+        </div>
+        <div class="tip-body">לכל שאלות פוטו-וולטאיות יש פרק נפרד בסוף הספר. אל תחפש בתקנות הרגילות — ישירות לפרק PV.</div>
+      </div>
+
+      <div class="tip-card" style="--c:#ef4444">
+        <div class="tip-header">
+          <span class="tip-num" style="background:rgba(239,68,68,0.12);color:#ef4444">TIP 15</span>
+          <span class="tip-title">לפני כל חישוב — זהה TN vs TT</span>
+        </div>
+        <div class="tip-body"><span class="hl">TN</span>: לולאת תקלה → מגנטי מפסק → ניתוק מהיר<br><span class="hl2">TT</span>: RE ≤ 50/ΔI → מפ"ז הכרחי<br>שיטה שונה = נוסחה שונה לגמרי!</div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ===== TABLE ===== -->
+  <section class="a4">
+    <div class="section-title">
+      <div class="section-icon" style="background:rgba(59,130,246,0.12)">📋</div>
+      <h2>נושא בשאלה ← מיקום בספר</h2>
+    </div>
+
+    <div class="table-wrap">
+      <div class="table-head-bar">
+        <h3>מיפוי מלא — כל 20 הנושאים</h3>
+        <span class="table-count">20 נושאים</span>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>נושא בשאלות</th>
+            <th>תקנות / סעיפים</th>
+            <th>הערת ניווט</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span class="topic-name">הארקות ואיפוס TN, TT, IT</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 3</span><span class="tag tag-gold">תקנה 42</span><span class="tag tag-gold">תקנה 70</span></div></td>
+            <td class="note-col">3=יסוד, 42=זמן ניתוק, 70=עמידות אלקטרודה</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">מפסקי מגן (מפ"ז) והארקות</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 8</span><span class="tag tag-gold">תקנה 42</span><span class="tag tag-gold">תקנה 70</span></div></td>
+            <td class="note-col">8=לוחות, 42=הגנה נגד שוק חשמלי</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">מבטחים, הגנות, זינה צפה</span></td>
+            <td><div class="tags"><span class="tag tag-green">תקנה 6</span></div></td>
+            <td class="note-col">עמסת יתר + קצר — הכל בתקנה 6</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">חישובי חתך כבל / הגנות זרם יתר</span></td>
+            <td><div class="tags"><span class="tag tag-green">תקנה 6</span><span class="tag tag-blue">תוספת 1</span><span class="tag tag-blue">תוספת 2</span><span class="tag tag-blue">תוספת 3</span></div></td>
+            <td class="note-col">ת׳1=מקדמים, ת׳2=Iz, ת׳3=שיטת התקנה</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">מבנים, לוחות, מתקני הזנה</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 8</span><span class="tag tag-gold">תקנה 19</span></div></td>
+            <td class="note-col">8=לוחות (סוג 1/2), 19=מעגלים סופיים</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">שנאים ומתקנים</span></td>
+            <td><div class="tags"><span class="tag tag-purple">פרק שנאים 30–35</span></div></td>
+            <td class="note-col">חיבורים, קבוצות, מתח קצר Uk%</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">גנרטורים ומערכות גיבוי</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 11</span></div></td>
+            <td class="note-col">סעיף ב = מיקום התקן בקרה ביחס למערכת ההחלפה</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">מתקנים ארעיים ותאורת חוץ</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 19</span><span class="tag tag-gold">תקנה 42</span></div></td>
+            <td class="note-col">מעגלים סופיים + אזורים מיוחדים</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">מתקנים חקלאיים</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 1(א)</span><span class="tag tag-green">תקנה 6</span><span class="tag tag-gold">תקנה 42</span></div></td>
+            <td class="note-col">IKmin ≥ 10× זרם הפעלת מפ"ז</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">עבודה במתקן חי</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 1</span><span class="tag tag-gold">תקנה 14</span></div></td>
+            <td class="note-col">1=הגדרות (מדידה=עבודה חיה!), 14=כיצד לבצע</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">עבודה בטיחותית במתקנים</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 14</span><span class="tag tag-blue">תקנה 55</span></div></td>
+            <td class="note-col">55=בדיקות (מינימום בידוד 1MΩ)</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">מובלים (צינורות)</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 15</span><span class="tag tag-gold">תקנה 18</span></div></td>
+            <td class="note-col">15(ג)=נוסחת קוטר, 18=ציפוי/עומק</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">כבלים — טמינה ומרחקי בטיחות</span></td>
+            <td><div class="tags"><span class="tag tag-green">תקנה 6</span><span class="tag tag-blue">תוספת 3</span></div></td>
+            <td class="note-col">שיטות י"ג / ט"ז / ל"א</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">קבלים לשיפור cosφ</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 47</span></div></td>
+            <td class="note-col">א=נגד פריקה, ב=50V תוך 60 שניות</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">חדרי רחצה / אמבטיה</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 19</span><span class="tag tag-purple">תרשים אזורים</span></div></td>
+            <td class="note-col">אזורים 0,1,2,3 — תרשים בתוך התקנה</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">שנאי זרם ומדידה</span></td>
+            <td><div class="tags"><span class="tag tag-blue">תקנה 55</span><span class="tag tag-purple">פרק מדידה</span></div></td>
+            <td class="note-col">בדיקות ואימות</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">רשתות מתח גבוה</span></td>
+            <td><div class="tags"><span class="tag tag-purple">פרק מ"ג</span></div></td>
+            <td class="note-col">IT רשת, סליל פטרסון, זינה צפה</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">מערכות סולאריות PV</span></td>
+            <td><div class="tags"><span class="tag tag-purple">פרק PV</span></div></td>
+            <td class="note-col">פרק ייעודי — סוף הספר</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">מנתקים ומפסקים</span></td>
+            <td><div class="tags"><span class="tag tag-gold">תקנה 8</span><span class="tag tag-purple">פרק מנתקים</span></div></td>
+            <td class="note-col">סוגי מנתקים ותנאי שימוש</td>
+          </tr>
+          <tr>
+            <td><span class="topic-name">עמדות טעינה (EV)</span></td>
+            <td><div class="tags"><span class="tag tag-purple">פרק EV</span></div></td>
+            <td class="note-col">תקנות ייעודיות לכלי רכב חשמליים</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== FORMULAS ===== -->
+  <section class="a5">
+    <div class="section-title">
+      <div class="section-icon" style="background:rgba(16,185,129,0.12)">🔢</div>
+      <h2>נוסחאות מהירות — ישר מהספר</h2>
+    </div>
+    <div class="formulas-grid">
+
+      <div class="formula-card">
+        <div class="formula-label">תקנה 6 — נתיכים</div>
+        <div class="formula-eq">I₂ ≤ 1.45 · Iz<br>Iz ≥ 1.1 · In</div>
+        <div class="formula-note">I₂=זרם ניתוק, Iz=זרם מותר בכבל, In=זרם נומינלי מבטח</div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-label">תקנה 6 — מא"ז (ועדת פירושים)</div>
+        <div class="formula-eq">I₂ ≤ 1.45 · Iz<br>Iz ≥ 0.89 · In</div>
+        <div class="formula-note">תנאי שני רלוונטי רק כשמחמיר יותר</div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-label">מקדם תיקון מורכב</div>
+        <div class="formula-eq">Iz_תיקון = Kt · Kc · Iz_טבלה</div>
+        <div class="formula-note">Kt=טמפרטורה (ת׳1 טבלה 2), Kc=צפיפות (ת׳1 טבלה 4)</div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-label">הארקה TT — תקנה 70</div>
+        <div class="formula-eq">RE ≤ 50V / ΔI</div>
+        <div class="formula-note">RE=עמידות אלקטרודה, ΔI=זרם הפעלת מפ"ז</div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-label">פריקת קבל — תקנה 47(ב)</div>
+        <div class="formula-eq">R ≤ t / (C · ln(U₀/Uc))</div>
+        <div class="formula-note">t=60s, Uc=50V, U₀=מתח עבודה ראשוני</div>
+      </div>
+
+      <div class="formula-card">
+        <div class="formula-label">קוטר צינור — תקנה 15(ג)</div>
+        <div class="formula-eq">D_פנימי = 1.65 × Ø_מוליך</div>
+        <div class="formula-note">למוליך בודד. לשניים+ — טבלה נפרדת בתקנה</div>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>תקנות החשמל 2017 · מאגר שאלות גרסה 7.1 · 961 שאלות · 20 נושאים</p>
+  </footer>
+
+</div>
+</body>
+</html>

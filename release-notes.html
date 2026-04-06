@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Release Notes — מאגר שאלות בחינת רישוי חשמל</title>
+<link href="https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;600;700;800;900&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #f8fafc;
+    --surface: #ffffff;
+    --surface2: #f1f5f9;
+    --border: #e2e8f0;
+    --text: #0f172a;
+    --muted: #64748b;
+    --primary: #1a56db;
+    --primary-light: #dbeafe;
+    --green: #059669;
+    --green-light: #d1fae5;
+    --amber: #d97706;
+    --amber-light: #fef3c7;
+    --red: #dc2626;
+    --red-light: #fee2e2;
+    --purple: #7c3aed;
+    --purple-light: #ede9fe;
+    --radius: 12px;
+    --shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+    --shadow-md: 0 4px 6px -1px rgba(0,0,0,.08), 0 2px 4px -1px rgba(0,0,0,.05);
+    --shadow-lg: 0 10px 15px -3px rgba(0,0,0,.08), 0 4px 6px -2px rgba(0,0,0,.04);
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Heebo', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    font-size: 15px;
+  }
+
+  /* ── HERO ─────────────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, #0a0e1a 0%, #0f3460 50%, #1a1a2e 100%);
+    color: white;
+    padding: 64px 24px 56px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(245,158,11,.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 60% at 10% 80%, rgba(59,130,246,.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-inner { position: relative; max-width: 760px; margin: 0 auto; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(245,158,11,.15); border: 1px solid rgba(245,158,11,.3);
+    color: #fbbf24; font-size: 11px; font-weight: 700; letter-spacing: 3px;
+    text-transform: uppercase; padding: 6px 16px; border-radius: 20px;
+    margin-bottom: 24px;
+  }
+  .hero h1 {
+    font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; line-height: 1.1;
+    letter-spacing: -.5px; margin-bottom: 14px;
+  }
+  .hero h1 span {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero-sub { font-size: .95rem; opacity: .65; max-width: 520px; margin: 0 auto 32px; }
+  .hero-meta {
+    display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
+  }
+  .hero-pill {
+    background: rgba(255,255,255,.1); border: 1px solid rgba(255,255,255,.15);
+    padding: 6px 16px; border-radius: 20px; font-size: .8rem; color: rgba(255,255,255,.8);
+  }
+  .hero-pill strong { color: white; }
+
+  /* ── LAYOUT ───────────────────────────── */
+  .layout {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 48px 24px 80px;
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 32px;
+    align-items: start;
+  }
+
+  /* ── SIDEBAR ──────────────────────────── */
+  .sidebar { position: sticky; top: 24px; }
+  .sidebar-nav {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 16px 0; box-shadow: var(--shadow);
+  }
+  .sidebar-title {
+    font-size: .68rem; font-weight: 800; letter-spacing: 2px; text-transform: uppercase;
+    color: var(--muted); padding: 0 16px 12px; border-bottom: 1px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .sidebar-link {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 16px; font-size: .83rem; color: var(--muted);
+    text-decoration: none; transition: all .15s; cursor: pointer;
+    border-right: 3px solid transparent;
+  }
+  .sidebar-link:hover { color: var(--primary); background: var(--primary-light); border-right-color: var(--primary); }
+  .sidebar-link.active { color: var(--primary); background: var(--primary-light); border-right-color: var(--primary); font-weight: 600; }
+  .sidebar-link .icon { font-size: 1rem; flex-shrink: 0; }
+
+  /* ── CONTENT ──────────────────────────── */
+  .content > section { margin-bottom: 48px; }
+
+  /* Section heading */
+  .section-heading {
+    display: flex; align-items: center; gap: 14px;
+    padding-bottom: 14px; margin-bottom: 24px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-heading-icon {
+    width: 44px; height: 44px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.35rem; flex-shrink: 0;
+  }
+  .section-heading h2 { font-size: 1.35rem; font-weight: 800; color: var(--text); }
+  .section-heading .badge {
+    margin-right: auto; font-size: .7rem; font-weight: 700; padding: 3px 10px;
+    border-radius: 20px; background: var(--green-light); color: var(--green);
+    letter-spacing: .5px;
+  }
+
+  /* Card */
+  .card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 20px 24px;
+    box-shadow: var(--shadow); margin-bottom: 16px;
+  }
+  .card-title {
+    font-size: .78rem; font-weight: 800; letter-spacing: 1.5px;
+    text-transform: uppercase; color: var(--muted); margin-bottom: 14px;
+    display: flex; align-items: center; gap: 8px;
+  }
+
+  /* Grid of feature cards */
+  .feature-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 12px; }
+  .feature-card {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px; box-shadow: var(--shadow);
+    transition: all .2s;
+  }
+  .feature-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+  .feature-card-icon { font-size: 1.6rem; margin-bottom: 8px; }
+  .feature-card-title { font-size: .88rem; font-weight: 700; margin-bottom: 4px; }
+  .feature-card-desc { font-size: .78rem; color: var(--muted); line-height: 1.5; }
+
+  /* Table */
+  .table-wrap { border: 1px solid var(--border); border-radius: var(--radius); overflow: hidden; margin-bottom: 16px; box-shadow: var(--shadow); }
+  table { width: 100%; border-collapse: collapse; }
+  thead { background: var(--surface2); }
+  th {
+    font-size: .7rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted); padding: 10px 16px; text-align: right;
+    border-bottom: 1.5px solid var(--border);
+  }
+  td { padding: 10px 16px; font-size: .85rem; border-bottom: 1px solid var(--border); vertical-align: middle; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--surface2); }
+
+  /* Tags */
+  .tags { display: flex; flex-wrap: wrap; gap: 5px; }
+  .tag {
+    font-family: 'IBM Plex Mono', monospace; font-size: .7rem; font-weight: 600;
+    padding: 2px 8px; border-radius: 5px;
+  }
+  .tag-blue  { background: var(--primary-light); color: var(--primary); border: 1px solid #93c5fd; }
+  .tag-green { background: var(--green-light);   color: var(--green);   border: 1px solid #6ee7b7; }
+  .tag-amber { background: var(--amber-light);   color: var(--amber);   border: 1px solid #fde68a; }
+  .tag-red   { background: var(--red-light);     color: var(--red);     border: 1px solid #fca5a5; }
+  .tag-purple{ background: var(--purple-light);  color: var(--purple);  border: 1px solid #c4b5fd; }
+  .tag-gray  { background: var(--surface2);      color: var(--muted);   border: 1px solid var(--border); }
+
+  /* Key list */
+  .key-list { list-style: none; }
+  .key-list li {
+    display: flex; align-items: baseline; gap: 10px;
+    padding: 8px 0; border-bottom: 1px solid var(--border); font-size: .875rem;
+  }
+  .key-list li:last-child { border-bottom: none; }
+  .key-list kbd {
+    font-family: 'IBM Plex Mono', monospace; font-size: .75rem; font-weight: 600;
+    background: var(--surface2); border: 1px solid var(--border); border-bottom: 3px solid var(--border);
+    padding: 2px 8px; border-radius: 5px; color: var(--text); flex-shrink: 0;
+  }
+
+  /* Stat row */
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); gap: 12px; margin-bottom: 20px; }
+  .stat-box {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px 12px; text-align: center; box-shadow: var(--shadow);
+  }
+  .stat-val { font-size: 2rem; font-weight: 900; line-height: 1; }
+  .stat-lbl { font-size: .73rem; color: var(--muted); margin-top: 4px; }
+
+  /* Changelog */
+  .changelog-item {
+    display: flex; gap: 20px; padding: 18px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .changelog-item:last-child { border-bottom: none; }
+  .changelog-ver {
+    font-family: 'IBM Plex Mono', monospace; font-size: .9rem; font-weight: 700;
+    color: var(--primary); background: var(--primary-light); border: 1px solid #93c5fd;
+    padding: 4px 12px; border-radius: 20px; white-space: nowrap; height: fit-content;
+    flex-shrink: 0;
+  }
+  .changelog-date { font-size: .75rem; color: var(--muted); margin-bottom: 6px; }
+  .changelog-changes { font-size: .875rem; color: var(--text); line-height: 1.7; }
+  .changelog-changes li { margin-right: 16px; }
+
+  /* Section callout */
+  .callout {
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 14px 18px; border-radius: 10px; margin-bottom: 16px; font-size: .875rem;
+  }
+  .callout-blue  { background: var(--primary-light); border: 1px solid #93c5fd; color: #1e3a8a; }
+  .callout-green { background: var(--green-light);   border: 1px solid #6ee7b7; color: #064e3b; }
+  .callout-amber { background: var(--amber-light);   border: 1px solid #fde68a; color: #78350f; }
+  .callout-icon  { font-size: 1.2rem; flex-shrink: 0; margin-top: 1px; }
+
+  /* NEW badge */
+  .new-badge {
+    display: inline-block; background: var(--green); color: white;
+    font-size: .62rem; font-weight: 800; letter-spacing: 1px; text-transform: uppercase;
+    padding: 2px 6px; border-radius: 4px; margin-right: 6px; vertical-align: middle;
+  }
+
+  /* Tip chips strip */
+  .chips-strip { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 16px; }
+  .chip {
+    display: flex; flex-direction: column; align-items: center; gap: 3px;
+    background: var(--surface); border: 1.5px solid var(--border);
+    border-radius: 10px; padding: 9px 13px; min-width: 68px;
+    transition: all .2s; cursor: default;
+  }
+  .chip:hover { border-color: var(--amber); background: var(--amber-light); transform: translateY(-3px); }
+  .chip-num { font-family: 'IBM Plex Mono', monospace; font-size: 1.1rem; font-weight: 700; color: var(--amber); }
+  .chip-lbl { font-size: .65rem; color: var(--muted); text-align: center; }
+
+  /* Footer */
+  footer {
+    text-align: center; color: var(--muted); font-size: .8rem;
+    padding: 24px; border-top: 1px solid var(--border);
+    background: var(--surface);
+  }
+  footer a { color: var(--primary); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 768px) {
+    .layout { grid-template-columns: 1fr; }
+    .sidebar { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-eyebrow">⚡ Release Notes</div>
+    <h1>מאגר שאלות<br><span>בחינת רישוי חשמל</span></h1>
+    <p class="hero-sub">תיעוד מלא של כל הפיצ'רים, הכלים והתכנים באתר ההכנה לבחינת הרישוי</p>
+    <div class="hero-meta">
+      <div class="hero-pill">גרסה <strong>7.1</strong></div>
+      <div class="hero-pill"><strong>961</strong> שאלות</div>
+      <div class="hero-pill"><strong>5</strong> מודולים</div>
+      <div class="hero-pill">אפריל <strong>2026</strong></div>
+      <div class="hero-pill"><a href="https://samehhiadry40-afk.github.io/electric-exam-israel/" style="color:rgba(255,255,255,.8);text-decoration:none">🌐 לאתר ←</a></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ LAYOUT ═══════════════════ -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <nav class="sidebar-nav">
+      <div class="sidebar-title">תוכן העניינים</div>
+      <a class="sidebar-link" href="#overview"><span class="icon">📊</span> סקירה כללית</a>
+      <a class="sidebar-link" href="#home"><span class="icon">🏠</span> ראשי</a>
+      <a class="sidebar-link" href="#study"><span class="icon">📚</span> לימוד</a>
+      <a class="sidebar-link" href="#exam"><span class="icon">📝</span> מבחן</a>
+      <a class="sidebar-link" href="#theory"><span class="icon">📖</span> תיאוריה</a>
+      <a class="sidebar-link" href="#tips"><span class="icon">📋</span> TIPS ספר</a>
+      <a class="sidebar-link" href="#feedback"><span class="icon">💬</span> משוב</a>
+      <a class="sidebar-link" href="#technical"><span class="icon">🔧</span> טכני</a>
+      <a class="sidebar-link" href="#changelog"><span class="icon">📦</span> גרסאות</a>
+    </nav>
+  </aside>
+
+  <!-- MAIN CONTENT -->
+  <div class="content">
+
+    <!-- ── OVERVIEW ── -->
+    <section id="overview">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:#dbeafe">📊</div>
+        <h2>סקירה כללית</h2>
+      </div>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">ℹ️</span>
+        <div>אפליקציית ווב חינמית להכנה לבחינת רישוי חשמל ברמת מהנדס בישראל. פועלת לחלוטין בדפדפן ללא התקנה, מאוחסנת על GitHub Pages.</div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-val" style="color:#1a56db">961</div><div class="stat-lbl">שאלות במאגר</div></div>
+        <div class="stat-box"><div class="stat-val" style="color:#059669">20</div><div class="stat-lbl">נושאים</div></div>
+        <div class="stat-box"><div class="stat-val" style="color:#7c3aed">11</div><div class="stat-lbl">פרקי תיאוריה</div></div>
+        <div class="stat-box"><div class="stat-val" style="color:#d97706">5</div><div class="stat-lbl">מודולים</div></div>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-icon">📚</div>
+          <div class="feature-card-title">מצב לימוד</div>
+          <div class="feature-card-desc">961 שאלות עם סינון, חיפוש, רמזים והסברים</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📝</div>
+          <div class="feature-card-title">סימולציית מבחן</div>
+          <div class="feature-card-desc">50 שאלות, שעון 3 שעות, ציון עובר 80</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📖</div>
+          <div class="feature-card-title">חומר תיאורטי</div>
+          <div class="feature-card-desc">11 פרקים מקיפים עם נוסחאות ודוגמאות</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">📋</div>
+          <div class="feature-card-title">TIPS ספר <span class="new-badge">NEW</span></div>
+          <div class="feature-card-desc">מדריך ניווט בתקנות החשמל 2017</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── HOME ── -->
+    <section id="home">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:#fef3c7">🏠</div>
+        <h2>דף ראשי</h2>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📊 מה מוצג בדף הבית</div>
+        <ul class="key-list">
+          <li><kbd>Hero</kbd> <span>כותרת + תיאור + כפתורי ניווט מהיר</span></li>
+          <li><kbd>כרטיסים</kbd> <span>תיאור קצר לכל אחד מ-4 המודולים</span></li>
+          <li><kbd>סטטיסטיקה</kbd> <span>מספר שאלות, נושאים, תמונות, הסברים — נטען בזמן אמת</span></li>
+        </ul>
+      </div>
+    </section>
+
+    <!-- ── STUDY ── -->
+    <section id="study">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:#d1fae5">📚</div>
+        <h2>מצב לימוד</h2>
+      </div>
+
+      <div class="callout callout-green">
+        <span class="callout-icon">✅</span>
+        <div>מצב לימוד מלא — עיון בכל 961 השאלות עם כל הכלים הדרושים.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🔍 סינון וחיפוש</div>
+        <p style="font-size:.875rem;margin-bottom:12px;color:var(--muted)">20 נושאים — ניתן לסנן כמה נושאים במקביל:</p>
+        <div class="tags" style="margin-bottom:14px">
+          <span class="tag tag-blue">הארקות ואיפוס TN/TT/IT</span>
+          <span class="tag tag-blue">שנאים ומתקנים</span>
+          <span class="tag tag-blue">שנאי זרם ומדידה</span>
+          <span class="tag tag-blue">מבטחים והגנות</span>
+          <span class="tag tag-blue">הגנות זרם יתר</span>
+          <span class="tag tag-blue">מבנים ולוחות</span>
+          <span class="tag tag-blue">מפסקי מגן</span>
+          <span class="tag tag-blue">גנרטורים וגיבוי</span>
+          <span class="tag tag-blue">מתקנים ארעיים</span>
+          <span class="tag tag-blue">מתקנים חקלאיים</span>
+          <span class="tag tag-blue">כבלים וטמינה</span>
+          <span class="tag tag-blue">מובלים</span>
+          <span class="tag tag-blue">ציוד חשמלי</span>
+          <span class="tag tag-blue">עבודה במתקן חי</span>
+          <span class="tag tag-blue">עבודה בטיחותית</span>
+          <span class="tag tag-blue">מנתקים ומפסקים</span>
+          <span class="tag tag-blue">חישובים חשמליים</span>
+          <span class="tag tag-blue">מערכות PV</span>
+          <span class="tag tag-blue">רשתות מתח גבוה</span>
+          <span class="tag tag-blue">עמדות טעינה EV</span>
+        </div>
+        <p style="font-size:.875rem;color:var(--muted)">חיפוש חופשי — בטקסט השאלה ובכל ארבע האפשרויות.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📄 תצוגת שאלה</div>
+        <ul class="key-list">
+          <li><kbd>מזהה</kbd><span>מספר שאלה + מזהה מקורי מה-PDF</span></li>
+          <li><kbd>נושא</kbd><span>תגית נושא ממוקמת בכותרת השאלה</span></li>
+          <li><kbd>תמונות</kbd><span>תמיכה מלאה בתרשימים (lazy loading)</span></li>
+          <li><kbd>מחוון</kbd><span>סרגל התקדמות — שאלה X מתוך Y</span></li>
+          <li><kbd>משוב</kbd><span>לאחר בחירה: ✅ נכון / ❌ שגוי + הסבר מפורט</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚡ פעולות ועזרים</div>
+        <ul class="key-list">
+          <li><kbd>💡 רמז (H)</kbd><span>חלק מההסבר — ללא חשיפת מספר התשובה</span></li>
+          <li><kbd>🎲 אקראי (R)</kbd><span>קפיצה לשאלה אקראית מהרשימה הנוכחית</span></li>
+          <li><kbd>◄ הקודמת</kbd><span>ניווט לשאלה הקודמת (גם ←)</span></li>
+          <li><kbd>הבאה ►</kbd><span>ניווט לשאלה הבאה (גם →)</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⌨️ קיצורי מקלדת — לימוד</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>מקש</th><th>פעולה</th></tr></thead>
+            <tbody>
+              <tr><td><span class="tag tag-gray">→</span></td><td>שאלה קודמת</td></tr>
+              <tr><td><span class="tag tag-gray">←</span></td><td>שאלה הבאה</td></tr>
+              <tr><td><span class="tag tag-gray">1</span> <span class="tag tag-gray">2</span> <span class="tag tag-gray">3</span> <span class="tag tag-gray">4</span></td><td>בחירת תשובה</td></tr>
+              <tr><td><span class="tag tag-gray">H</span></td><td>הצג רמז</td></tr>
+              <tr><td><span class="tag tag-gray">R</span></td><td>שאלה אקראית</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── EXAM ── -->
+    <section id="exam">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:#fee2e2">📝</div>
+        <h2>סימולציית מבחן</h2>
+      </div>
+
+      <div class="callout callout-amber">
+        <span class="callout-icon">📌</span>
+        <div>שכפול מדויק של תנאי הבחינה האמיתית — 50 שאלות אקריות עם תשובות מעורבבות וציון עובר 80.</div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⚙️ הגדרות המבחן</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>פרמטר</th><th>ערך</th></tr></thead>
+            <tbody>
+              <tr><td>מספר שאלות</td><td><strong>50</strong> (אקריות מתוך 961)</td></tr>
+              <tr><td>זמן</td><td><strong>3 שעות</strong> — שעון ספירה לאחור</td></tr>
+              <tr><td>ציון עובר</td><td><strong>80 / 100</strong></td></tr>
+              <tr><td>נקודות לשאלה</td><td><strong>2</strong> נקודות</td></tr>
+              <tr><td>רמזים</td><td>אסור — לא מוצג</td></tr>
+              <tr><td>ערבוב שאלות</td><td>✅ כל מבחן — סדר אחר</td></tr>
+              <tr><td>ערבוב תשובות</td><td>✅ מניעת שינון מיקום</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">🖥️ ממשק המבחן</div>
+        <ul class="key-list">
+          <li><kbd>לוח ניווט</kbd><span>50 כפתורים — צביעה: ענה / דילג / נוכחי</span></li>
+          <li><kbd>שעון</kbd><span>צהוב כשנותרות &lt;30 דקות, אדום + דפיקה כשנותרות &lt;10 דקות</span></li>
+          <li><kbd>דילוג</kbd><span>דלג וחזור — שאלות לא מענה מסומנות בכתום</span></li>
+          <li><kbd>תמונות</kbd><span>תמיכה מלאה בתרשימים בשאלות</span></li>
+          <li><kbd>אישור סיום</kbd><span>חלון אזהרה עם מספר שאלות לא מענה</span></li>
+          <li><kbd>ניתוק אוטומטי</kbd><span>בסיום הזמן — מסיים מיידית</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">📊 דו"ח תוצאות</div>
+        <ul class="key-list">
+          <li><kbd>ציון</kbd><span>ממוצג בגדול — ירוק לעובר, אדום ללא עובר</span></li>
+          <li><kbd>סיכום</kbd><span>נכון / שגוי / לא נענה / ציון מספרי</span></li>
+          <li><kbd>פירוט מלא</kbd><span>כל 50 השאלות עם תשובה שנבחרה + תשובה נכונה</span></li>
+          <li><kbd>הסבר</kbd><span>כפתור לחשיפת הסבר מפורט לכל שאלה</span></li>
+          <li><kbd>מבחן חדש</kbd><span>כפתור לאתחול ומבחן חדש לחלוטין</span></li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-title">⌨️ קיצורי מקלדת — מבחן</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>מקש</th><th>פעולה</th></tr></thead>
+            <tbody>
+              <tr><td><span class="tag tag-gray">→</span></td><td>שאלה קודמת</td></tr>
+              <tr><td><span class="tag tag-gray">←</span></td><td>שאלה הבאה</td></tr>
+              <tr><td><span class="tag tag-gray">1</span> <span class="tag tag-gray">2</span> <span class="tag tag-gray">3</span> <span class="tag tag-gray">4</span></td><td>בחירת תשובה</td></tr>
+              <tr><td><span class="tag tag-gray">S</span></td><td>דלג על שאלה</td></tr>
+              <tr><td><span class="tag tag-gray">Esc</span></td><td>סיים מבחן</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── THEORY ── -->
+    <section id="theory">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:#ede9fe">📖</div>
+        <h2>חומר תיאורטי</h2>
+      </div>
+
+      <div class="callout callout-blue">
+        <span class="callout-icon">📘</span>
+        <div>11 פרקי תיאוריה מקיפים — חומר לימוד מלא לבחינה, כולל נוסחאות, דוגמאות וטבלאות.</div>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>פרק</th><th>נושאים עיקריים</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>🔌 הארקות ואיפוס TN, TT, IT</strong></td>
+              <td>שיטות הגנה מחישמול, TN/TT/IT, TTP, הארקת יסוד, השוואת פוטנציאלים, חישובי לולאת תקלה</td>
+            </tr>
+            <tr>
+              <td><strong>🔄 שנאים</strong></td>
+              <td>עקרון פעולה, שנאי שמן/יבש, קבוצות חיבורים Dy11, Uk%, חישוב Ik, חיבור מקביל</td>
+            </tr>
+            <tr>
+              <td><strong>☀️ מערכות סולאריות PV</strong></td>
+              <td>פנלים, Voc/Isc, מחרוזות, MPPT, Anti-Islanding, הגנות DC ו-AC, ארקה</td>
+            </tr>
+            <tr>
+              <td><strong>⚡ קבלים והרמוניות</strong></td>
+              <td>cosφ, חישוב Q_C, חיבור Δ/Y, THD, מקורות הרמוניות, נזקים, סינון</td>
+            </tr>
+            <tr>
+              <td><strong>🔒 הגנות</strong></td>
+              <td>נתיכים gG/aM/gR, מפסקים B/C/D, כושר הפסקה, RCD סוגים AC/A/B/F</td>
+            </tr>
+            <tr>
+              <td><strong>🔗 כבלים ומוליכים</strong></td>
+              <td>סוגי כבלים NYY/H07RN-F, בחירת חתך, Derating (Ca/Cf/Cs), נפילת מתח</td>
+            </tr>
+            <tr>
+              <td><strong>⚙️ מנועים אסינכרוניים</strong></td>
+              <td>עקרון פעולה, DOL/Y-Δ/VFD, ממסר תרמי, נתיך aM, הגנת העדר מופע</td>
+            </tr>
+            <tr>
+              <td><strong>🏢 מבנים רב-קומות וגנרטורים</strong></td>
+              <td>הגדרות חוקיות, ATS 4-קוטבי, הארקת גנרטור, מתקנים ארעיים (IEC 704)</td>
+            </tr>
+            <tr>
+              <td><strong>⚠️ בטיחות בעבודות חשמל</strong></td>
+              <td>5 הכללים הזהובים, Lockout/Tagout, PPE (IEC 60903), עבודה חיה, מקצרים</td>
+            </tr>
+            <tr>
+              <td><strong>🗄️ לוחות חשמל</strong></td>
+              <td>MDB/SDB/FDB, Form 1–4, IP20/44/54/65, גבהים, מרחקי גישה</td>
+            </tr>
+            <tr>
+              <td><strong>🌩️ רשתות מתח גבוה</strong></td>
+              <td>22kV/161kV/400kV, ממסרי הגנה 51/87/51N, חיבור חוזר אוטומטי</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── TIPS ── -->
+    <section id="tips">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:#fef3c7">📋</div>
+        <h2>TIPS ספר <span class="new-badge">חדש</span></h2>
+        <div class="badge">גרסה 7.1</div>
+      </div>
+
+      <div class="callout callout-amber">
+        <span class="callout-icon">📌</span>
+        <div>מדריך עזר לניווט בספר תקנות החשמל 2017 — מיועד לניצול מרבי של הספר המותר להיכנס איתו לבחינה.</div>
+      </div>
+
+      <!-- Chips -->
+      <div class="card">
+        <div class="card-title">⚡ 1. תקנות קריטיות — Quick Reference (15 שבבים)</div>
+        <div class="chips-strip">
+          <div class="chip"><span class="chip-num">3</span><span class="chip-lbl">הארקת יסוד</span></div>
+          <div class="chip"><span class="chip-num">6</span><span class="chip-lbl">זרם יתר</span></div>
+          <div class="chip"><span class="chip-num">8</span><span class="chip-lbl">לוחות</span></div>
+          <div class="chip"><span class="chip-num">11</span><span class="chip-lbl">גנרטורים</span></div>
+          <div class="chip"><span class="chip-num">14</span><span class="chip-lbl">מתקן חי</span></div>
+          <div class="chip"><span class="chip-num">15</span><span class="chip-lbl">מובלים</span></div>
+          <div class="chip"><span class="chip-num">18</span><span class="chip-lbl">צינורות</span></div>
+          <div class="chip"><span class="chip-num">19</span><span class="chip-lbl">מעגלים</span></div>
+          <div class="chip"><span class="chip-num">42</span><span class="chip-lbl">ניתוק</span></div>
+          <div class="chip"><span class="chip-num">47</span><span class="chip-lbl">קבלים</span></div>
+          <div class="chip"><span class="chip-num">55</span><span class="chip-lbl">בדיקות</span></div>
+          <div class="chip"><span class="chip-num">70</span><span class="chip-lbl">עמידות</span></div>
+          <div class="chip"><span class="chip-num">ת׳ 1</span><span class="chip-lbl">תוספת ראשונה</span></div>
+          <div class="chip"><span class="chip-num">ת׳ 2</span><span class="chip-lbl">ערכי Iz</span></div>
+          <div class="chip"><span class="chip-num">ת׳ 3</span><span class="chip-lbl">שיטות התקנה</span></div>
+        </div>
+        <p style="font-size:.8rem;color:var(--muted)">מרחף על שבב — אנימציה ויזואלית. לחץ כדי לסמן.</p>
+      </div>
+
+      <!-- 15 Tips table -->
+      <div class="card">
+        <div class="card-title">💡 2. 15 כרטיסי TIPS</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>TIP</th><th>נושא</th><th>תקנות</th></tr></thead>
+            <tbody>
+              <tr><td><span class="tag tag-amber">01</span></td><td>סימון עמודים לפני הבחינה</td><td><span class="tag tag-gray">כלי לימוד</span></td></tr>
+              <tr><td><span class="tag tag-green">02</span></td><td>תקנה 6 — הנוסחה הכי חשובה</td><td><span class="tag tag-amber">תקנה 6</span></td></tr>
+              <tr><td><span class="tag tag-blue">03</span></td><td>שלוש התוספות — מה בכל אחת</td><td><span class="tag tag-blue">ת׳ 1+2+3</span></td></tr>
+              <tr><td><span class="tag tag-purple">04</span></td><td>קוד שיטות ההתקנה (י"ג / ט"ז / ל"א)</td><td><span class="tag tag-blue">תוספת 3</span></td></tr>
+              <tr><td><span class="tag tag-red">05</span></td><td>חדר רחצה → תקנה 19 + תרשים אזורים</td><td><span class="tag tag-amber">תקנה 19</span></td></tr>
+              <tr><td><span class="tag tag-amber">06</span></td><td>הארקה TT → תקנה 70</td><td><span class="tag tag-amber">תקנות 70, 42</span></td></tr>
+              <tr><td><span class="tag tag-green">07</span></td><td>גנרטורים → תקנה 11(ב) בלבד</td><td><span class="tag tag-amber">תקנה 11</span></td></tr>
+              <tr><td><span class="tag tag-blue">08</span></td><td>בדיקות מינימום → תקנה 55</td><td><span class="tag tag-amber">תקנה 55</span></td></tr>
+              <tr><td><span class="tag tag-purple">09</span></td><td>קבל cosφ → תקנה 47</td><td><span class="tag tag-amber">תקנה 47</span></td></tr>
+              <tr><td><span class="tag tag-red">10</span></td><td>לוח סוג 2 = חישוב שונה!</td><td><span class="tag tag-amber">תקנה 8</span></td></tr>
+              <tr><td><span class="tag tag-amber">11</span></td><td>קוטר צינור → תקנה 15(ג)</td><td><span class="tag tag-amber">תקנה 15</span></td></tr>
+              <tr><td><span class="tag tag-green">12</span></td><td>עבודה חיה → תקנות 1 + 14</td><td><span class="tag tag-amber">תקנות 1, 14</span></td></tr>
+              <tr><td><span class="tag tag-blue">13</span></td><td>מתקן חקלאי → תנאי ה-10×</td><td><span class="tag tag-amber">תקנות 1(א), 42</span></td></tr>
+              <tr><td><span class="tag tag-purple">14</span></td><td>PV → פרק ייעודי בסוף הספר</td><td><span class="tag tag-gray">פרק PV</span></td></tr>
+              <tr><td><span class="tag tag-red">15</span></td><td>TN vs TT — זהה לפני כל חישוב</td><td><span class="tag tag-amber">תקנות 42, 70</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Mapping table summary -->
+      <div class="card">
+        <div class="card-title">📋 3. טבלת מיפוי — 20 נושאים</div>
+        <p style="font-size:.875rem;color:var(--muted);margin-bottom:12px">לכל נושא בבחינה — מיפוי מדויק לתקנה / פרק בספר + הערת ניווט. ניתן לצפות בטבלה המלאה בלשונית TIPS ספר באתר.</p>
+        <div class="tags">
+          <span class="tag tag-amber">תקנות קריטיות</span>
+          <span class="tag tag-green">תוספות לחישוב</span>
+          <span class="tag tag-blue">פרקים ייעודיים</span>
+          <span class="tag tag-purple">פרקים מיוחדים (PV, EV, מ"ג)</span>
+        </div>
+      </div>
+
+      <!-- Formulas -->
+      <div class="card">
+        <div class="card-title">🔢 4. 6 נוסחאות מהירות</div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>נוסחה</th><th>מקור</th></tr></thead>
+            <tbody>
+              <tr><td><code style="font-family:monospace">I₂ ≤ 1.45·Iz | Iz ≥ 1.1·In</code></td><td>תקנה 6 — נתיכים</td></tr>
+              <tr><td><code style="font-family:monospace">I₂ ≤ 1.45·Iz | Iz ≥ 0.89·In</code></td><td>תקנה 6 — מא"ז (ועדת פירושים 10-13)</td></tr>
+              <tr><td><code style="font-family:monospace">Iz_תיקון = Kt · Kc · Iz_טבלה</code></td><td>תוספת ראשונה — מקדם תיקון</td></tr>
+              <tr><td><code style="font-family:monospace">RE ≤ 50V / ΔI</code></td><td>תקנה 70 — הארקה TT</td></tr>
+              <tr><td><code style="font-family:monospace">R ≤ t / (C·ln(U₀/Uc))</code></td><td>תקנה 47 — פריקת קבל</td></tr>
+              <tr><td><code style="font-family:monospace">D_פנימי = 1.65 × Ø_מוליך</code></td><td>תקנה 15(ג) — קוטר צינור</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── FEEDBACK ── -->
+    <section id="feedback">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:#fde8e8">💬</div>
+        <h2>מערכת משוב</h2>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-card-icon">🐛</div>
+          <div class="feature-card-title">דיווח באג</div>
+          <div class="feature-card-desc">כפתור קבוע בתחתית-שמאל. שדות: כותרת, מספר שאלה, תיאור. שולח מייל אוטומטי.</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-card-icon">💡</div>
+          <div class="feature-card-title">הצעת שיפור</div>
+          <div class="feature-card-desc">כפתור קבוע בתחתית-שמאל. שדות: כותרת, קטגוריה (5 אפשרויות), פירוט.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── TECHNICAL ── -->
+    <section id="technical">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:#f1f5f9">🔧</div>
+        <h2>פרטים טכניים</h2>
+      </div>
+
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>נושא</th><th>פרטים</th></tr></thead>
+          <tbody>
+            <tr><td>פלטפורמה</td><td>HTML5 + CSS3 + Vanilla JavaScript — ללא framework</td></tr>
+            <tr><td>ביצועים</td><td>טעינה חד-פעמית של כל 961 השאלות לזיכרון</td></tr>
+            <tr><td>תמיכת מובייל</td><td>Responsive עד 320px רוחב</td></tr>
+            <tr><td>תמונות</td><td>Lazy loading — נטענות לפי דרישה בלבד</td></tr>
+            <tr><td>ניווט</td><td>מקלדת מלאה לכל מצב (לימוד + מבחן)</td></tr>
+            <tr><td>Hosting</td><td>GitHub Pages — HTTPS, ללא שרת, זמינות גבוהה</td></tr>
+            <tr><td>מאגר שאלות</td><td><code>questions_db.json</code> — 961 שאלות, גרסה 7.1</td></tr>
+            <tr><td>גופנים</td><td>Heebo (עברית) + IBM Plex Mono (קוד/מספרים) — Google Fonts</td></tr>
+            <tr><td>תאימות דפדפנים</td><td>Chrome, Firefox, Edge, Safari (כל הגרסאות המודרניות)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ── CHANGELOG ── -->
+    <section id="changelog">
+      <div class="section-heading">
+        <div class="section-heading-icon" style="background:#d1fae5">📦</div>
+        <h2>היסטוריית גרסאות</h2>
+      </div>
+
+      <div class="card">
+        <div class="changelog-item">
+          <div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:6px">
+              <span class="changelog-ver">v7.1</span>
+              <span class="new-badge">עדכון אחרון</span>
+            </div>
+            <div class="changelog-date">אפריל 2026</div>
+            <ul class="changelog-changes" style="padding-right:16px">
+              <li>הוספת לשונית <strong>📋 TIPS ספר</strong> — מדריך ניווט בתקנות החשמל 2017</li>
+              <li>15 שבבי Quick Reference לתקנות קריטיות עם אנימציה</li>
+              <li>15 כרטיסי TIPS עם קידוד צבע לפי קטגוריה</li>
+              <li>טבלת מיפוי מלאה — 20 נושאים × תקנה + הערת ניווט</li>
+              <li>6 נוסחאות מהירות מהספר</li>
+            </ul>
+          </div>
+        </div>
+        <div class="changelog-item">
+          <div>
+            <div style="margin-bottom:6px"><span class="changelog-ver">v7.0</span></div>
+            <div class="changelog-date">ספטמבר 2023</div>
+            <ul class="changelog-changes" style="padding-right:16px">
+              <li>מהדורה ראשית — <strong>961 שאלות</strong> עם תמונות ותרשימים</li>
+              <li>מצב לימוד עם סינון 20 נושאים + חיפוש חופשי</li>
+              <li>מנגנון רמזים מתקדם — ללא חשיפת התשובה</li>
+              <li>סימולציית מבחן מלאה — 50 שאלות, שעון, ערבוב</li>
+              <li>11 פרקי תיאוריה מקיפים</li>
+              <li>ניווט מקלדת מלא בשני המצבים</li>
+              <li>מערכת משוב (דיווח באג + הצעת שיפור)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div><!-- /content -->
+</div><!-- /layout -->
+
+<footer>
+  <p>
+    <strong>מאגר שאלות — בחינת רישוי חשמל מהנדס</strong> ·
+    גרסה 7.1 · אפריל 2026 ·
+    <a href="https://samehhiadry40-afk.github.io/electric-exam-israel/">🌐 לאתר</a>
+  </p>
+  <p style="margin-top:6px;opacity:.6">כל המידע מבוסס על מאגר השאלות הרשמי ועל תקנות החשמל 2017</p>
+</footer>
+
+</body>
+</html>
