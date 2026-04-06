@@ -1428,8 +1428,6 @@ async function init() {
     document.getElementById('app').style.display = 'block';
     initHome(); initStudy(); initTheory();
     setupKeyboard();
-    const drawer=document.getElementById('slide-drawer');
-    if(drawer) drawer.classList.remove('hidden');
   } catch(e) {
     document.getElementById('loading-screen').innerHTML =
       `<div style="color:var(--danger);text-align:center;padding:2rem">
@@ -2023,7 +2021,7 @@ function submitIdea(){
 </script>
 
 <!-- ===== SLIDE DRAWER FEEDBACK (outside #app so it's never hidden) ===== -->
-<div class="slide-drawer hidden" id="slide-drawer">
+<div class="slide-drawer" id="slide-drawer">
   <div class="slide-drawer-panel" id="slide-panel">
     <button class="feedback-btn feedback-btn-bug" onclick="openFbModal('bug');closeDrawer()">🐛 דיווח באג</button>
     <button class="feedback-btn feedback-btn-idea" onclick="openFbModal('idea');closeDrawer()">💡 הצעת שיפור</button>
