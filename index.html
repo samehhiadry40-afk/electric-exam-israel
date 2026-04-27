@@ -299,6 +299,110 @@
     .tips-formula-label{font-size:.68rem;font-weight:800;color:#1a56db;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:.75rem}
     .tips-formula-eq{font-family:monospace;font-size:.9rem;font-weight:600;color:#d97706;background:var(--n50);border:1px solid var(--n200);padding:10px 14px;border-radius:8px;margin-bottom:.6rem;direction:ltr;text-align:left;line-height:1.7}
     .tips-formula-note{font-size:.76rem;color:var(--n500);line-height:1.5}
+
+    /* ===== LOGIN OVERLAY ===== */
+    .login-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#0a0e1a,#16213e,#0f3460);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem}
+    .login-overlay.hide{display:none}
+    .login-card{background:white;border-radius:18px;box-shadow:0 25px 70px rgba(0,0,0,.45);padding:2.25rem 2rem;max-width:430px;width:100%}
+    .login-logo{font-size:2.75rem;text-align:center;margin-bottom:.4rem}
+    .login-title{font-size:1.45rem;font-weight:900;text-align:center;color:var(--n800);margin-bottom:.3rem}
+    .login-sub{font-size:.85rem;color:var(--n500);text-align:center;margin-bottom:1.5rem;line-height:1.55}
+    .login-tabs{display:flex;background:var(--n100);border-radius:10px;padding:4px;margin-bottom:1.25rem}
+    .login-tab{flex:1;padding:.55rem;font-family:inherit;font-size:.85rem;font-weight:600;border:none;background:transparent;color:var(--n500);border-radius:8px;cursor:pointer;transition:all .2s}
+    .login-tab.active{background:white;color:var(--primary);box-shadow:0 2px 5px rgba(0,0,0,.06)}
+    .login-section{display:none}
+    .login-section.active{display:block}
+    .login-input{width:100%;padding:.7rem 1rem;border:2px solid var(--n200);border-radius:10px;font-family:inherit;font-size:.92rem;color:var(--n800);outline:none;transition:border-color .2s;text-align:right}
+    .login-input:focus{border-color:var(--primary)}
+    .login-error{background:var(--danger-light);color:var(--danger);font-size:.82rem;padding:.55rem .8rem;border-radius:8px;margin-top:.7rem;display:none}
+    .login-error.show{display:block}
+    .login-profile-list{display:flex;flex-direction:column;gap:.5rem;margin-bottom:.9rem;max-height:260px;overflow-y:auto}
+    .login-profile-item{display:flex;align-items:center;justify-content:space-between;gap:.7rem;padding:.7rem .9rem;border:2px solid var(--n200);border-radius:10px;cursor:pointer;background:white;transition:all .15s}
+    .login-profile-item:hover{border-color:var(--primary);background:var(--primary-light)}
+    .login-profile-info{display:flex;align-items:center;gap:.7rem;flex:1;min-width:0}
+    .login-profile-avatar{width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.95rem;flex-shrink:0}
+    .login-profile-name{font-weight:700;font-size:.9rem;color:var(--n800);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .login-profile-meta{font-size:.72rem;color:var(--n400);margin-top:.1rem}
+    .login-profile-del{background:transparent;border:none;color:var(--n400);cursor:pointer;font-size:1.1rem;padding:.25rem;border-radius:6px;transition:all .15s}
+    .login-profile-del:hover{color:var(--danger);background:var(--danger-light)}
+    .login-empty-state{text-align:center;padding:1.4rem .5rem;color:var(--n400);font-size:.85rem}
+
+    /* ===== NAV PROFILE BADGE ===== */
+    .nav-profile{display:flex;align-items:center;gap:.55rem;background:rgba(255,255,255,.1);padding:.3rem .55rem .3rem .85rem;border-radius:30px;margin-right:.6rem;cursor:pointer;transition:background .15s;position:relative}
+    .nav-profile:hover{background:rgba(255,255,255,.18)}
+    .nav-profile-avatar{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.82rem;flex-shrink:0}
+    .nav-profile-name{font-size:.82rem;font-weight:600;max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .nav-profile-menu{position:absolute;top:calc(100% + 8px);left:0;background:white;color:var(--n800);min-width:200px;border-radius:10px;box-shadow:0 10px 30px rgba(0,0,0,.25);padding:.45rem;display:none;z-index:120}
+    .nav-profile-menu.open{display:block}
+    .nav-profile-menu-item{display:flex;align-items:center;gap:.55rem;padding:.55rem .75rem;border-radius:7px;cursor:pointer;font-size:.86rem;font-weight:500;color:var(--n700);transition:all .15s}
+    .nav-profile-menu-item:hover{background:var(--primary-light);color:var(--primary)}
+    .nav-profile-menu-item.danger:hover{background:var(--danger-light);color:var(--danger)}
+    .nav-profile-menu-divider{height:1px;background:var(--n200);margin:.3rem 0}
+
+    /* ===== PROFILE PAGE ===== */
+    .profile-hero{background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);border-radius:var(--radius);padding:2rem;color:white;margin-bottom:1.5rem;display:flex;align-items:center;gap:1.5rem;flex-wrap:wrap}
+    .profile-hero-avatar{width:84px;height:84px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f59e0b,#d97706);color:white;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:2rem;flex-shrink:0;box-shadow:0 6px 16px rgba(245,158,11,.4)}
+    .profile-hero-info{flex:1;min-width:200px}
+    .profile-hero-name{font-size:1.5rem;font-weight:800;margin-bottom:.2rem}
+    .profile-hero-since{font-size:.82rem;opacity:.65}
+    .profile-hero-stats{display:flex;gap:1.4rem;flex-wrap:wrap}
+    .profile-hero-stat{text-align:center}
+    .profile-hero-stat-val{font-size:1.55rem;font-weight:800;line-height:1}
+    .profile-hero-stat-lbl{font-size:.74rem;opacity:.6;margin-top:.2rem}
+
+    .profile-history-table{width:100%;border-collapse:collapse}
+    .profile-history-table th{font-size:.7rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--n400);padding:.65rem 1rem;text-align:right;background:var(--n50);border-bottom:1.5px solid var(--n200)}
+    .profile-history-table td{padding:.7rem 1rem;font-size:.85rem;border-bottom:1px solid var(--n100);vertical-align:middle}
+    .profile-history-table tr:hover td{background:var(--n50)}
+    .profile-history-empty{text-align:center;padding:2.5rem 1rem;color:var(--n400)}
+    .profile-history-empty-icon{font-size:2.5rem;margin-bottom:.5rem}
+    .badge-pass{background:var(--secondary-light);color:var(--secondary);font-size:.72rem;font-weight:700;padding:.2rem .65rem;border-radius:20px}
+    .badge-fail{background:var(--danger-light);color:var(--danger);font-size:.72rem;font-weight:700;padding:.2rem .65rem;border-radius:20px}
+
+    /* ===== STATISTICS PAGE ===== */
+    .stats-summary-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1rem;margin-bottom:1.5rem}
+    .stats-summary-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.1rem 1.2rem;border-right:4px solid var(--sc,var(--primary))}
+    .stats-summary-val{font-size:1.85rem;font-weight:800;color:var(--sc,var(--primary));line-height:1}
+    .stats-summary-lbl{font-size:.78rem;color:var(--n500);margin-top:.3rem;font-weight:500}
+    .stats-toolbar{display:flex;gap:.7rem;align-items:center;flex-wrap:wrap;margin-bottom:1rem}
+    .stats-toolbar select,.stats-toolbar input{padding:.55rem .8rem;border:2px solid var(--n200);border-radius:8px;font-family:inherit;font-size:.85rem;outline:none;background:white;color:var(--n800)}
+    .stats-toolbar select:focus,.stats-toolbar input:focus{border-color:var(--primary)}
+
+    .stats-table{width:100%;border-collapse:collapse;background:white;border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow)}
+    .stats-table th{font-size:.7rem;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--n400);padding:.7rem 1rem;text-align:right;background:var(--n50);border-bottom:1.5px solid var(--n200);white-space:nowrap;cursor:pointer;user-select:none}
+    .stats-table th:hover{color:var(--primary)}
+    .stats-table th .sort-arrow{opacity:.4;font-size:.75rem;margin-right:.2rem}
+    .stats-table th.sorted .sort-arrow{opacity:1;color:var(--primary)}
+    .stats-table td{padding:.7rem 1rem;font-size:.85rem;border-bottom:1px solid var(--n100);vertical-align:middle}
+    .stats-table tr:last-child td{border-bottom:none}
+    .stats-table tr:hover td{background:var(--n50)}
+    .stats-q-text{font-weight:500;color:var(--n700);max-width:380px;line-height:1.45}
+    .stats-q-id{font-family:monospace;font-size:.78rem;color:var(--n400);font-weight:700}
+    .stats-pct-bar{position:relative;height:8px;background:var(--n100);border-radius:4px;overflow:hidden;min-width:90px}
+    .stats-pct-fill{position:absolute;inset:0;border-radius:4px;background:var(--pcol,var(--primary));transition:width .3s}
+    .stats-pct-text{font-weight:700;font-size:.82rem;font-variant-numeric:tabular-nums}
+    .stats-relearn-btn{padding:.3rem .65rem;border-radius:7px;border:1.5px solid var(--primary);background:white;color:var(--primary);font-family:inherit;font-size:.76rem;font-weight:700;cursor:pointer;white-space:nowrap;transition:all .15s}
+    .stats-relearn-btn:hover{background:var(--primary);color:white}
+
+    /* PROBLEM CARDS */
+    .stats-problem-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.1rem 1.3rem;border-right:4px solid var(--danger);margin-bottom:.7rem}
+    .stats-problem-header{display:flex;justify-content:space-between;align-items:flex-start;gap:.7rem;flex-wrap:wrap;margin-bottom:.6rem}
+    .stats-problem-title{font-size:.95rem;font-weight:700;color:var(--n800);line-height:1.4;flex:1}
+    .stats-problem-meta{display:flex;gap:.45rem;flex-wrap:wrap}
+    .stats-problem-tag{font-size:.7rem;font-weight:700;padding:.2rem .6rem;border-radius:20px;background:var(--danger-light);color:var(--danger);white-space:nowrap}
+    .stats-problem-tag.topic{background:var(--primary-light);color:var(--primary)}
+    .stats-problem-tip{background:var(--warning-light);border:1.5px solid var(--warning);border-radius:9px;padding:.7rem .9rem;font-size:.83rem;color:var(--n700);line-height:1.6;margin-top:.55rem}
+    .stats-problem-tip strong{color:var(--warning);font-weight:700}
+    .stats-problem-actions{margin-top:.7rem;display:flex;gap:.5rem;flex-wrap:wrap}
+
+    .stats-empty{text-align:center;padding:3rem 1rem;color:var(--n400);background:white;border-radius:var(--radius);box-shadow:var(--shadow)}
+    .stats-empty-icon{font-size:3rem;margin-bottom:.5rem}
+
+    @media(max-width:640px){
+      .nav-profile-name{display:none}
+      .stats-q-text{max-width:180px;font-size:.8rem}
+      .profile-history-table th:nth-child(4),.profile-history-table td:nth-child(4){display:none}
+    }
   </style>
 </head>
 <body>
@@ -315,9 +419,22 @@
     <button class="nav-tab active" onclick="showPage('home')">🏠 ראשי</button>
     <button class="nav-tab" onclick="showPage('study')">📚 לימוד</button>
     <button class="nav-tab" onclick="showPage('exam')">📝 מבחן</button>
+    <button class="nav-tab" onclick="showPage('stats')">📊 סטטיסטיקה</button>
+    <button class="nav-tab" onclick="showPage('profile')">👤 פרופיל</button>
     <button class="nav-tab" onclick="showPage('theory')">📖 תיאוריה</button>
     <button class="nav-tab" onclick="showPage('tips')">📋 TIPS ספר</button>
     <button class="nav-tab" onclick="showPage('admin')">⚙️ ניהול</button>
+  </div>
+  <div class="nav-profile" id="nav-profile" onclick="toggleProfileMenu(event)" style="display:none">
+    <div class="nav-profile-avatar" id="nav-profile-avatar">?</div>
+    <div class="nav-profile-name" id="nav-profile-name">—</div>
+    <div class="nav-profile-menu" id="nav-profile-menu">
+      <div class="nav-profile-menu-item" onclick="showPage('profile');closeProfileMenu()">👤 הפרופיל שלי</div>
+      <div class="nav-profile-menu-item" onclick="showPage('stats');closeProfileMenu()">📊 הסטטיסטיקות שלי</div>
+      <div class="nav-profile-menu-divider"></div>
+      <div class="nav-profile-menu-item" onclick="switchProfile()">🔄 החלף פרופיל</div>
+      <div class="nav-profile-menu-item danger" onclick="logout()">🚪 התנתק</div>
+    </div>
   </div>
 </nav>
 
@@ -339,7 +456,32 @@
   <span><kbd>Esc</kbd> סיים מבחן</span>
 </div>
 
-<div id="loading-screen" class="loading">
+<!-- LOGIN OVERLAY -->
+<div class="login-overlay hide" id="login-overlay">
+  <div class="login-card">
+    <div class="login-logo">⚡</div>
+    <div class="login-title">ברוך הבא</div>
+    <div class="login-sub">בחר פרופיל כדי לשמור את ההיסטוריה והסטטיסטיקות שלך — או צור פרופיל חדש</div>
+
+    <div class="login-tabs">
+      <button class="login-tab active" id="login-tab-existing" onclick="switchLoginTab('existing')">פרופילים קיימים</button>
+      <button class="login-tab" id="login-tab-new" onclick="switchLoginTab('new')">פרופיל חדש</button>
+    </div>
+
+    <div class="login-section active" id="login-section-existing">
+      <div class="login-profile-list" id="login-profile-list"></div>
+    </div>
+
+    <div class="login-section" id="login-section-new">
+      <label class="fb-label" style="display:block;margin-bottom:.4rem;font-size:.85rem;font-weight:600;color:var(--n700)">שם פרופיל *</label>
+      <input class="login-input" id="login-new-name" type="text" placeholder="לדוגמה: סאמח, אבי, מתמחה...">
+      <div class="login-error" id="login-error"></div>
+      <button class="btn btn-primary btn-lg" onclick="createProfile()" style="width:100%;margin-top:1rem">✨ צור פרופיל והתחל</button>
+    </div>
+  </div>
+</div>
+
+<div id="loading-screen" class="loading" style="display:none">
   <div class="spinner"></div>
   <div>טוען מאגר שאלות...</div>
   <div id="load-status" style="font-size:.82rem;color:var(--n300)"></div>
@@ -811,6 +953,85 @@
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
       תקנות החשמל 2017 · מאגר שאלות גרסה 7.1 · 1000 שאלות · 20 נושאים
+    </div>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="page-profile" class="page">
+    <div class="profile-hero">
+      <div class="profile-hero-avatar" id="profile-hero-avatar">?</div>
+      <div class="profile-hero-info">
+        <div class="profile-hero-name" id="profile-hero-name">—</div>
+        <div class="profile-hero-since" id="profile-hero-since">—</div>
+      </div>
+      <div class="profile-hero-stats" id="profile-hero-stats"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">📝 היסטוריית מבחנים</div>
+      <div id="profile-exam-history"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">📚 סיכום פעילות לימוד</div>
+      <div id="profile-training-summary"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">⚠️ אזור סכנה</div>
+      <div style="padding:1rem;color:var(--n600);font-size:.88rem;line-height:1.6">
+        מחיקת ההיסטוריה תאפס את כל הנתונים של פרופיל זה (תוצאות מבחנים וסטטיסטיקות לימוד). הפעולה אינה הפיכה.
+      </div>
+      <div style="padding:0 1rem 1rem;display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="resetProfileData()">🗑️ מחק היסטוריה ונתונים</button>
+        <button class="btn btn-danger" onclick="deleteProfile()">❌ מחק פרופיל לחלוטין</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- STATISTICS -->
+  <div id="page-stats" class="page">
+    <div id="stats-summary" class="stats-summary-grid"></div>
+
+    <div class="card" style="background:transparent;box-shadow:none;padding:0;margin-bottom:1.25rem">
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:.75rem">
+        <div style="width:36px;height:36px;border-radius:9px;background:var(--danger-light);color:var(--danger);display:flex;align-items:center;justify-content:center;font-size:1.1rem">🚨</div>
+        <div style="font-size:1.05rem;font-weight:800;color:var(--n800)">שאלות בעייתיות — מומלץ ללמוד מחדש</div>
+      </div>
+      <div id="stats-problem-list"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">📊 סטטיסטיקה פר-שאלה</div>
+      <div class="stats-toolbar">
+        <select id="stats-filter-topic" onchange="renderStatsTable()">
+          <option value="all">כל הנושאים</option>
+        </select>
+        <select id="stats-filter-status" onchange="renderStatsTable()">
+          <option value="all">כל השאלות</option>
+          <option value="answered">שאלות שעניתי עליהן</option>
+          <option value="problem">בעייתיות (אחוז &lt; 60%)</option>
+          <option value="never_correct">תמיד שגוי</option>
+          <option value="mastered">100% הצלחה</option>
+        </select>
+        <input type="text" id="stats-search" placeholder="חפש שאלה..." oninput="renderStatsTable()" style="flex:1;min-width:200px">
+      </div>
+      <div style="overflow-x:auto">
+        <table class="stats-table" id="stats-table">
+          <thead>
+            <tr>
+              <th onclick="sortStats('id')">מס׳<span class="sort-arrow">⇅</span></th>
+              <th onclick="sortStats('text')">שאלה</th>
+              <th onclick="sortStats('topic')">נושא</th>
+              <th onclick="sortStats('attempts')">ניסיונות<span class="sort-arrow">⇅</span></th>
+              <th onclick="sortStats('correct')">נכון<span class="sort-arrow">⇅</span></th>
+              <th onclick="sortStats('pct')">% הצלחה<span class="sort-arrow">⇅</span></th>
+              <th>פעולה</th>
+            </tr>
+          </thead>
+          <tbody id="stats-tbody"></tbody>
+        </table>
+      </div>
     </div>
   </div>
 
@@ -1531,15 +1752,18 @@ let currentPage = 'home';
 // ============================================================
 async function init() {
   try {
+    document.getElementById('loading-screen').style.display = 'flex';
     document.getElementById('load-status').textContent = 'טוען שאלות...';
     const res = await fetch('questions_db.json?v=' + Date.now());
     if (!res.ok) throw new Error('Failed to load');
     const data = await res.json();
     DB = data.questions;
     document.getElementById('loading-screen').style.display = 'none';
-    document.getElementById('app').style.display = 'block';
+
     initHome(); initStudy(); initTheory();
     setupKeyboard();
+
+    bootstrapAuth();
   } catch(e) {
     document.getElementById('loading-screen').innerHTML =
       `<div style="color:var(--danger);text-align:center;padding:2rem">
@@ -1577,7 +1801,7 @@ function showPage(page) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
-  const map={home:0,study:1,exam:2,theory:3,tips:4};
+  const map={home:0,study:1,exam:2,stats:3,profile:4,theory:5,tips:6,admin:7};
   if(map[page]!==undefined) document.querySelectorAll('.nav-tab')[map[page]].classList.add('active');
   currentPage = page;
   const drawer=document.getElementById('slide-drawer');
@@ -1585,6 +1809,8 @@ function showPage(page) {
   document.getElementById('shortcut-bar-study').style.display = page==='study'?'flex':'none';
   document.getElementById('shortcut-bar-exam').style.display = (page==='exam'&&document.getElementById('exam-active').style.display!=='none')?'flex':'none';
   if(page==='admin') initAdminPage();
+  if(page==='profile') renderProfilePage();
+  if(page==='stats') renderStatsPage();
 }
 
 // ============================================================
@@ -1763,7 +1989,13 @@ function buildStudyQuestionHTML(q){
   </div>`;
 }
 
-function studyAnswer(qId,num){if(studyAnswered[qId]!==undefined)return;studyAnswered[qId]=num;renderStudyQuestion();}
+function studyAnswer(qId,num){
+  if(studyAnswered[qId]!==undefined)return;
+  studyAnswered[qId]=num;
+  const q=DB.find(x=>x.id===qId);
+  if(q) trackAnswer(qId, num===q.correct_answer, 'study');
+  renderStudyQuestion();
+}
 function showHint(qId){studyHintShown[qId]=true;renderStudyQuestion();}
 
 /**
@@ -1986,13 +2218,19 @@ function finishExam(){
   document.getElementById('shortcut-bar-exam').style.display='none';
 
   let correct=0;
+  const examDetail=[];
   examQuestions.forEach((q,i)=>{
     const userShuf=examAnswers[i];
     const userOrig=userShuf?q.shuffleMap[userShuf]:undefined;
-    if(userOrig===q.correct_answer)correct++;
+    const isCorr=userOrig===q.correct_answer;
+    if(isCorr)correct++;
+    if(userOrig!==undefined) trackAnswer(q.id, isCorr, 'exam');
+    examDetail.push({qId:q.id, userOrig:userOrig||null, correctAns:q.correct_answer, isCorrect:isCorr, topic:q.topic});
   });
   const score=correct*2,pass=score>=80;
   const skipped=50-Object.keys(examAnswers).length,wrong=50-correct-skipped;
+  const durationSec=3*60*60-examSecondsLeft;
+  saveExamToHistory({score, correct, wrong, skipped, total:50, pass, durationSec, detail:examDetail});
 
   document.getElementById('exam-active').style.display='none';
   document.getElementById('exam-results').style.display='block';
@@ -2069,6 +2307,584 @@ function showTheoryChapter(id){
 function showTheoryGrid(){
   document.getElementById('theory-grid-view').style.display='block';
   document.getElementById('theory-chapter-view').style.display='none';
+}
+
+// ============================================================
+// PROFILE / AUTH / STATS — localStorage-based (no backend)
+// ============================================================
+const STORAGE_KEY = 'eei:data:v1';
+let CURRENT_PROFILE_ID = null;
+
+function loadStore() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return {currentProfile:null, profiles:{}};
+    const parsed = JSON.parse(raw);
+    if (!parsed.profiles) parsed.profiles = {};
+    return parsed;
+  } catch(e) {
+    return {currentProfile:null, profiles:{}};
+  }
+}
+function saveStore(store) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(store)); }
+  catch(e) { console.error('Failed to save profile data', e); }
+}
+function getProfile() {
+  if (!CURRENT_PROFILE_ID) return null;
+  const store = loadStore();
+  return store.profiles[CURRENT_PROFILE_ID] || null;
+}
+function updateProfile(mutator) {
+  const store = loadStore();
+  const p = store.profiles[CURRENT_PROFILE_ID];
+  if (!p) return;
+  mutator(p);
+  saveStore(store);
+}
+function profileIdFromName(name) {
+  return name.trim().toLowerCase().replace(/\s+/g,'_').replace(/['"`<>\\\/]/g,'');
+}
+
+// ----- Bootstrap on app start -----
+function bootstrapAuth() {
+  const store = loadStore();
+  if (store.currentProfile && store.profiles[store.currentProfile]) {
+    loginAs(store.currentProfile);
+  } else {
+    showLogin();
+  }
+  const newNameInput = document.getElementById('login-new-name');
+  if (newNameInput && !newNameInput._bound) {
+    newNameInput.addEventListener('keydown', e => { if (e.key==='Enter') createProfile(); });
+    newNameInput._bound = true;
+  }
+}
+
+function showLogin() {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('nav-profile').style.display = 'none';
+  const overlay = document.getElementById('login-overlay');
+  overlay.classList.remove('hide');
+  renderLoginProfileList();
+  // Default to "existing" tab if profiles exist, else "new"
+  const store = loadStore();
+  const hasProfiles = Object.keys(store.profiles).length > 0;
+  switchLoginTab(hasProfiles ? 'existing' : 'new');
+}
+
+function switchLoginTab(which) {
+  document.getElementById('login-tab-existing').classList.toggle('active', which==='existing');
+  document.getElementById('login-tab-new').classList.toggle('active', which==='new');
+  document.getElementById('login-section-existing').classList.toggle('active', which==='existing');
+  document.getElementById('login-section-new').classList.toggle('active', which==='new');
+  if (which==='new') setTimeout(()=>document.getElementById('login-new-name').focus(), 60);
+}
+
+function renderLoginProfileList() {
+  const store = loadStore();
+  const list = document.getElementById('login-profile-list');
+  const ids = Object.keys(store.profiles);
+  if (ids.length === 0) {
+    list.innerHTML = `<div class="login-empty-state">
+      <div style="font-size:2rem;margin-bottom:.4rem">👤</div>
+      <div>אין עדיין פרופילים. עבור ללשונית "פרופיל חדש" כדי להתחיל.</div>
+    </div>`;
+    return;
+  }
+  list.innerHTML = ids.map(id => {
+    const p = store.profiles[id];
+    const initial = (p.name||'?').trim().charAt(0).toUpperCase();
+    const exams = (p.examHistory||[]).length;
+    const since = p.createdAt ? new Date(p.createdAt).toLocaleDateString('he-IL') : '';
+    return `<div class="login-profile-item" onclick="loginAs('${escHtml(id)}')">
+      <div class="login-profile-info">
+        <div class="login-profile-avatar">${escHtml(initial)}</div>
+        <div style="flex:1;min-width:0">
+          <div class="login-profile-name">${escHtml(p.name)}</div>
+          <div class="login-profile-meta">${exams} מבחנים · נוצר ${escHtml(since)}</div>
+        </div>
+      </div>
+      <button class="login-profile-del" onclick="event.stopPropagation();removeProfileFromLogin('${escHtml(id)}')" title="מחק פרופיל">🗑️</button>
+    </div>`;
+  }).join('');
+}
+
+function removeProfileFromLogin(id) {
+  const store = loadStore();
+  if (!store.profiles[id]) return;
+  if (!confirm('למחוק את הפרופיל "'+store.profiles[id].name+'" וכל הנתונים שלו?')) return;
+  delete store.profiles[id];
+  if (store.currentProfile === id) store.currentProfile = null;
+  saveStore(store);
+  renderLoginProfileList();
+}
+
+function createProfile() {
+  const nameEl = document.getElementById('login-new-name');
+  const errEl = document.getElementById('login-error');
+  errEl.classList.remove('show');
+  const name = nameEl.value.trim();
+  if (!name) { errEl.textContent='נא להזין שם פרופיל'; errEl.classList.add('show'); return; }
+  if (name.length > 40) { errEl.textContent='שם הפרופיל ארוך מדי (עד 40 תווים)'; errEl.classList.add('show'); return; }
+  const id = profileIdFromName(name);
+  const store = loadStore();
+  if (store.profiles[id]) { errEl.textContent='כבר קיים פרופיל בשם זה'; errEl.classList.add('show'); return; }
+  store.profiles[id] = {
+    id, name,
+    createdAt: Date.now(),
+    examHistory: [],
+    trainingStats: {}
+  };
+  store.currentProfile = id;
+  saveStore(store);
+  nameEl.value = '';
+  loginAs(id);
+}
+
+function loginAs(id) {
+  const store = loadStore();
+  if (!store.profiles[id]) { showLogin(); return; }
+  store.currentProfile = id;
+  saveStore(store);
+  CURRENT_PROFILE_ID = id;
+  document.getElementById('login-overlay').classList.add('hide');
+  document.getElementById('app').style.display = 'block';
+  updateNavProfile();
+  showPage('home');
+}
+
+function logout() {
+  const store = loadStore();
+  store.currentProfile = null;
+  saveStore(store);
+  CURRENT_PROFILE_ID = null;
+  closeProfileMenu();
+  showLogin();
+}
+
+function switchProfile() {
+  closeProfileMenu();
+  showLogin();
+}
+
+function updateNavProfile() {
+  const p = getProfile();
+  const el = document.getElementById('nav-profile');
+  if (!p) { el.style.display='none'; return; }
+  el.style.display = 'flex';
+  document.getElementById('nav-profile-name').textContent = p.name;
+  document.getElementById('nav-profile-avatar').textContent = (p.name||'?').trim().charAt(0).toUpperCase();
+}
+
+function toggleProfileMenu(e) {
+  e.stopPropagation();
+  document.getElementById('nav-profile-menu').classList.toggle('open');
+}
+function closeProfileMenu() {
+  document.getElementById('nav-profile-menu').classList.remove('open');
+}
+document.addEventListener('click', e => {
+  const menu = document.getElementById('nav-profile-menu');
+  const badge = document.getElementById('nav-profile');
+  if (menu && badge && !badge.contains(e.target)) menu.classList.remove('open');
+});
+
+// ----- Tracking hooks (called from studyAnswer / finishExam) -----
+function trackAnswer(qId, isCorrect, source) {
+  if (!CURRENT_PROFILE_ID) return;
+  updateProfile(p => {
+    if (!p.trainingStats) p.trainingStats = {};
+    const s = p.trainingStats[qId] || {attempts:0, correct:0, history:[], lastAt:null, lastCorrect:null};
+    s.attempts++;
+    if (isCorrect) s.correct++;
+    s.history.push({t:Date.now(), c:!!isCorrect, src:source||'study'});
+    if (s.history.length > 30) s.history = s.history.slice(-30);
+    s.lastAt = Date.now();
+    s.lastCorrect = !!isCorrect;
+    p.trainingStats[qId] = s;
+  });
+}
+
+function saveExamToHistory(result) {
+  if (!CURRENT_PROFILE_ID) return;
+  updateProfile(p => {
+    if (!p.examHistory) p.examHistory = [];
+    p.examHistory.unshift({
+      date: Date.now(),
+      score: result.score,
+      correct: result.correct,
+      wrong: result.wrong,
+      skipped: result.skipped,
+      total: result.total,
+      pass: result.pass,
+      durationSec: result.durationSec,
+      detail: result.detail
+    });
+    if (p.examHistory.length > 100) p.examHistory = p.examHistory.slice(0,100);
+  });
+}
+
+// ============================================================
+// PROFILE PAGE
+// ============================================================
+function renderProfilePage() {
+  const p = getProfile();
+  if (!p) { showLogin(); return; }
+  const initial = (p.name||'?').trim().charAt(0).toUpperCase();
+  document.getElementById('profile-hero-avatar').textContent = initial;
+  document.getElementById('profile-hero-name').textContent = p.name;
+  document.getElementById('profile-hero-since').textContent = 'חבר מאז ' + new Date(p.createdAt).toLocaleDateString('he-IL');
+
+  const examHistory = p.examHistory || [];
+  const trainingStats = p.trainingStats || {};
+  const totalExams = examHistory.length;
+  const examsPassed = examHistory.filter(e=>e.pass).length;
+  const bestScore = examHistory.length ? Math.max(...examHistory.map(e=>e.score)) : 0;
+  const avgScore = examHistory.length ? Math.round(examHistory.reduce((a,e)=>a+e.score,0)/examHistory.length) : 0;
+  const trainingQuestions = Object.keys(trainingStats).length;
+  const trainingAttempts = Object.values(trainingStats).reduce((a,s)=>a+s.attempts,0);
+  const trainingCorrect = Object.values(trainingStats).reduce((a,s)=>a+s.correct,0);
+  const trainingPct = trainingAttempts ? Math.round(trainingCorrect/trainingAttempts*100) : 0;
+
+  document.getElementById('profile-hero-stats').innerHTML = [
+    {val: totalExams, lbl:'מבחנים'},
+    {val: examsPassed, lbl:'עברו'},
+    {val: bestScore || '—', lbl:'ציון מיטבי'},
+    {val: avgScore ? avgScore : '—', lbl:'ציון ממוצע'},
+    {val: trainingQuestions, lbl:'שאלות נלמדו'},
+    {val: trainingPct + '%', lbl:'הצלחה בלימוד'},
+  ].map(s=>`<div class="profile-hero-stat">
+    <div class="profile-hero-stat-val">${s.val}</div>
+    <div class="profile-hero-stat-lbl">${s.lbl}</div>
+  </div>`).join('');
+
+  // Exam history table
+  const histEl = document.getElementById('profile-exam-history');
+  if (examHistory.length === 0) {
+    histEl.innerHTML = `<div class="profile-history-empty">
+      <div class="profile-history-empty-icon">📭</div>
+      <div>עדיין אין מבחנים בהיסטוריה</div>
+      <div style="font-size:.82rem;margin-top:.4rem;color:var(--n400)">סיים סימולציית מבחן והתוצאה תופיע כאן</div>
+    </div>`;
+  } else {
+    let rows = examHistory.map((e,i) => {
+      const dt = new Date(e.date);
+      const dateStr = dt.toLocaleDateString('he-IL') + ' ' + dt.toLocaleTimeString('he-IL',{hour:'2-digit',minute:'2-digit'});
+      const dur = formatDuration(e.durationSec||0);
+      const badge = e.pass ? '<span class="badge-pass">✅ עבר</span>' : '<span class="badge-fail">❌ לא עבר</span>';
+      return `<tr>
+        <td style="font-weight:600">${escHtml(dateStr)}</td>
+        <td><strong style="color:${e.pass?'var(--secondary)':'var(--danger)'}">${e.score}</strong>/100</td>
+        <td>${badge}</td>
+        <td style="color:var(--n500)">${e.correct} נכון · ${e.wrong} שגוי · ${e.skipped} לא נענה</td>
+        <td style="color:var(--n500);font-variant-numeric:tabular-nums">${dur}</td>
+      </tr>`;
+    }).join('');
+    histEl.innerHTML = `<div style="overflow-x:auto"><table class="profile-history-table">
+      <thead><tr>
+        <th>תאריך</th><th>ציון</th><th>סטטוס</th><th>פירוט</th><th>משך</th>
+      </tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>`;
+  }
+
+  // Training summary by topic
+  const sumEl = document.getElementById('profile-training-summary');
+  if (trainingQuestions === 0) {
+    sumEl.innerHTML = `<div class="profile-history-empty">
+      <div class="profile-history-empty-icon">📚</div>
+      <div>עדיין לא ענית על שאלות במצב לימוד</div>
+      <div style="font-size:.82rem;margin-top:.4rem;color:var(--n400)">ענה על שאלות בעמוד "לימוד" כדי לבנות סטטיסטיקה</div>
+    </div>`;
+  } else {
+    const byTopic = {};
+    Object.entries(trainingStats).forEach(([qId, s]) => {
+      const q = DB.find(x=>x.id===parseInt(qId));
+      if (!q) return;
+      const t = q.topic || 'אחר';
+      if (!byTopic[t]) byTopic[t] = {questions:0, attempts:0, correct:0};
+      byTopic[t].questions++;
+      byTopic[t].attempts += s.attempts;
+      byTopic[t].correct += s.correct;
+    });
+    const topics = Object.entries(byTopic).sort((a,b)=>b[1].attempts-a[1].attempts);
+    sumEl.innerHTML = `<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:.75rem;padding:.5rem">
+      ${topics.map(([t, s]) => {
+        const pct = s.attempts ? Math.round(s.correct/s.attempts*100) : 0;
+        const color = pct>=80?'var(--secondary)':pct>=60?'var(--warning)':'var(--danger)';
+        return `<div style="padding:.85rem 1rem;border:1.5px solid var(--n200);border-radius:10px;background:var(--n50)">
+          <div style="font-weight:700;font-size:.88rem;color:var(--n800);margin-bottom:.4rem">${escHtml(t)}</div>
+          <div style="display:flex;justify-content:space-between;font-size:.78rem;color:var(--n500);margin-bottom:.3rem">
+            <span>${s.questions} שאלות · ${s.attempts} ניסיונות</span>
+            <span style="color:${color};font-weight:700">${pct}%</span>
+          </div>
+          <div class="stats-pct-bar"><div class="stats-pct-fill" style="width:${pct}%;--pcol:${color}"></div></div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }
+}
+
+function formatDuration(sec) {
+  const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
+  return (h?h+':':'') + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function resetProfileData() {
+  if (!confirm('למחוק את כל היסטוריית המבחנים והסטטיסטיקות של פרופיל זה? הפעולה אינה הפיכה.')) return;
+  updateProfile(p => { p.examHistory=[]; p.trainingStats={}; });
+  renderProfilePage();
+}
+
+function deleteProfile() {
+  const p = getProfile(); if (!p) return;
+  if (!confirm('למחוק את הפרופיל "'+p.name+'" לחלוטין, כולל כל הנתונים? הפעולה אינה הפיכה.')) return;
+  const store = loadStore();
+  delete store.profiles[CURRENT_PROFILE_ID];
+  store.currentProfile = null;
+  saveStore(store);
+  CURRENT_PROFILE_ID = null;
+  showLogin();
+}
+
+// ============================================================
+// STATISTICS PAGE
+// ============================================================
+let statsSortKey = 'pct';
+let statsSortAsc = true;
+
+function renderStatsPage() {
+  const p = getProfile();
+  if (!p) { showLogin(); return; }
+
+  // Populate topic dropdown
+  const topicSel = document.getElementById('stats-filter-topic');
+  if (topicSel.options.length <= 1) {
+    const topics = [...new Set(DB.map(q=>q.topic))].sort();
+    topics.forEach(t => {
+      const opt = document.createElement('option');
+      opt.value = t; opt.textContent = t;
+      topicSel.appendChild(opt);
+    });
+  }
+
+  // Summary
+  const stats = p.trainingStats || {};
+  const ids = Object.keys(stats);
+  const totalAttempts = ids.reduce((a,id)=>a+stats[id].attempts, 0);
+  const totalCorrect = ids.reduce((a,id)=>a+stats[id].correct, 0);
+  const overallPct = totalAttempts ? Math.round(totalCorrect/totalAttempts*100) : 0;
+  const problemCount = ids.filter(id => stats[id].attempts>=2 && (stats[id].correct/stats[id].attempts)<0.6).length;
+  const masteredCount = ids.filter(id => stats[id].attempts>=2 && stats[id].correct===stats[id].attempts).length;
+
+  document.getElementById('stats-summary').innerHTML = [
+    {val: ids.length, lbl:'שאלות שעניתי', col:'var(--primary)'},
+    {val: totalAttempts, lbl:'סך ניסיונות', col:'var(--primary)'},
+    {val: overallPct + '%', lbl:'אחוז הצלחה כללי', col: overallPct>=80?'var(--secondary)':overallPct>=60?'var(--warning)':'var(--danger)'},
+    {val: problemCount, lbl:'שאלות בעייתיות', col:'var(--danger)'},
+    {val: masteredCount, lbl:'נשלטות 100%', col:'var(--secondary)'},
+  ].map(s => `<div class="stats-summary-card" style="--sc:${s.col}">
+    <div class="stats-summary-val">${s.val}</div>
+    <div class="stats-summary-lbl">${s.lbl}</div>
+  </div>`).join('');
+
+  renderStatsProblems();
+  renderStatsTable();
+}
+
+function renderStatsProblems() {
+  const p = getProfile(); if (!p) return;
+  const stats = p.trainingStats || {};
+  // Build candidates: at least 2 attempts and success rate < 60%, OR ever-wrong with 1 attempt? Use threshold of 2 attempts.
+  const problems = [];
+  Object.entries(stats).forEach(([qId, s]) => {
+    if (s.attempts < 2) return;
+    const pct = s.correct / s.attempts;
+    if (pct >= 0.6) return;
+    const q = DB.find(x => x.id === parseInt(qId));
+    if (!q) return;
+    problems.push({q, s, pct});
+  });
+  problems.sort((a,b) => {
+    if (a.pct !== b.pct) return a.pct - b.pct;
+    return b.s.attempts - a.s.attempts;
+  });
+
+  const listEl = document.getElementById('stats-problem-list');
+  if (problems.length === 0) {
+    listEl.innerHTML = `<div class="stats-empty">
+      <div class="stats-empty-icon">🎉</div>
+      <div style="font-weight:700;color:var(--n700);margin-bottom:.3rem">כל הכבוד!</div>
+      <div style="font-size:.88rem">אין שאלות בעייתיות כרגע. המשך כך!</div>
+      <div style="font-size:.78rem;color:var(--n400);margin-top:.5rem">(שאלה נחשבת בעייתית אחרי לפחות 2 ניסיונות עם אחוז הצלחה מתחת ל-60%)</div>
+    </div>`;
+    return;
+  }
+  listEl.innerHTML = problems.slice(0,10).map(({q,s,pct}) => {
+    const pctStr = Math.round(pct*100);
+    const tip = buildProblemTip(q, s);
+    const lastWrong = s.history.slice(-3).reverse().filter(h=>!h.c).length;
+    return `<div class="stats-problem-card">
+      <div class="stats-problem-header">
+        <div class="stats-problem-title">${escHtml(q.question.substring(0, 160))}${q.question.length>160?'...':''}</div>
+        <div class="stats-problem-meta">
+          <span class="stats-problem-tag topic">${escHtml(q.topic)}</span>
+          <span class="stats-problem-tag">${pctStr}% הצלחה</span>
+          <span class="stats-problem-tag" style="background:var(--n100);color:var(--n600)">${s.correct}/${s.attempts} ניסיונות</span>
+        </div>
+      </div>
+      <div class="stats-problem-tip">
+        <strong>💡 טיפ ללימוד מחדש:</strong> ${escHtml(tip)}
+      </div>
+      <div class="stats-problem-actions">
+        <button class="btn btn-primary" style="font-size:.82rem;padding:.45rem .9rem" onclick="relearnQuestion(${q.id})">📚 פתח את השאלה ללמידה</button>
+        ${q.explanation ? `<button class="btn btn-outline" style="font-size:.82rem;padding:.45rem .9rem" onclick="showProblemExpl(${q.id})">📖 הצג הסבר</button>
+        <div id="problem-expl-${q.id}" style="display:none;margin-top:.55rem;padding-top:.55rem;border-top:1px dashed var(--n200);font-size:.85rem;color:var(--n600);line-height:1.65;white-space:pre-line;width:100%">${escHtml(cleanExplanation(q.explanation))}</div>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function buildProblemTip(q, s) {
+  // Try to derive a concise hint from explanation; else fall back to topic-based hint
+  const correctText = q.options[q.correct_answer-1] || '';
+  const recentWrong = s.history.slice(-5).filter(h=>!h.c).length;
+  const topicHints = {
+    'הארקות ואיפוס TN, TT, IT': 'זכור — TN: ניתוק לפי לולאת תקלה ומגנטי המפסק. TT: RE ≤ 50/ΔI עם מפ"ז חובה. IT: הגנה דרך מוניטור בידוד.',
+    'מפסקי מגן (מפ"ז) והארקות': 'Ra × IΔn ≤ 50V (TT). סוגי RCD: AC, A, B, F. בדיקה חודשית בכפתור T חובה.',
+    'מבטחים, הגנות, זינה צפה': 'תקנה 6: נתיכים → I₂ ≤ 1.45·Iz ו-Iz ≥ 1.1·In. מא"ז → Iz ≥ 0.89·In (ועדת פירושים).',
+    'חישובי חתך כבל / הגנות זרם יתר': 'תוספת 1: מקדמי תיקון. תוספת 2: ערכי Iz. תוספת 3: שיטת התקנה (י"ג / ט"ז / ל"א).',
+    'מבנים, לוחות, מתקני הזנה': 'תקנה 8 = לוחות. סוג 2 (מבודד) → לולאת תקלה לפי המפסק הגדול בלוח, לא מפסק ההזנה.',
+    'גנרטורים ומערכות גיבוי': 'תקנה 11(ב): התקן הבקרה תמיד לפני מערכת ההחלפה, בצד חח"י בלבד. ATS חייב להיות 4-קוטבי.',
+    'חדרי רחצה / אמבטיה': 'תקנה 19 + תרשים אזורים. אזור 0/1/2/3 לפי מרחק אופקי ואנכי.',
+    'קבלים לשיפור cosφ': 'תקנה 47(ב): t=60s, מתח יורד ל-≤50V. נוסחה: R ≤ t / (C·ln(U₀/Uc)).',
+    'מובלים (צינורות)': 'תקנה 15(ג): D_פנימי = 1.65 × Ø_מוליך (למוליך בודד).',
+    'עבודה במתקן חי': 'תקנה 1 + 14. שים לב: מדידה נחשבת "עבודה במתקן חי" לפי ההגדרה.',
+  };
+  if (recentWrong >= 2 && q.explanation) {
+    let expl = cleanExplanation(q.explanation);
+    expl = expl.replace(/\s+/g,' ').trim();
+    if (expl.length > 220) {
+      expl = expl.substring(0,220);
+      const lastSpace = expl.lastIndexOf(' ');
+      if (lastSpace>120) expl = expl.substring(0,lastSpace);
+      expl += '...';
+    }
+    if (expl.length > 25) return expl;
+  }
+  const hint = topicHints[q.topic];
+  if (hint) return hint + ' התשובה הנכונה מתחילה ב: "' + (correctText.substring(0,40)||'').trim() + '..."';
+  return 'נסה לחזור על החומר התיאורטי בנושא "'+q.topic+'" ולחפש את ההקשר המדויק בספר התקנות. התשובה הנכונה מתחילה ב: "'+(correctText.substring(0,40)||'').trim()+'..."';
+}
+
+function showProblemExpl(qId) {
+  const el = document.getElementById('problem-expl-'+qId);
+  if (el) el.style.display = el.style.display==='block' ? 'none' : 'block';
+}
+
+function relearnQuestion(qId) {
+  // Reset filters, jump to that question in study mode
+  showPage('study');
+  activeTopics.clear();
+  searchQuery = '';
+  const searchEl = document.getElementById('search-input');
+  if (searchEl) searchEl.value = '';
+  document.querySelectorAll('.topic-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('.topic-chip')[0]?.classList.add('active');
+  studyAnswered = {};
+  studyHintShown = {};
+  updateStudyList();
+  const idx = studyQuestions.findIndex(q => q.id === qId);
+  if (idx !== -1) {
+    studyIndex = idx;
+    renderStudyQuestion();
+    setTimeout(()=>document.getElementById('study-question-container').scrollIntoView({behavior:'smooth',block:'start'}), 80);
+  }
+}
+
+let _statsCache = [];
+
+function renderStatsTable() {
+  const p = getProfile(); if (!p) return;
+  const stats = p.trainingStats || {};
+  const topicFilter = document.getElementById('stats-filter-topic').value;
+  const statusFilter = document.getElementById('stats-filter-status').value;
+  const search = (document.getElementById('stats-search').value||'').trim().toLowerCase();
+
+  let rows = DB.filter(q => !q.image_options_missing && !q.needs_manual_review).map(q => {
+    const s = stats[q.id] || {attempts:0, correct:0};
+    const pct = s.attempts ? s.correct/s.attempts : null;
+    return {q, s, pct};
+  });
+
+  // Filter
+  rows = rows.filter(r => {
+    if (topicFilter !== 'all' && r.q.topic !== topicFilter) return false;
+    if (statusFilter === 'answered' && r.s.attempts === 0) return false;
+    if (statusFilter === 'problem' && !(r.s.attempts >= 2 && r.pct !== null && r.pct < 0.6)) return false;
+    if (statusFilter === 'never_correct' && !(r.s.attempts >= 1 && r.s.correct === 0)) return false;
+    if (statusFilter === 'mastered' && !(r.s.attempts >= 1 && r.s.correct === r.s.attempts)) return false;
+    if (search && !r.q.question.toLowerCase().includes(search) && !String(r.q.id).includes(search)) return false;
+    return true;
+  });
+
+  // Sort
+  const k = statsSortKey;
+  rows.sort((a,b) => {
+    let va, vb;
+    if (k==='id') { va=a.q.id; vb=b.q.id; }
+    else if (k==='text') { va=a.q.question; vb=b.q.question; }
+    else if (k==='topic') { va=a.q.topic; vb=b.q.topic; }
+    else if (k==='attempts') { va=a.s.attempts; vb=b.s.attempts; }
+    else if (k==='correct') { va=a.s.correct; vb=b.s.correct; }
+    else if (k==='pct') { va=(a.pct===null?-1:a.pct); vb=(b.pct===null?-1:b.pct); }
+    if (va < vb) return statsSortAsc ? -1 : 1;
+    if (va > vb) return statsSortAsc ? 1 : -1;
+    return 0;
+  });
+
+  _statsCache = rows;
+
+  // Update header arrows
+  document.querySelectorAll('#stats-table thead th').forEach(th => th.classList.remove('sorted'));
+  const hMap = {id:0, text:1, topic:2, attempts:3, correct:4, pct:5};
+  const idx = hMap[k];
+  if (idx !== undefined) {
+    document.querySelectorAll('#stats-table thead th')[idx].classList.add('sorted');
+  }
+
+  const tbody = document.getElementById('stats-tbody');
+  if (rows.length === 0) {
+    tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:2rem;color:var(--n400)">לא נמצאו שאלות לפי הסינון הנוכחי</td></tr>`;
+    return;
+  }
+
+  tbody.innerHTML = rows.slice(0, 300).map(r => {
+    const pctStr = r.pct===null ? '—' : Math.round(r.pct*100)+'%';
+    const pctNum = r.pct===null ? 0 : Math.round(r.pct*100);
+    const color = r.pct===null ? 'var(--n300)' : r.pct>=0.8?'var(--secondary)':r.pct>=0.6?'var(--warning)':'var(--danger)';
+    return `<tr>
+      <td><span class="stats-q-id">#${r.q.id}</span></td>
+      <td><div class="stats-q-text">${escHtml(r.q.question.substring(0,140))}${r.q.question.length>140?'...':''}</div></td>
+      <td style="color:var(--n500);font-size:.78rem">${escHtml(r.q.topic)}</td>
+      <td style="font-variant-numeric:tabular-nums">${r.s.attempts||0}</td>
+      <td style="font-variant-numeric:tabular-nums;color:${r.s.correct>0?'var(--secondary)':'var(--n400)'}">${r.s.correct||0}</td>
+      <td>
+        <div style="display:flex;align-items:center;gap:.55rem">
+          <span class="stats-pct-text" style="color:${color}">${pctStr}</span>
+          <div class="stats-pct-bar" style="flex:1"><div class="stats-pct-fill" style="width:${pctNum}%;--pcol:${color}"></div></div>
+        </div>
+      </td>
+      <td><button class="stats-relearn-btn" onclick="relearnQuestion(${r.q.id})">🔄 למד שוב</button></td>
+    </tr>`;
+  }).join('') + (rows.length>300 ? `<tr><td colspan="7" style="text-align:center;color:var(--n400);font-size:.8rem;padding:.7rem">מציג 300 ראשונות מתוך ${rows.length}. סנן או חפש לצמצום.</td></tr>` : '');
+}
+
+function sortStats(key) {
+  if (statsSortKey === key) statsSortAsc = !statsSortAsc;
+  else { statsSortKey = key; statsSortAsc = (key==='id'||key==='text'||key==='topic'); }
+  renderStatsTable();
 }
 
 // ============================================================
