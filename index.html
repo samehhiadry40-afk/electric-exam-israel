@@ -326,6 +326,33 @@
     .login-profile-del{background:transparent;border:none;color:var(--n400);cursor:pointer;font-size:1.1rem;padding:.25rem;border-radius:6px;transition:all .15s}
     .login-profile-del:hover{color:var(--danger);background:var(--danger-light)}
     .login-empty-state{text-align:center;padding:1.4rem .5rem;color:var(--n400);font-size:.85rem}
+    .login-pwd-row{position:relative}
+    .login-pwd-row .pwd-toggle{position:absolute;left:.5rem;top:50%;transform:translateY(-50%);background:transparent;border:none;color:var(--n400);cursor:pointer;font-size:1rem;padding:.3rem;border-radius:5px}
+    .login-pwd-row .pwd-toggle:hover{color:var(--primary)}
+    .login-field{margin-top:.7rem}
+    .login-field-label{display:block;font-size:.82rem;font-weight:600;color:var(--n700);margin-bottom:.35rem}
+    .login-field-hint{font-size:.74rem;color:var(--n400);margin-top:.25rem;line-height:1.5}
+    .login-pwd-prompt{background:var(--primary-light);border:1.5px solid var(--primary);border-radius:10px;padding:.85rem .9rem;margin-top:.5rem;display:none}
+    .login-pwd-prompt.show{display:block;animation:slideDown .2s ease}
+    @keyframes slideDown{from{opacity:0;transform:translateY(-5px)}to{opacity:1;transform:translateY(0)}}
+    .login-pwd-prompt-title{font-size:.84rem;font-weight:700;color:var(--primary);margin-bottom:.55rem;display:flex;align-items:center;gap:.4rem}
+    .login-pwd-prompt-actions{display:flex;gap:.5rem;margin-top:.6rem}
+    .login-pwd-prompt-actions .btn{flex:1;padding:.5rem .8rem;font-size:.83rem}
+    .login-shake{animation:shake .35s}
+    @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-4px)}}
+    .login-profile-item.has-pwd::after{content:'🔒';font-size:.8rem;opacity:.55;margin-right:.3rem}
+    .login-profile-item.no-pwd::after{content:'⚠️';font-size:.8rem;opacity:.7;margin-right:.3rem}
+
+    /* Profile-page security card */
+    .pwd-form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.7rem}
+    .pwd-form-row .login-pwd-row{position:relative}
+    @media(max-width:600px){.pwd-form-row{grid-template-columns:1fr}}
+    .pwd-status-banner{background:var(--warning-light);border:1.5px solid var(--warning);border-radius:9px;padding:.7rem .9rem;font-size:.85rem;color:var(--n700);margin:0 1rem 1rem;line-height:1.5;display:flex;align-items:center;gap:.55rem;flex-wrap:wrap}
+    .pwd-status-banner.ok{background:var(--secondary-light);border-color:var(--secondary);color:var(--n700)}
+    .pwd-msg{font-size:.83rem;margin-top:.5rem;display:none;padding:.5rem .7rem;border-radius:7px}
+    .pwd-msg.show{display:block}
+    .pwd-msg.err{background:var(--danger-light);color:var(--danger)}
+    .pwd-msg.ok{background:var(--secondary-light);color:var(--secondary)}
 
     /* ===== NAV PROFILE BADGE ===== */
     .nav-profile{display:flex;align-items:center;gap:.55rem;background:rgba(255,255,255,.1);padding:.3rem .55rem .3rem .85rem;border-radius:30px;margin-right:.6rem;cursor:pointer;transition:background .15s;position:relative}
@@ -473,8 +500,26 @@
     </div>
 
     <div class="login-section" id="login-section-new">
-      <label class="fb-label" style="display:block;margin-bottom:.4rem;font-size:.85rem;font-weight:600;color:var(--n700)">שם פרופיל *</label>
+      <label class="login-field-label">שם פרופיל *</label>
       <input class="login-input" id="login-new-name" type="text" placeholder="לדוגמה: סאמח, יוסי הביתריסט">
+
+      <div class="login-field">
+        <label class="login-field-label">סיסמה *</label>
+        <div class="login-pwd-row">
+          <input class="login-input" id="login-new-pwd" type="password" placeholder="לפחות 4 תווים">
+          <button type="button" class="pwd-toggle" onclick="togglePwdField('login-new-pwd', this)" title="הצג/הסתר">👁</button>
+        </div>
+      </div>
+
+      <div class="login-field">
+        <label class="login-field-label">אימות סיסמה *</label>
+        <div class="login-pwd-row">
+          <input class="login-input" id="login-new-pwd2" type="password" placeholder="הקלד שוב את הסיסמה">
+          <button type="button" class="pwd-toggle" onclick="togglePwdField('login-new-pwd2', this)" title="הצג/הסתר">👁</button>
+        </div>
+        <div class="login-field-hint">הסיסמה נשמרת מקומית בלבד (PBKDF2-SHA256). אם תשכח אותה — לא ניתן לשחזר; ניתן רק למחוק את הפרופיל.</div>
+      </div>
+
       <div class="login-error" id="login-error"></div>
       <button class="btn btn-primary btn-lg" onclick="createProfile()" style="width:100%;margin-top:1rem">✨ צור פרופיל והתחל</button>
     </div>
@@ -975,6 +1020,40 @@
     <div class="card">
       <div class="card-header">📚 סיכום פעילות לימוד</div>
       <div id="profile-training-summary"></div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">🔐 אבטחה — סיסמת פרופיל</div>
+      <div id="profile-pwd-banner"></div>
+      <div style="padding:0 1rem 1rem">
+        <div id="profile-pwd-form">
+          <div id="profile-pwd-old-wrap" class="login-field">
+            <label class="login-field-label">סיסמה נוכחית</label>
+            <div class="login-pwd-row">
+              <input class="login-input" id="profile-pwd-old" type="password" placeholder="הקלד את הסיסמה הנוכחית">
+              <button type="button" class="pwd-toggle" onclick="togglePwdField('profile-pwd-old', this)">👁</button>
+            </div>
+          </div>
+          <div class="pwd-form-row">
+            <div>
+              <label class="login-field-label">סיסמה חדשה</label>
+              <div class="login-pwd-row">
+                <input class="login-input" id="profile-pwd-new" type="password" placeholder="לפחות 4 תווים">
+                <button type="button" class="pwd-toggle" onclick="togglePwdField('profile-pwd-new', this)">👁</button>
+              </div>
+            </div>
+            <div>
+              <label class="login-field-label">אימות סיסמה חדשה</label>
+              <div class="login-pwd-row">
+                <input class="login-input" id="profile-pwd-new2" type="password" placeholder="הקלד שוב">
+                <button type="button" class="pwd-toggle" onclick="togglePwdField('profile-pwd-new2', this)">👁</button>
+              </div>
+            </div>
+          </div>
+          <div class="pwd-msg" id="profile-pwd-msg"></div>
+          <button class="btn btn-primary" id="profile-pwd-submit" onclick="submitChangePassword()" style="margin-top:.6rem">💾 שמור סיסמה</button>
+        </div>
+      </div>
     </div>
 
     <div class="card">
@@ -2346,6 +2425,48 @@ function profileIdFromName(name) {
   return name.trim().toLowerCase().replace(/\s+/g,'_').replace(/['"`<>\\\/]/g,'');
 }
 
+// ----- Crypto helpers (PBKDF2-SHA256, 120k iterations) -----
+const PWD_ITERATIONS = 120000;
+function _b64encode(uint8) { let s=''; uint8.forEach(b=>s+=String.fromCharCode(b)); return btoa(s); }
+function _b64decode(b64) { const bin=atob(b64); const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i); return u; }
+function _randomSaltB64(bytes) {
+  const buf = new Uint8Array(bytes||16);
+  crypto.getRandomValues(buf);
+  return _b64encode(buf);
+}
+async function hashPassword(password, saltB64, iterations) {
+  if (!crypto || !crypto.subtle) throw new Error('Web Crypto לא זמין בדפדפן הזה');
+  const enc = new TextEncoder();
+  const salt = _b64decode(saltB64);
+  const keyMat = await crypto.subtle.importKey('raw', enc.encode(password), {name:'PBKDF2'}, false, ['deriveBits']);
+  const bits = await crypto.subtle.deriveBits(
+    {name:'PBKDF2', salt, iterations: iterations||PWD_ITERATIONS, hash:'SHA-256'},
+    keyMat, 256
+  );
+  return _b64encode(new Uint8Array(bits));
+}
+async function setProfilePasswordFields(profile, password) {
+  const salt = _randomSaltB64(16);
+  const hash = await hashPassword(password, salt, PWD_ITERATIONS);
+  profile.passwordSalt = salt;
+  profile.passwordHash = hash;
+  profile.passwordIterations = PWD_ITERATIONS;
+}
+async function verifyProfilePassword(profile, password) {
+  if (!profile.passwordHash) return true; // legacy: no password
+  const hash = await hashPassword(password, profile.passwordSalt, profile.passwordIterations||PWD_ITERATIONS);
+  if (hash.length !== profile.passwordHash.length) return false;
+  let diff = 0;
+  for (let i=0; i<hash.length; i++) diff |= hash.charCodeAt(i) ^ profile.passwordHash.charCodeAt(i);
+  return diff === 0;
+}
+
+function togglePwdField(id, btn) {
+  const el = document.getElementById(id); if (!el) return;
+  if (el.type === 'password') { el.type='text'; if(btn) btn.textContent='🙈'; }
+  else { el.type='password'; if(btn) btn.textContent='👁'; }
+}
+
 // ----- Bootstrap on app start -----
 function bootstrapAuth() {
   const store = loadStore();
@@ -2354,11 +2475,20 @@ function bootstrapAuth() {
   } else {
     showLogin();
   }
-  const newNameInput = document.getElementById('login-new-name');
-  if (newNameInput && !newNameInput._bound) {
-    newNameInput.addEventListener('keydown', e => { if (e.key==='Enter') createProfile(); });
-    newNameInput._bound = true;
-  }
+  ['login-new-name','login-new-pwd','login-new-pwd2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el._bound) {
+      el.addEventListener('keydown', e => { if (e.key==='Enter') createProfile(); });
+      el._bound = true;
+    }
+  });
+  ['profile-pwd-old','profile-pwd-new','profile-pwd-new2'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el && !el._bound) {
+      el.addEventListener('keydown', e => { if (e.key==='Enter') submitChangePassword(); });
+      el._bound = true;
+    }
+  });
 }
 
 function showLogin() {
@@ -2397,7 +2527,10 @@ function renderLoginProfileList() {
     const initial = (p.name||'?').trim().charAt(0).toUpperCase();
     const exams = (p.examHistory||[]).length;
     const since = p.createdAt ? new Date(p.createdAt).toLocaleDateString('he-IL') : '';
-    return `<div class="login-profile-item" onclick="loginAs('${escHtml(id)}')">
+    const hasPwd = !!p.passwordHash;
+    const lockCls = hasPwd ? 'has-pwd' : 'no-pwd';
+    const lockTip = hasPwd ? 'מוגן בסיסמה' : 'ללא סיסמה — מומלץ להגדיר אחרי הכניסה';
+    return `<div class="login-profile-item ${lockCls}" title="${escHtml(lockTip)}" onclick="selectProfileForLogin('${escHtml(id)}')">
       <div class="login-profile-info">
         <div class="login-profile-avatar">${escHtml(initial)}</div>
         <div style="flex:1;min-width:0">
@@ -2406,8 +2539,78 @@ function renderLoginProfileList() {
         </div>
       </div>
       <button class="login-profile-del" onclick="event.stopPropagation();removeProfileFromLogin('${escHtml(id)}')" title="מחק פרופיל">🗑️</button>
+    </div>
+    <div class="login-pwd-prompt" id="login-pwd-prompt-${escHtml(id)}">
+      <div class="login-pwd-prompt-title">🔐 הקלד סיסמה עבור <span style="color:var(--n800)">${escHtml(p.name)}</span></div>
+      <div class="login-pwd-row">
+        <input class="login-input" id="login-pwd-input-${escHtml(id)}" type="password" placeholder="סיסמה" onkeydown="if(event.key==='Enter'){submitLoginPassword('${escHtml(id)}')}">
+        <button type="button" class="pwd-toggle" onclick="togglePwdField('login-pwd-input-${escHtml(id)}', this)" title="הצג/הסתר">👁</button>
+      </div>
+      <div class="login-error" id="login-pwd-err-${escHtml(id)}"></div>
+      <div class="login-pwd-prompt-actions">
+        <button class="btn btn-outline" onclick="cancelLoginPrompt('${escHtml(id)}')">ביטול</button>
+        <button class="btn btn-primary" onclick="submitLoginPassword('${escHtml(id)}')">🔓 כניסה</button>
+      </div>
     </div>`;
   }).join('');
+}
+
+function _allLoginPrompts() {
+  return document.querySelectorAll('#login-profile-list .login-pwd-prompt');
+}
+
+function selectProfileForLogin(id) {
+  const store = loadStore();
+  const p = store.profiles[id];
+  if (!p) return;
+  if (!p.passwordHash) {
+    // Legacy profile without password — log in directly
+    loginAs(id);
+    return;
+  }
+  // Hide all other prompts and show this one
+  _allLoginPrompts().forEach(el => el.classList.remove('show'));
+  const prompt = document.getElementById('login-pwd-prompt-' + id);
+  const errEl = document.getElementById('login-pwd-err-' + id);
+  if (errEl) errEl.classList.remove('show');
+  if (prompt) {
+    prompt.classList.add('show');
+    setTimeout(()=>{
+      const inp = document.getElementById('login-pwd-input-' + id);
+      if (inp) { inp.value=''; inp.focus(); }
+    }, 50);
+  }
+}
+
+function cancelLoginPrompt(id) {
+  const prompt = document.getElementById('login-pwd-prompt-' + id);
+  if (prompt) prompt.classList.remove('show');
+  const inp = document.getElementById('login-pwd-input-' + id);
+  if (inp) inp.value = '';
+}
+
+async function submitLoginPassword(id) {
+  const store = loadStore();
+  const p = store.profiles[id];
+  if (!p) return;
+  const inp = document.getElementById('login-pwd-input-' + id);
+  const errEl = document.getElementById('login-pwd-err-' + id);
+  errEl.classList.remove('show');
+  const pwd = inp ? inp.value : '';
+  if (!pwd) { errEl.textContent='נא להזין סיסמה'; errEl.classList.add('show'); return; }
+  let ok = false;
+  try { ok = await verifyProfilePassword(p, pwd); }
+  catch(e) { errEl.textContent='שגיאה: '+(e.message||''); errEl.classList.add('show'); return; }
+  if (!ok) {
+    errEl.textContent = 'סיסמה שגויה';
+    errEl.classList.add('show');
+    const card = document.querySelector('.login-card');
+    if (card) { card.classList.add('login-shake'); setTimeout(()=>card.classList.remove('login-shake'), 400); }
+    inp.value = '';
+    inp.focus();
+    return;
+  }
+  loginAs(id);
 }
 
 function removeProfileFromLogin(id) {
@@ -2420,26 +2623,40 @@ function removeProfileFromLogin(id) {
   renderLoginProfileList();
 }
 
-function createProfile() {
+async function createProfile() {
   const nameEl = document.getElementById('login-new-name');
+  const pwdEl = document.getElementById('login-new-pwd');
+  const pwd2El = document.getElementById('login-new-pwd2');
   const errEl = document.getElementById('login-error');
   errEl.classList.remove('show');
   const name = nameEl.value.trim();
-  if (!name) { errEl.textContent='נא להזין שם פרופיל'; errEl.classList.add('show'); return; }
-  if (name.length > 40) { errEl.textContent='שם הפרופיל ארוך מדי (עד 40 תווים)'; errEl.classList.add('show'); return; }
+  const pwd = pwdEl.value;
+  const pwd2 = pwd2El.value;
+  const showErr = msg => { errEl.textContent=msg; errEl.classList.add('show'); };
+  if (!name) return showErr('נא להזין שם פרופיל');
+  if (name.length > 40) return showErr('שם הפרופיל ארוך מדי (עד 40 תווים)');
+  if (!pwd) return showErr('נא להזין סיסמה');
+  if (pwd.length < 4) return showErr('הסיסמה חייבת להיות באורך 4 תווים לפחות');
+  if (pwd !== pwd2) return showErr('הסיסמאות אינן תואמות');
   const id = profileIdFromName(name);
+  if (!id) return showErr('שם פרופיל לא תקין');
   const store = loadStore();
-  if (store.profiles[id]) { errEl.textContent='כבר קיים פרופיל בשם זה'; errEl.classList.add('show'); return; }
-  store.profiles[id] = {
-    id, name,
-    createdAt: Date.now(),
-    examHistory: [],
-    trainingStats: {}
-  };
+  if (store.profiles[id]) return showErr('כבר קיים פרופיל בשם זה');
+  const profile = { id, name, createdAt: Date.now(), examHistory: [], trainingStats: {} };
+  try {
+    await setProfilePasswordFields(profile, pwd);
+  } catch(e) {
+    return showErr('שגיאה ביצירת הסיסמה: ' + (e.message||'')); 
+  }
+  store.profiles[id] = profile;
   store.currentProfile = id;
   saveStore(store);
-  nameEl.value = '';
-  loginAs(id);
+  nameEl.value=''; pwdEl.value=''; pwd2El.value='';
+  CURRENT_PROFILE_ID = id;
+  document.getElementById('login-overlay').classList.add('hide');
+  document.getElementById('app').style.display = 'block';
+  updateNavProfile();
+  showPage('home');
 }
 
 function loginAs(id) {
@@ -2536,6 +2753,8 @@ function renderProfilePage() {
   document.getElementById('profile-hero-name').textContent = p.name;
   document.getElementById('profile-hero-since').textContent = 'חבר מאז ' + new Date(p.createdAt).toLocaleDateString('he-IL');
 
+  renderProfilePasswordCard(p);
+
   const examHistory = p.examHistory || [];
   const trainingStats = p.trainingStats || {};
   const totalExams = examHistory.length;
@@ -2629,6 +2848,65 @@ function renderProfilePage() {
 function formatDuration(sec) {
   const h=Math.floor(sec/3600), m=Math.floor((sec%3600)/60), s=sec%60;
   return (h?h+':':'') + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
+}
+
+function renderProfilePasswordCard(p) {
+  const banner = document.getElementById('profile-pwd-banner');
+  const oldWrap = document.getElementById('profile-pwd-old-wrap');
+  const submitBtn = document.getElementById('profile-pwd-submit');
+  const hasPwd = !!p.passwordHash;
+  if (hasPwd) {
+    banner.innerHTML = `<div class="pwd-status-banner ok"><span style="font-size:1.05rem">🔒</span><span>הפרופיל הזה <strong>מוגן בסיסמה</strong>. ניתן להחליף סיסמה למטה.</span></div>`;
+    oldWrap.style.display = 'block';
+    submitBtn.textContent = '💾 שמור סיסמה חדשה';
+  } else {
+    banner.innerHTML = `<div class="pwd-status-banner"><span style="font-size:1.05rem">⚠️</span><span>הפרופיל הזה <strong>אינו מוגן בסיסמה</strong>. מומלץ להגדיר סיסמה כדי להגן על ההיסטוריה והסטטיסטיקות שלך.</span></div>`;
+    oldWrap.style.display = 'none';
+    submitBtn.textContent = '🔐 הגדר סיסמה';
+  }
+  ['profile-pwd-old','profile-pwd-new','profile-pwd-new2'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value = '';
+  });
+  const msg = document.getElementById('profile-pwd-msg');
+  if (msg) msg.classList.remove('show');
+}
+
+async function submitChangePassword() {
+  const p = getProfile(); if (!p) return;
+  const oldEl = document.getElementById('profile-pwd-old');
+  const newEl = document.getElementById('profile-pwd-new');
+  const new2El = document.getElementById('profile-pwd-new2');
+  const msg = document.getElementById('profile-pwd-msg');
+  const showMsg = (text, type) => {
+    msg.textContent = text;
+    msg.classList.remove('err','ok');
+    msg.classList.add(type, 'show');
+  };
+  const oldPwd = oldEl ? oldEl.value : '';
+  const newPwd = newEl.value;
+  const newPwd2 = new2El.value;
+  const hasPwd = !!p.passwordHash;
+  if (hasPwd) {
+    if (!oldPwd) return showMsg('נא להזין את הסיסמה הנוכחית', 'err');
+    let ok = false;
+    try { ok = await verifyProfilePassword(p, oldPwd); }
+    catch(e) { return showMsg('שגיאה: '+(e.message||''), 'err'); }
+    if (!ok) return showMsg('הסיסמה הנוכחית שגויה', 'err');
+  }
+  if (!newPwd) return showMsg('נא להזין סיסמה חדשה', 'err');
+  if (newPwd.length < 4) return showMsg('הסיסמה חייבת להיות באורך 4 תווים לפחות', 'err');
+  if (newPwd !== newPwd2) return showMsg('הסיסמאות החדשות אינן תואמות', 'err');
+  try {
+    const store = loadStore();
+    const profile = store.profiles[CURRENT_PROFILE_ID];
+    if (!profile) return showMsg('שגיאה: הפרופיל לא נמצא', 'err');
+    await setProfilePasswordFields(profile, newPwd);
+    saveStore(store);
+    showMsg(hasPwd ? '✅ הסיסמה שונתה בהצלחה' : '✅ סיסמה הוגדרה בהצלחה. הפרופיל מוגן.', 'ok');
+    renderProfilePasswordCard(profile);
+  } catch(e) {
+    showMsg('שגיאה בשמירת הסיסמה: '+(e.message||''), 'err');
+  }
 }
 
 function resetProfileData() {
