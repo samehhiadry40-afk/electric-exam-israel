@@ -309,6 +309,59 @@
     .tips-formula-eq{font-family:monospace;font-size:.9rem;font-weight:600;color:#d97706;background:var(--n50);border:1px solid var(--n200);padding:10px 14px;border-radius:8px;margin-bottom:.6rem;direction:ltr;text-align:left;line-height:1.7}
     .tips-formula-note{font-size:.76rem;color:var(--n500);line-height:1.5}
 
+    /* ===== GOOGLE SIGN-IN BUTTON ===== */
+    .btn-google{display:inline-flex;align-items:center;gap:.65rem;background:white;color:#1f2937;border:1.5px solid #d1d5db;border-radius:8px;padding:.75rem 1.25rem;font-family:inherit;font-size:.95rem;font-weight:600;cursor:pointer;width:100%;justify-content:center;transition:all .2s}
+    .btn-google:hover{background:#f9fafb;border-color:#9ca3af;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+    .btn-google:disabled{opacity:.6;cursor:not-allowed}
+    .btn-google svg{width:20px;height:20px;flex-shrink:0}
+
+    /* ===== SYNC INDICATOR (in nav) ===== */
+    .sync-indicator{display:none;align-items:center;gap:.35rem;font-size:.7rem;color:rgba(255,255,255,.75);padding:.22rem .6rem;border-radius:12px;background:rgba(255,255,255,.08);margin-right:.4rem;cursor:default;transition:all .2s;white-space:nowrap;flex-shrink:0}
+    .sync-indicator.show{display:inline-flex}
+    .sync-indicator.synced{color:#86efac}
+    .sync-indicator.saving{color:#fde68a}
+    .sync-indicator.offline{color:#fca5a5;background:rgba(220,38,38,.18)}
+    .sync-indicator-dot{width:6px;height:6px;border-radius:50%;background:currentColor;flex-shrink:0}
+    .sync-indicator.saving .sync-indicator-dot{animation:syncpulse 1.2s ease-in-out infinite}
+    @keyframes syncpulse{0%,100%{opacity:.4}50%{opacity:1}}
+    @media (max-width:600px){
+      .sync-indicator-text{display:none}
+      .sync-indicator{padding:.25rem .4rem}
+    }
+
+    /* ===== ACCOUNT (Google) CARD ===== */
+    .account-info{display:flex;align-items:center;gap:1rem;padding:1rem}
+    .account-photo{width:54px;height:54px;border-radius:50%;object-fit:cover;border:2px solid var(--n200);flex-shrink:0;background:#e5e7eb}
+    .account-photo-fallback{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#fbbf24,#f59e0b);color:white;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.4rem;flex-shrink:0}
+    .account-meta{flex:1;min-width:0}
+    .account-display-name{font-weight:700;font-size:1rem;color:var(--n800);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .account-email{font-size:.84rem;color:var(--n500);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .account-name-row{display:flex;gap:.5rem;align-items:flex-end;padding:0 1rem 1rem;flex-wrap:wrap}
+    .account-name-field{flex:1;min-width:200px;display:flex;flex-direction:column;gap:.3rem}
+    .account-name-input{padding:.55rem .75rem;border:1.5px solid var(--n200);border-radius:8px;font-family:inherit;font-size:.92rem;background:white}
+    .account-name-input:focus{outline:none;border-color:var(--primary);box-shadow:0 0 0 3px rgba(26,86,219,.15)}
+    .account-msg{padding:0 1rem .85rem;font-size:.85rem;font-weight:600;display:none}
+    .account-msg.show{display:block}
+    .account-msg.ok{color:var(--secondary)}
+    .account-msg.err{color:var(--danger)}
+
+    /* ===== MIGRATION DIALOG ===== */
+    .migrate-overlay{position:fixed;inset:0;background:rgba(15,23,42,.85);backdrop-filter:blur(4px);z-index:600;display:none;align-items:center;justify-content:center;padding:1rem}
+    .migrate-overlay.show{display:flex}
+    .migrate-card{background:white;border-radius:14px;padding:1.5rem;max-width:480px;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.4)}
+    .migrate-title{font-size:1.15rem;font-weight:800;color:var(--n800);margin-bottom:.5rem;display:flex;align-items:center;gap:.5rem}
+    .migrate-sub{font-size:.85rem;color:var(--n500);line-height:1.55;margin-bottom:1.2rem}
+    .migrate-list{display:flex;flex-direction:column;gap:.5rem;margin-bottom:1.2rem}
+    .migrate-item{display:flex;align-items:center;gap:.7rem;padding:.7rem .8rem;border:1.5px solid var(--n200);border-radius:9px;cursor:pointer;transition:all .15s;background:white}
+    .migrate-item:hover{border-color:var(--primary);background:var(--primary-light)}
+    .migrate-item.selected{border-color:var(--primary);background:var(--primary-light);box-shadow:0 0 0 3px rgba(26,86,219,.12)}
+    .migrate-item-radio{width:18px;height:18px;flex-shrink:0;accent-color:var(--primary);cursor:pointer}
+    .migrate-item-info{flex:1;min-width:0}
+    .migrate-item-name{font-weight:700;color:var(--n800);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .migrate-item-meta{font-size:.78rem;color:var(--n500)}
+    .migrate-actions{display:flex;gap:.5rem;justify-content:flex-end;flex-wrap:wrap}
+    .migrate-config-warning{background:#fef3c7;border:1.5px solid #fde68a;color:#92400e;padding:.75rem 1rem;border-radius:8px;font-size:.85rem;line-height:1.55;margin-bottom:1rem}
+
     /* ===== LOGIN OVERLAY ===== */
     .login-overlay{position:fixed;inset:0;background:linear-gradient(135deg,#0a0e1a,#16213e,#0f3460);z-index:500;display:flex;align-items:center;justify-content:center;padding:1rem}
     .login-overlay.hide{display:none}
@@ -474,6 +527,62 @@
       .fb-modal{padding:1.5rem 1.25rem}
     }
   </style>
+
+  <!-- ============================================================ -->
+  <!-- FIREBASE INIT (Auth + Firestore + offline persistence)       -->
+  <!-- ============================================================ -->
+  <script type="module">
+    import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js';
+    import {
+      getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged
+    } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js';
+    import {
+      initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
+      doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, runTransaction,
+      serverTimestamp, arrayUnion
+    } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
+
+    // Firebase project: electrical-exam
+    // The API key here is public by design — actual security comes from
+    // Firestore rules (see firestore.rules) and Authorized domains in Firebase Console.
+    const firebaseConfig = {
+      apiKey: "AIzaSyBu2sSl2m2fAYzKv8SEMsT0gM6OM69H5oM",
+      authDomain: "electrical-exam.firebaseapp.com",
+      projectId: "electrical-exam",
+      storageBucket: "electrical-exam.firebasestorage.app",
+      messagingSenderId: "117209075865",
+      appId: "1:117209075865:web:c19c344d32a97f2e7e6808"
+    };
+
+    let fbBundle = null;
+    try {
+      const app = initializeApp(firebaseConfig);
+      const db  = initializeFirestore(app, {
+        localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() })
+      });
+      const auth = getAuth(app);
+      fbBundle = {
+        app, db, auth,
+        GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
+        doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, runTransaction,
+        serverTimestamp, arrayUnion,
+        configured: !String(firebaseConfig.apiKey).startsWith('PASTE_')
+      };
+    } catch (e) {
+      console.error('Firebase init failed:', e);
+      fbBundle = { configured: false, initError: e };
+    }
+    window.fb = fbBundle;
+    if (window._fbReadyResolve) window._fbReadyResolve(fbBundle);
+  </script>
+  <script>
+    // Promise that resolves once the Firebase module above finishes initialization.
+    // Used by the rest of the app (which is non-module) to wait for Firebase before signing in.
+    window.fbReady = new Promise((resolve) => {
+      if (window.fb) resolve(window.fb);
+      else window._fbReadyResolve = resolve;
+    });
+  </script>
 </head>
 <body>
 
@@ -496,6 +605,10 @@
     <button class="nav-tab" onclick="showPage('admin')">⚙️ ניהול</button>
   </div>
   <button class="nav-menu-btn" id="nav-menu-btn" onclick="toggleNavMenu(event)" aria-label="Menu">☰</button>
+  <div class="sync-indicator" id="sync-indicator" title="מצב סנכרון בענן">
+    <span class="sync-indicator-dot"></span>
+    <span class="sync-indicator-text" id="sync-indicator-text">מסונכרן</span>
+  </div>
   <div class="nav-profile" id="nav-profile" onclick="toggleProfileMenu(event)" style="display:none">
     <div class="nav-profile-avatar" id="nav-profile-avatar">?</div>
     <div class="nav-profile-name" id="nav-profile-name">—</div>
@@ -503,7 +616,6 @@
       <div class="nav-profile-menu-item" onclick="showPage('profile');closeProfileMenu()">👤 הפרופיל שלי</div>
       <div class="nav-profile-menu-item" onclick="showPage('stats');closeProfileMenu()">📊 הסטטיסטיקות שלי</div>
       <div class="nav-profile-menu-divider"></div>
-      <div class="nav-profile-menu-item" onclick="switchProfile()">🔄 החלף פרופיל</div>
       <div class="nav-profile-menu-item danger" onclick="logout()">🚪 התנתק</div>
     </div>
   </div>
@@ -532,40 +644,35 @@
   <div class="login-card">
     <div class="login-logo">⚡</div>
     <div class="login-title">ברוך הבא</div>
-    <div class="login-sub">בחר פרופיל כדי לשמור את ההיסטוריה והסטטיסטיקות שלך — או צור פרופיל חדש</div>
+    <div class="login-sub">התחבר עם חשבון Google שלך כדי לשמור היסטוריה וסטטיסטיקות, ולסנכרן אוטומטית בין מחשב לנייד</div>
 
-    <div class="login-tabs">
-      <button class="login-tab active" id="login-tab-existing" onclick="switchLoginTab('existing')">פרופילים קיימים</button>
-      <button class="login-tab" id="login-tab-new" onclick="switchLoginTab('new')">פרופיל חדש</button>
+    <button class="btn-google" id="btn-google-signin" onclick="signInWithGoogle()" style="margin-top:.75rem">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+        <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+        <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+        <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+      </svg>
+      <span>התחברות עם Google</span>
+    </button>
+
+    <div class="login-error" id="login-error" style="margin-top:1rem"></div>
+
+    <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--n200);font-size:.78rem;color:var(--n500);line-height:1.55;text-align:right">
+      🔒 הנתונים שלך נשמרים בחשבון Firebase האישי שלך, מסונכרנים אוטומטית בין מכשירים, ומוגנים בחוקי גישה — רק אתה רואה את הנתונים שלך.
     </div>
+  </div>
+</div>
 
-    <div class="login-section active" id="login-section-existing">
-      <div class="login-profile-list" id="login-profile-list"></div>
-    </div>
-
-    <div class="login-section" id="login-section-new">
-      <label class="login-field-label">שם פרופיל *</label>
-      <input class="login-input" id="login-new-name" type="text" placeholder="לדוגמה: סאמח, יוסי הביתריסט">
-
-      <div class="login-field">
-        <label class="login-field-label">סיסמה *</label>
-        <div class="login-pwd-row">
-          <input class="login-input" id="login-new-pwd" type="password" placeholder="לפחות 4 תווים">
-          <button type="button" class="pwd-toggle" onclick="togglePwdField('login-new-pwd', this)" title="הצג/הסתר">👁</button>
-        </div>
-      </div>
-
-      <div class="login-field">
-        <label class="login-field-label">אימות סיסמה *</label>
-        <div class="login-pwd-row">
-          <input class="login-input" id="login-new-pwd2" type="password" placeholder="הקלד שוב את הסיסמה">
-          <button type="button" class="pwd-toggle" onclick="togglePwdField('login-new-pwd2', this)" title="הצג/הסתר">👁</button>
-        </div>
-        <div class="login-field-hint">הסיסמה נשמרת מקומית בלבד (PBKDF2-SHA256). אם תשכח אותה — לא ניתן לשחזר; ניתן רק למחוק את הפרופיל.</div>
-      </div>
-
-      <div class="login-error" id="login-error"></div>
-      <button class="btn btn-primary btn-lg" onclick="createProfile()" style="width:100%;margin-top:1rem">✨ צור פרופיל והתחל</button>
+<!-- MIGRATION DIALOG (one-time import of local profiles to cloud) -->
+<div class="migrate-overlay" id="migrate-overlay">
+  <div class="migrate-card">
+    <div class="migrate-title">📦 ייבוא פרופיל מקומי לענן</div>
+    <div class="migrate-sub">מצאנו פרופילים מקומיים בדפדפן הזה. בחר פרופיל לייבוא לחשבון שלך בענן (ההיסטוריה והסטטיסטיקות יסונכרנו לכל המכשירים). ניתן גם לדלג ולהתחיל מאפס.</div>
+    <div class="migrate-list" id="migrate-list"></div>
+    <div class="migrate-actions">
+      <button class="btn btn-outline" onclick="migrationSkip()" id="migrate-skip-btn">דלג והתחל מאפס</button>
+      <button class="btn btn-primary" onclick="migrationImport()" id="migrate-import-btn">⬆️ ייבא פרופיל נבחר</button>
     </div>
   </div>
 </div>
@@ -1067,47 +1174,35 @@
     </div>
 
     <div class="card">
-      <div class="card-header">🔐 אבטחה — סיסמת פרופיל</div>
-      <div id="profile-pwd-banner"></div>
-      <div style="padding:0 1rem 1rem">
-        <div id="profile-pwd-form">
-          <div id="profile-pwd-old-wrap" class="login-field">
-            <label class="login-field-label">סיסמה נוכחית</label>
-            <div class="login-pwd-row">
-              <input class="login-input" id="profile-pwd-old" type="password" placeholder="הקלד את הסיסמה הנוכחית">
-              <button type="button" class="pwd-toggle" onclick="togglePwdField('profile-pwd-old', this)">👁</button>
-            </div>
-          </div>
-          <div class="pwd-form-row">
-            <div>
-              <label class="login-field-label">סיסמה חדשה</label>
-              <div class="login-pwd-row">
-                <input class="login-input" id="profile-pwd-new" type="password" placeholder="לפחות 4 תווים">
-                <button type="button" class="pwd-toggle" onclick="togglePwdField('profile-pwd-new', this)">👁</button>
-              </div>
-            </div>
-            <div>
-              <label class="login-field-label">אימות סיסמה חדשה</label>
-              <div class="login-pwd-row">
-                <input class="login-input" id="profile-pwd-new2" type="password" placeholder="הקלד שוב">
-                <button type="button" class="pwd-toggle" onclick="togglePwdField('profile-pwd-new2', this)">👁</button>
-              </div>
-            </div>
-          </div>
-          <div class="pwd-msg" id="profile-pwd-msg"></div>
-          <button class="btn btn-primary" id="profile-pwd-submit" onclick="submitChangePassword()" style="margin-top:.6rem">💾 שמור סיסמה</button>
+      <div class="card-header">👤 חשבון Google — מסונכרן בענן</div>
+      <div class="account-info">
+        <div id="account-photo-wrap">
+          <div class="account-photo-fallback" id="account-photo-fallback">?</div>
+        </div>
+        <div class="account-meta">
+          <div class="account-display-name" id="account-display-name">—</div>
+          <div class="account-email" id="account-email">—</div>
         </div>
       </div>
+      <div class="account-name-row">
+        <div class="account-name-field">
+          <label class="login-field-label" for="account-name-input">שם תצוגה</label>
+          <input class="account-name-input" id="account-name-input" type="text" placeholder="שם להצגה" maxlength="40">
+        </div>
+        <button class="btn btn-primary" onclick="saveDisplayName()">💾 שמור שם</button>
+      </div>
+      <div class="account-msg" id="account-msg"></div>
     </div>
 
     <div class="card">
       <div class="card-header">⚠️ אזור סכנה</div>
       <div style="padding:1rem;color:var(--n600);font-size:.88rem;line-height:1.6">
-        מחיקת ההיסטוריה תאפס את כל הנתונים של פרופיל זה (תוצאות מבחנים וסטטיסטיקות לימוד). הפעולה אינה הפיכה.
+        מחיקת היסטוריה תאפס את כל הנתונים של החשבון שלך (תוצאות מבחנים וסטטיסטיקות לימוד). הפעולה אינה הפיכה ותסונכרן לכל המכשירים שלך.<br>
+        מחיקת חשבון תסיר את כל הנתונים מהענן. חשבון Google שלך עצמו לא יימחק — רק הנתונים של האתר יימחקו.
       </div>
       <div style="padding:0 1rem 1rem;display:flex;gap:.5rem;flex-wrap:wrap">
         <button class="btn btn-outline" onclick="resetProfileData()">🗑️ מחק היסטוריה ונתונים</button>
-        <button class="btn btn-danger" onclick="deleteProfile()">❌ מחק פרופיל לחלוטין</button>
+        <button class="btn btn-danger" onclick="deleteCloudAccount()">❌ מחק חשבון לחלוטין</button>
       </div>
     </div>
   </div>
@@ -2449,309 +2544,243 @@ function showTheoryGrid(){
 }
 
 // ============================================================
-// PROFILE / AUTH / STATS — localStorage-based (no backend)
+// PROFILE / AUTH / SYNC — Firebase (Google Sign-In + Firestore)
 // ============================================================
-const STORAGE_KEY = 'eei:data:v1';
-let CURRENT_PROFILE_ID = null;
+// Profile data lives at users/{uid} in Firestore. The same Google account
+// gives the same uid on every device, so signing in on phone + computer
+// shares the same exam history and training stats automatically.
 
-function loadStore() {
+const STORAGE_KEY = 'eei:data:v1';        // legacy localStorage key (read-only, for migration)
+const MIGRATED_KEY = 'eei:migrated:v1';   // marker so we don't ask twice
+let CURRENT_PROFILE_ID = null;            // = uid when signed in
+let AUTH_USER = null;                     // Firebase user object
+let PROFILE_CACHE = null;                 // last snapshot from Firestore (live-updated by onSnapshot)
+let SNAPSHOT_UNSUB = null;                // unsubscribe for active onSnapshot listener
+
+// Read-only access to legacy localStorage profiles (used by migration dialog)
+function loadLocalProfiles() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
-    if (!raw) return {currentProfile:null, profiles:{}};
+    if (!raw) return {};
     const parsed = JSON.parse(raw);
-    if (!parsed.profiles) parsed.profiles = {};
-    return parsed;
+    return parsed.profiles || {};
+  } catch(e) { return {}; }
+}
+
+// Compatibility shim: existing renderProfilePage / renderStatsPage code reads p.examHistory
+// and p.trainingStats from getProfile(). We just return the live cache.
+function getProfile() { return PROFILE_CACHE; }
+
+// ============================================================
+// SYNC STATUS INDICATOR
+// ============================================================
+function setSyncStatus(status) {
+  const el = document.getElementById('sync-indicator');
+  const txt = document.getElementById('sync-indicator-text');
+  if (!el) return;
+  el.classList.remove('synced','saving','offline');
+  if (!AUTH_USER) { el.classList.remove('show'); return; }
+  el.classList.add('show');
+  el.classList.add(status);
+  if (txt) {
+    txt.textContent =
+      status==='saving'  ? 'שומר...'   :
+      status==='offline' ? 'לא מקוון' :
+      'מסונכרן';
+  }
+}
+
+window.addEventListener('online',  () => { if (AUTH_USER) setSyncStatus('synced'); });
+window.addEventListener('offline', () => { if (AUTH_USER) setSyncStatus('offline'); });
+
+// ============================================================
+// BOOTSTRAP / AUTH STATE
+// ============================================================
+async function bootstrapAuth() {
+  await window.fbReady;
+  if (!window.fb || !window.fb.configured) {
+    showLogin(/*showConfigWarning=*/true);
+    return;
+  }
+  // onAuthStateChanged fires immediately with the cached user (if any), then
+  // again whenever auth changes. It's our single source of truth.
+  fb.onAuthStateChanged(fb.auth, async (user) => {
+    if (user) {
+      try { await onSignedIn(user); }
+      catch(e) {
+        console.error('onSignedIn failed:', e);
+        const errEl = document.getElementById('login-error');
+        if (errEl) {
+          errEl.textContent = 'שגיאה בטעינת הנתונים: ' + (e.message||'');
+          errEl.classList.add('show');
+        }
+      }
+    } else {
+      onSignedOut();
+    }
+  });
+}
+
+async function onSignedIn(user) {
+  AUTH_USER = user;
+  CURRENT_PROFILE_ID = user.uid;
+
+  // Check if a cloud profile already exists for this uid.
+  const ref = fb.doc(fb.db, 'users', user.uid);
+  let exists = false;
+  try {
+    const snap = await fb.getDoc(ref);
+    exists = snap.exists();
   } catch(e) {
-    return {currentProfile:null, profiles:{}};
+    // Likely offline + no cache yet — proceed and let onSnapshot handle it
+    console.warn('getDoc failed, falling back to listener:', e);
   }
-}
-function saveStore(store) {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(store)); }
-  catch(e) { console.error('Failed to save profile data', e); }
-}
-function getProfile() {
-  if (!CURRENT_PROFILE_ID) return null;
-  const store = loadStore();
-  return store.profiles[CURRENT_PROFILE_ID] || null;
-}
-function updateProfile(mutator) {
-  const store = loadStore();
-  const p = store.profiles[CURRENT_PROFILE_ID];
-  if (!p) return;
-  mutator(p);
-  saveStore(store);
-}
-function profileIdFromName(name) {
-  return name.trim().toLowerCase().replace(/\s+/g,'_').replace(/['"`<>\\\/]/g,'');
-}
 
-// ----- Crypto helpers (PBKDF2-SHA256, 120k iterations) -----
-const PWD_ITERATIONS = 120000;
-function _b64encode(uint8) { let s=''; uint8.forEach(b=>s+=String.fromCharCode(b)); return btoa(s); }
-function _b64decode(b64) { const bin=atob(b64); const u=new Uint8Array(bin.length); for(let i=0;i<bin.length;i++)u[i]=bin.charCodeAt(i); return u; }
-function _randomSaltB64(bytes) {
-  const buf = new Uint8Array(bytes||16);
-  crypto.getRandomValues(buf);
-  return _b64encode(buf);
-}
-async function hashPassword(password, saltB64, iterations) {
-  if (!crypto || !crypto.subtle) throw new Error('Web Crypto לא זמין בדפדפן הזה');
-  const enc = new TextEncoder();
-  const salt = _b64decode(saltB64);
-  const keyMat = await crypto.subtle.importKey('raw', enc.encode(password), {name:'PBKDF2'}, false, ['deriveBits']);
-  const bits = await crypto.subtle.deriveBits(
-    {name:'PBKDF2', salt, iterations: iterations||PWD_ITERATIONS, hash:'SHA-256'},
-    keyMat, 256
-  );
-  return _b64encode(new Uint8Array(bits));
-}
-async function setProfilePasswordFields(profile, password) {
-  const salt = _randomSaltB64(16);
-  const hash = await hashPassword(password, salt, PWD_ITERATIONS);
-  profile.passwordSalt = salt;
-  profile.passwordHash = hash;
-  profile.passwordIterations = PWD_ITERATIONS;
-}
-async function verifyProfilePassword(profile, password) {
-  if (!profile.passwordHash) return true; // legacy: no password
-  const hash = await hashPassword(password, profile.passwordSalt, profile.passwordIterations||PWD_ITERATIONS);
-  if (hash.length !== profile.passwordHash.length) return false;
-  let diff = 0;
-  for (let i=0; i<hash.length; i++) diff |= hash.charCodeAt(i) ^ profile.passwordHash.charCodeAt(i);
-  return diff === 0;
-}
-
-function togglePwdField(id, btn) {
-  const el = document.getElementById(id); if (!el) return;
-  if (el.type === 'password') { el.type='text'; if(btn) btn.textContent='🙈'; }
-  else { el.type='password'; if(btn) btn.textContent='👁'; }
-}
-
-// ----- Bootstrap on app start -----
-function bootstrapAuth() {
-  const store = loadStore();
-  if (store.currentProfile && store.profiles[store.currentProfile]) {
-    loginAs(store.currentProfile);
-  } else {
-    showLogin();
+  if (!exists) {
+    // First sign-in on the cloud. Offer migration of legacy local profiles
+    // (only once per browser, and only if they exist).
+    const local = loadLocalProfiles();
+    const hasLocal = Object.keys(local).length > 0;
+    const alreadyMigrated = localStorage.getItem(MIGRATED_KEY) === '1';
+    if (hasLocal && !alreadyMigrated) {
+      showMigrationDialog(local);
+      return; // dialog will call enterApp() after import or skip
+    }
+    await initEmptyCloudDoc(user);
   }
-  ['login-new-name','login-new-pwd','login-new-pwd2'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el && !el._bound) {
-      el.addEventListener('keydown', e => { if (e.key==='Enter') createProfile(); });
-      el._bound = true;
-    }
-  });
-  ['profile-pwd-old','profile-pwd-new','profile-pwd-new2'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el && !el._bound) {
-      el.addEventListener('keydown', e => { if (e.key==='Enter') submitChangePassword(); });
-      el._bound = true;
-    }
+
+  enterApp();
+}
+
+async function initEmptyCloudDoc(user) {
+  const ref = fb.doc(fb.db, 'users', user.uid);
+  await fb.setDoc(ref, {
+    displayName: user.displayName || (user.email||'').split('@')[0] || 'משתמש',
+    email: user.email || '',
+    photoURL: user.photoURL || '',
+    createdAt: Date.now(),
+    updatedAt: fb.serverTimestamp(),
+    schemaVersion: 1,
+    examHistory: [],
+    trainingStats: {}
   });
 }
 
-function showLogin() {
-  document.getElementById('app').style.display = 'none';
-  document.getElementById('nav-profile').style.display = 'none';
-  const overlay = document.getElementById('login-overlay');
-  overlay.classList.remove('hide');
-  renderLoginProfileList();
-  // Default to "existing" tab if profiles exist, else "new"
-  const store = loadStore();
-  const hasProfiles = Object.keys(store.profiles).length > 0;
-  switchLoginTab(hasProfiles ? 'existing' : 'new');
+function enterApp() {
+  // Subscribe to live updates of the user's document.
+  if (SNAPSHOT_UNSUB) { try { SNAPSHOT_UNSUB(); } catch(e){} SNAPSHOT_UNSUB = null; }
+  const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
+  SNAPSHOT_UNSUB = fb.onSnapshot(ref, { includeMetadataChanges: true }, (snap) => {
+    if (!snap.exists()) {
+      PROFILE_CACHE = null;
+      return;
+    }
+    PROFILE_CACHE = Object.assign({ id: AUTH_USER.uid }, snap.data());
+    // Sync indicator: pendingWrites=true → still saving; fromCache + offline → offline
+    if (snap.metadata.hasPendingWrites)        setSyncStatus('saving');
+    else if (!navigator.onLine)                setSyncStatus('offline');
+    else                                       setSyncStatus('synced');
+    refreshUIForProfile();
+  }, (err) => {
+    console.error('Snapshot error:', err);
+    setSyncStatus('offline');
+  });
+
+  document.getElementById('login-overlay').classList.add('hide');
+  document.getElementById('app').style.display = 'block';
+  updateNavProfile();
+  if (currentPage === 'home' || !currentPage) showPage('home');
 }
 
-function switchLoginTab(which) {
-  document.getElementById('login-tab-existing').classList.toggle('active', which==='existing');
-  document.getElementById('login-tab-new').classList.toggle('active', which==='new');
-  document.getElementById('login-section-existing').classList.toggle('active', which==='existing');
-  document.getElementById('login-section-new').classList.toggle('active', which==='new');
-  if (which==='new') setTimeout(()=>document.getElementById('login-new-name').focus(), 60);
+// Re-render whichever page is currently open if it depends on profile data.
+function refreshUIForProfile() {
+  updateNavProfile();
+  try {
+    if (currentPage === 'profile') renderProfilePage();
+    else if (currentPage === 'stats') renderStatsPage();
+  } catch(e) { console.warn('UI refresh failed:', e); }
 }
 
-function renderLoginProfileList() {
-  const store = loadStore();
-  const list = document.getElementById('login-profile-list');
-  const ids = Object.keys(store.profiles);
-  if (ids.length === 0) {
-    list.innerHTML = `<div class="login-empty-state">
-      <div style="font-size:2rem;margin-bottom:.4rem">👤</div>
-      <div>אין עדיין פרופילים. עבור ללשונית "פרופיל חדש" כדי להתחיל.</div>
-    </div>`;
-    return;
-  }
-  list.innerHTML = ids.map(id => {
-    const p = store.profiles[id];
-    const initial = (p.name||'?').trim().charAt(0).toUpperCase();
-    const exams = (p.examHistory||[]).length;
-    const since = p.createdAt ? new Date(p.createdAt).toLocaleDateString('he-IL') : '';
-    const hasPwd = !!p.passwordHash;
-    const lockCls = hasPwd ? 'has-pwd' : 'no-pwd';
-    const lockTip = hasPwd ? 'מוגן בסיסמה' : 'ללא סיסמה — מומלץ להגדיר אחרי הכניסה';
-    return `<div class="login-profile-item ${lockCls}" title="${escHtml(lockTip)}" onclick="selectProfileForLogin('${escHtml(id)}')">
-      <div class="login-profile-info">
-        <div class="login-profile-avatar">${escHtml(initial)}</div>
-        <div style="flex:1;min-width:0">
-          <div class="login-profile-name">${escHtml(p.name)}</div>
-          <div class="login-profile-meta">${exams} מבחנים · נוצר ${escHtml(since)}</div>
-        </div>
-      </div>
-      <button class="login-profile-del" onclick="event.stopPropagation();removeProfileFromLogin('${escHtml(id)}')" title="מחק פרופיל">🗑️</button>
-    </div>
-    <div class="login-pwd-prompt" id="login-pwd-prompt-${escHtml(id)}">
-      <div class="login-pwd-prompt-title">🔐 הקלד סיסמה עבור <span style="color:var(--n800)">${escHtml(p.name)}</span></div>
-      <div class="login-pwd-row">
-        <input class="login-input" id="login-pwd-input-${escHtml(id)}" type="password" placeholder="סיסמה" onkeydown="if(event.key==='Enter'){submitLoginPassword('${escHtml(id)}')}">
-        <button type="button" class="pwd-toggle" onclick="togglePwdField('login-pwd-input-${escHtml(id)}', this)" title="הצג/הסתר">👁</button>
-      </div>
-      <div class="login-error" id="login-pwd-err-${escHtml(id)}"></div>
-      <div class="login-pwd-prompt-actions">
-        <button class="btn btn-outline" onclick="cancelLoginPrompt('${escHtml(id)}')">ביטול</button>
-        <button class="btn btn-primary" onclick="submitLoginPassword('${escHtml(id)}')">🔓 כניסה</button>
-      </div>
-    </div>`;
-  }).join('');
+function onSignedOut() {
+  AUTH_USER = null;
+  CURRENT_PROFILE_ID = null;
+  PROFILE_CACHE = null;
+  if (SNAPSHOT_UNSUB) { try { SNAPSHOT_UNSUB(); } catch(e){} SNAPSHOT_UNSUB = null; }
+  setSyncStatus('synced'); // hides because AUTH_USER is null
+  showLogin();
 }
 
-function _allLoginPrompts() {
-  return document.querySelectorAll('#login-profile-list .login-pwd-prompt');
-}
-
-function selectProfileForLogin(id) {
-  const store = loadStore();
-  const p = store.profiles[id];
-  if (!p) return;
-  if (!p.passwordHash) {
-    // Legacy profile without password — log in directly
-    loginAs(id);
-    return;
-  }
-  // Hide all other prompts and show this one
-  _allLoginPrompts().forEach(el => el.classList.remove('show'));
-  const prompt = document.getElementById('login-pwd-prompt-' + id);
-  const errEl = document.getElementById('login-pwd-err-' + id);
-  if (errEl) errEl.classList.remove('show');
-  if (prompt) {
-    prompt.classList.add('show');
-    setTimeout(()=>{
-      const inp = document.getElementById('login-pwd-input-' + id);
-      if (inp) { inp.value=''; inp.focus(); }
-    }, 50);
-  }
-}
-
-function cancelLoginPrompt(id) {
-  const prompt = document.getElementById('login-pwd-prompt-' + id);
-  if (prompt) prompt.classList.remove('show');
-  const inp = document.getElementById('login-pwd-input-' + id);
-  if (inp) inp.value = '';
-}
-
-async function submitLoginPassword(id) {
-  const store = loadStore();
-  const p = store.profiles[id];
-  if (!p) return;
-  const inp = document.getElementById('login-pwd-input-' + id);
-  const errEl = document.getElementById('login-pwd-err-' + id);
-  errEl.classList.remove('show');
-  const pwd = inp ? inp.value : '';
-  if (!pwd) { errEl.textContent='נא להזין סיסמה'; errEl.classList.add('show'); return; }
-  let ok = false;
-  try { ok = await verifyProfilePassword(p, pwd); }
-  catch(e) { errEl.textContent='שגיאה: '+(e.message||''); errEl.classList.add('show'); return; }
-  if (!ok) {
-    errEl.textContent = 'סיסמה שגויה';
-    errEl.classList.add('show');
-    const card = document.querySelector('.login-card');
-    if (card) { card.classList.add('login-shake'); setTimeout(()=>card.classList.remove('login-shake'), 400); }
-    inp.value = '';
-    inp.focus();
-    return;
-  }
-  loginAs(id);
-}
-
-function removeProfileFromLogin(id) {
-  const store = loadStore();
-  if (!store.profiles[id]) return;
-  if (!confirm('למחוק את הפרופיל "'+store.profiles[id].name+'" וכל הנתונים שלו?')) return;
-  delete store.profiles[id];
-  if (store.currentProfile === id) store.currentProfile = null;
-  saveStore(store);
-  renderLoginProfileList();
-}
-
-async function createProfile() {
-  const nameEl = document.getElementById('login-new-name');
-  const pwdEl = document.getElementById('login-new-pwd');
-  const pwd2El = document.getElementById('login-new-pwd2');
+// ============================================================
+// SIGN-IN / SIGN-OUT
+// ============================================================
+async function signInWithGoogle() {
   const errEl = document.getElementById('login-error');
   errEl.classList.remove('show');
-  const name = nameEl.value.trim();
-  const pwd = pwdEl.value;
-  const pwd2 = pwd2El.value;
-  const showErr = msg => { errEl.textContent=msg; errEl.classList.add('show'); };
-  if (!name) return showErr('נא להזין שם פרופיל');
-  if (name.length > 40) return showErr('שם הפרופיל ארוך מדי (עד 40 תווים)');
-  if (!pwd) return showErr('נא להזין סיסמה');
-  if (pwd.length < 4) return showErr('הסיסמה חייבת להיות באורך 4 תווים לפחות');
-  if (pwd !== pwd2) return showErr('הסיסמאות אינן תואמות');
-  const id = profileIdFromName(name);
-  if (!id) return showErr('שם פרופיל לא תקין');
-  const store = loadStore();
-  if (store.profiles[id]) return showErr('כבר קיים פרופיל בשם זה');
-  const profile = { id, name, createdAt: Date.now(), examHistory: [], trainingStats: {} };
-  try {
-    await setProfilePasswordFields(profile, pwd);
-  } catch(e) {
-    return showErr('שגיאה ביצירת הסיסמה: ' + (e.message||'')); 
+  await window.fbReady;
+  if (!window.fb || !window.fb.configured) {
+    errEl.innerHTML = 'Firebase לא מוגדר. ערוך את <code>firebaseConfig</code> בתחילת <code>index.html</code> והכנס את המפתחות מ-Firebase Console.';
+    errEl.classList.add('show');
+    return;
   }
-  store.profiles[id] = profile;
-  store.currentProfile = id;
-  saveStore(store);
-  nameEl.value=''; pwdEl.value=''; pwd2El.value='';
-  CURRENT_PROFILE_ID = id;
-  document.getElementById('login-overlay').classList.add('hide');
-  document.getElementById('app').style.display = 'block';
-  updateNavProfile();
-  showPage('home');
+  const btn = document.getElementById('btn-google-signin');
+  btn.disabled = true;
+  try {
+    const provider = new fb.GoogleAuthProvider();
+    await fb.signInWithPopup(fb.auth, provider);
+    // onAuthStateChanged handles the rest
+  } catch(e) {
+    let msg = 'שגיאת התחברות: ' + (e.message || e.code || '');
+    if (e.code === 'auth/unauthorized-domain') {
+      msg = 'הדומיין לא מאושר. הוסף את הכתובת של האתר ב-Firebase Console → Authentication → Settings → Authorized domains.';
+    } else if (e.code === 'auth/popup-blocked') {
+      msg = 'הדפדפן חסם את חלון הכניסה. אפשר חלונות קופצים עבור האתר ונסה שוב.';
+    } else if (e.code === 'auth/popup-closed-by-user' || e.code === 'auth/cancelled-popup-request') {
+      msg = ''; // user cancelled — silent
+    }
+    if (msg) {
+      errEl.textContent = msg;
+      errEl.classList.add('show');
+    }
+  } finally {
+    btn.disabled = false;
+  }
 }
 
-function loginAs(id) {
-  const store = loadStore();
-  if (!store.profiles[id]) { showLogin(); return; }
-  store.currentProfile = id;
-  saveStore(store);
-  CURRENT_PROFILE_ID = id;
-  document.getElementById('login-overlay').classList.add('hide');
-  document.getElementById('app').style.display = 'block';
-  updateNavProfile();
-  showPage('home');
-}
-
-function logout() {
-  const store = loadStore();
-  store.currentProfile = null;
-  saveStore(store);
-  CURRENT_PROFILE_ID = null;
+async function logout() {
   closeProfileMenu();
-  showLogin();
+  try { await fb.signOut(fb.auth); } catch(e) { console.warn(e); }
+  // onAuthStateChanged will clean up state and show login
 }
 
-function switchProfile() {
-  closeProfileMenu();
-  showLogin();
+function showLogin(showConfigWarning) {
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('nav-profile').style.display = 'none';
+  setSyncStatus('synced'); // hides because AUTH_USER is null
+  document.getElementById('login-overlay').classList.remove('hide');
+  if (showConfigWarning) {
+    const errEl = document.getElementById('login-error');
+    errEl.innerHTML = '⚠️ Firebase לא מוגדר. ערוך את <code>firebaseConfig</code> בתחילת <code>index.html</code> והכנס את המפתחות מ-Firebase Console (Authentication + Firestore).';
+    errEl.classList.add('show');
+    document.getElementById('btn-google-signin').disabled = true;
+  }
 }
 
 function updateNavProfile() {
-  const p = getProfile();
+  const p = PROFILE_CACHE;
   const el = document.getElementById('nav-profile');
-  if (!p) { el.style.display='none'; return; }
+  if (!p || !AUTH_USER) { el.style.display = 'none'; return; }
   el.style.display = 'flex';
-  document.getElementById('nav-profile-name').textContent = p.name;
-  document.getElementById('nav-profile-avatar').textContent = (p.name||'?').trim().charAt(0).toUpperCase();
+  const displayName = p.displayName || AUTH_USER.displayName || 'משתמש';
+  document.getElementById('nav-profile-name').textContent = displayName;
+  const av = document.getElementById('nav-profile-avatar');
+  const photoURL = AUTH_USER.photoURL;
+  if (photoURL) {
+    av.style.background = `url('${photoURL}') center/cover, linear-gradient(135deg,#fbbf24,#f59e0b)`;
+    av.textContent = '';
+  } else {
+    av.style.background = '';
+    av.textContent = (displayName || '?').trim().charAt(0).toUpperCase();
+  }
 }
 
 function toggleProfileMenu(e) {
@@ -2767,39 +2796,193 @@ document.addEventListener('click', e => {
   if (menu && badge && !badge.contains(e.target)) menu.classList.remove('open');
 });
 
-// ----- Tracking hooks (called from studyAnswer / finishExam) -----
-function trackAnswer(qId, isCorrect, source) {
-  if (!CURRENT_PROFILE_ID) return;
-  updateProfile(p => {
-    if (!p.trainingStats) p.trainingStats = {};
-    const s = p.trainingStats[qId] || {attempts:0, correct:0, history:[], lastAt:null, lastCorrect:null};
-    s.attempts++;
-    if (isCorrect) s.correct++;
-    s.history.push({t:Date.now(), c:!!isCorrect, src:source||'study'});
-    if (s.history.length > 30) s.history = s.history.slice(-30);
-    s.lastAt = Date.now();
-    s.lastCorrect = !!isCorrect;
-    p.trainingStats[qId] = s;
+// ============================================================
+// MIGRATION (one-time import of legacy localStorage profile to cloud)
+// ============================================================
+let _MIGRATION_SELECTED_ID = null;
+
+function showMigrationDialog(localProfiles) {
+  const overlay = document.getElementById('migrate-overlay');
+  const list = document.getElementById('migrate-list');
+  const ids = Object.keys(localProfiles);
+  if (ids.length === 0) return;
+  list.innerHTML = ids.map(id => {
+    const p = localProfiles[id];
+    const exams = (p.examHistory||[]).length;
+    const qs = Object.keys(p.trainingStats||{}).length;
+    return `<label class="migrate-item" data-id="${escHtml(id)}" onclick="selectMigrate('${escHtml(id)}')">
+      <input type="radio" name="migrate-pick" class="migrate-item-radio" value="${escHtml(id)}">
+      <div class="migrate-item-info">
+        <div class="migrate-item-name">${escHtml(p.name || id)}</div>
+        <div class="migrate-item-meta">${exams} מבחנים · ${qs} שאלות נלמדו</div>
+      </div>
+    </label>`;
+  }).join('');
+  // auto-select first one
+  if (ids.length >= 1) {
+    selectMigrate(ids[0]);
+  }
+  overlay.classList.add('show');
+}
+
+function selectMigrate(id) {
+  _MIGRATION_SELECTED_ID = id;
+  document.querySelectorAll('#migrate-list .migrate-item').forEach(el => {
+    const isSel = el.getAttribute('data-id') === id;
+    el.classList.toggle('selected', isSel);
+    const rb = el.querySelector('input[type=radio]');
+    if (rb) rb.checked = isSel;
   });
 }
 
-function saveExamToHistory(result) {
-  if (!CURRENT_PROFILE_ID) return;
-  updateProfile(p => {
-    if (!p.examHistory) p.examHistory = [];
-    p.examHistory.unshift({
-      date: Date.now(),
-      score: result.score,
-      correct: result.correct,
-      wrong: result.wrong,
-      skipped: result.skipped,
-      total: result.total,
-      pass: result.pass,
-      durationSec: result.durationSec,
-      detail: result.detail
+async function migrationImport() {
+  if (!AUTH_USER) return;
+  const local = loadLocalProfiles();
+  const id = _MIGRATION_SELECTED_ID;
+  if (!id || !local[id]) { alert('בחר פרופיל לייבוא'); return; }
+  const src = local[id];
+  const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
+  const btn = document.getElementById('migrate-import-btn');
+  const skipBtn = document.getElementById('migrate-skip-btn');
+  const orig = btn.textContent;
+  btn.disabled = true; skipBtn.disabled = true;
+  btn.textContent = '⏳ מייבא...';
+  try {
+    await fb.setDoc(ref, {
+      displayName: src.name || AUTH_USER.displayName || 'משתמש',
+      email: AUTH_USER.email || '',
+      photoURL: AUTH_USER.photoURL || '',
+      createdAt: src.createdAt || Date.now(),
+      updatedAt: fb.serverTimestamp(),
+      schemaVersion: 1,
+      examHistory: (src.examHistory || []).slice(0, 100),
+      trainingStats: src.trainingStats || {}
     });
-    if (p.examHistory.length > 100) p.examHistory = p.examHistory.slice(0,100);
-  });
+    localStorage.setItem(MIGRATED_KEY, '1');
+    document.getElementById('migrate-overlay').classList.remove('show');
+    enterApp();
+  } catch(e) {
+    alert('שגיאה בייבוא: ' + (e.message || e.code || ''));
+    btn.disabled = false; skipBtn.disabled = false;
+    btn.textContent = orig;
+  }
+}
+
+async function migrationSkip() {
+  if (!AUTH_USER) return;
+  const skipBtn = document.getElementById('migrate-skip-btn');
+  const importBtn = document.getElementById('migrate-import-btn');
+  skipBtn.disabled = true; importBtn.disabled = true;
+  try {
+    await initEmptyCloudDoc(AUTH_USER);
+    localStorage.setItem(MIGRATED_KEY, '1');
+    document.getElementById('migrate-overlay').classList.remove('show');
+    enterApp();
+  } catch(e) {
+    alert('שגיאה: ' + (e.message || ''));
+    skipBtn.disabled = false; importBtn.disabled = false;
+  }
+}
+
+// ============================================================
+// TRACKING HOOKS — write directly to Firestore with atomic merges
+// ============================================================
+// Uses a transaction so concurrent updates from another device don't clobber each other.
+async function trackAnswer(qId, isCorrect, source) {
+  if (!AUTH_USER) return;
+  setSyncStatus('saving');
+  const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
+  try {
+    await fb.runTransaction(fb.db, async (tx) => {
+      const snap = await tx.get(ref);
+      const data = snap.exists() ? snap.data() : {};
+      const stats = data.trainingStats || {};
+      const s = stats[qId] || {attempts:0, correct:0, history:[], lastAt:null, lastCorrect:null};
+      s.attempts = (s.attempts || 0) + 1;
+      if (isCorrect) s.correct = (s.correct || 0) + 1;
+      s.history = (s.history || []).concat([{ t: Date.now(), c: !!isCorrect, src: source || 'study' }]);
+      if (s.history.length > 30) s.history = s.history.slice(-30);
+      s.lastAt = Date.now();
+      s.lastCorrect = !!isCorrect;
+      tx.update(ref, { ['trainingStats.' + qId]: s, updatedAt: fb.serverTimestamp() });
+    });
+  } catch(e) {
+    console.error('trackAnswer failed:', e);
+  }
+}
+
+async function saveExamToHistory(result) {
+  if (!AUTH_USER) return;
+  setSyncStatus('saving');
+  const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
+  const entry = {
+    date: Date.now(),
+    score: result.score,
+    correct: result.correct,
+    wrong: result.wrong,
+    skipped: result.skipped,
+    total: result.total,
+    pass: result.pass,
+    durationSec: result.durationSec,
+    detail: result.detail
+  };
+  try {
+    // Transaction so we can clamp to 100 most recent without losing concurrent writes.
+    await fb.runTransaction(fb.db, async (tx) => {
+      const snap = await tx.get(ref);
+      const data = snap.exists() ? snap.data() : {};
+      let hist = data.examHistory || [];
+      hist = [entry, ...hist].slice(0, 100);
+      tx.update(ref, { examHistory: hist, updatedAt: fb.serverTimestamp() });
+    });
+  } catch(e) {
+    console.error('saveExamToHistory failed:', e);
+  }
+}
+
+// ============================================================
+// ACCOUNT ACTIONS (display name, reset, delete)
+// ============================================================
+async function saveDisplayName() {
+  const inp = document.getElementById('account-name-input');
+  const msg = document.getElementById('account-msg');
+  msg.classList.remove('ok','err','show');
+  const newName = (inp.value || '').trim();
+  const showMsg = (text, type) => { msg.textContent = text; msg.classList.add(type, 'show'); };
+  if (!newName) return showMsg('נא להזין שם', 'err');
+  if (newName.length > 40) return showMsg('השם ארוך מדי (עד 40 תווים)', 'err');
+  if (!AUTH_USER) return;
+  try {
+    const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
+    await fb.updateDoc(ref, { displayName: newName, updatedAt: fb.serverTimestamp() });
+    showMsg('✅ שם עודכן', 'ok');
+  } catch(e) {
+    showMsg('שגיאה: ' + (e.message || ''), 'err');
+  }
+}
+
+async function resetProfileData() {
+  if (!confirm('למחוק את כל היסטוריית המבחנים והסטטיסטיקות? הפעולה אינה הפיכה ותסונכרן לכל המכשירים שלך.')) return;
+  if (!AUTH_USER) return;
+  try {
+    const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
+    await fb.updateDoc(ref, { examHistory: [], trainingStats: {}, updatedAt: fb.serverTimestamp() });
+  } catch(e) {
+    alert('שגיאה: ' + (e.message || ''));
+  }
+}
+
+async function deleteCloudAccount() {
+  if (!AUTH_USER) return;
+  if (!confirm('למחוק את כל הנתונים שלך מהענן? היסטוריה וסטטיסטיקות יימחקו ולא ניתן יהיה לשחזרן. (חשבון Google שלך עצמו לא ייפגע.)')) return;
+  if (!confirm('בטוח? פעולה זו אינה הפיכה.')) return;
+  try {
+    const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
+    await fb.deleteDoc(ref);
+    await fb.signOut(fb.auth);
+  } catch(e) {
+    alert('שגיאה: ' + (e.message || ''));
+  }
 }
 
 // ============================================================
@@ -2808,12 +2991,22 @@ function saveExamToHistory(result) {
 function renderProfilePage() {
   const p = getProfile();
   if (!p) { showLogin(); return; }
-  const initial = (p.name||'?').trim().charAt(0).toUpperCase();
-  document.getElementById('profile-hero-avatar').textContent = initial;
-  document.getElementById('profile-hero-name').textContent = p.name;
-  document.getElementById('profile-hero-since').textContent = 'חבר מאז ' + new Date(p.createdAt).toLocaleDateString('he-IL');
+  const displayName = p.displayName || (AUTH_USER && AUTH_USER.displayName) || 'משתמש';
+  const initial = (displayName || '?').trim().charAt(0).toUpperCase();
+  const heroAv = document.getElementById('profile-hero-avatar');
+  const photoURL = AUTH_USER && AUTH_USER.photoURL;
+  if (photoURL) {
+    heroAv.style.background = `url('${photoURL}') center/cover, linear-gradient(135deg,#fbbf24,#f59e0b)`;
+    heroAv.textContent = '';
+  } else {
+    heroAv.style.background = '';
+    heroAv.textContent = initial;
+  }
+  document.getElementById('profile-hero-name').textContent = displayName;
+  const createdAt = p.createdAt ? new Date(p.createdAt) : new Date();
+  document.getElementById('profile-hero-since').textContent = 'חבר מאז ' + createdAt.toLocaleDateString('he-IL');
 
-  renderProfilePasswordCard(p);
+  renderAccountCard(p);
 
   const examHistory = p.examHistory || [];
   const trainingStats = p.trainingStats || {};
@@ -2910,80 +3103,28 @@ function formatDuration(sec) {
   return (h?h+':':'') + String(m).padStart(2,'0') + ':' + String(s).padStart(2,'0');
 }
 
-function renderProfilePasswordCard(p) {
-  const banner = document.getElementById('profile-pwd-banner');
-  const oldWrap = document.getElementById('profile-pwd-old-wrap');
-  const submitBtn = document.getElementById('profile-pwd-submit');
-  const hasPwd = !!p.passwordHash;
-  if (hasPwd) {
-    banner.innerHTML = `<div class="pwd-status-banner ok"><span style="font-size:1.05rem">🔒</span><span>הפרופיל הזה <strong>מוגן בסיסמה</strong>. ניתן להחליף סיסמה למטה.</span></div>`;
-    oldWrap.style.display = 'block';
-    submitBtn.textContent = '💾 שמור סיסמה חדשה';
+function renderAccountCard(p) {
+  const photoWrap = document.getElementById('account-photo-wrap');
+  const fallback  = document.getElementById('account-photo-fallback');
+  const nameEl = document.getElementById('account-display-name');
+  const emailEl = document.getElementById('account-email');
+  const inp = document.getElementById('account-name-input');
+  const msg = document.getElementById('account-msg');
+
+  const displayName = p.displayName || (AUTH_USER && AUTH_USER.displayName) || 'משתמש';
+  const email = p.email || (AUTH_USER && AUTH_USER.email) || '';
+  const photoURL = AUTH_USER && AUTH_USER.photoURL;
+
+  // Render photo (img if available, fallback to initial)
+  if (photoURL) {
+    photoWrap.innerHTML = `<img src="${escHtml(photoURL)}" alt="" class="account-photo" referrerpolicy="no-referrer" onerror="this.outerHTML='<div class=&quot;account-photo-fallback&quot;>${escHtml((displayName||'?').trim().charAt(0).toUpperCase())}</div>'">`;
   } else {
-    banner.innerHTML = `<div class="pwd-status-banner"><span style="font-size:1.05rem">⚠️</span><span>הפרופיל הזה <strong>אינו מוגן בסיסמה</strong>. מומלץ להגדיר סיסמה כדי להגן על ההיסטוריה והסטטיסטיקות שלך.</span></div>`;
-    oldWrap.style.display = 'none';
-    submitBtn.textContent = '🔐 הגדר סיסמה';
+    photoWrap.innerHTML = `<div class="account-photo-fallback">${escHtml((displayName || '?').trim().charAt(0).toUpperCase())}</div>`;
   }
-  ['profile-pwd-old','profile-pwd-new','profile-pwd-new2'].forEach(id => {
-    const el = document.getElementById(id); if (el) el.value = '';
-  });
-  const msg = document.getElementById('profile-pwd-msg');
+  nameEl.textContent = displayName;
+  emailEl.textContent = email || '—';
+  if (document.activeElement !== inp) inp.value = displayName;
   if (msg) msg.classList.remove('show');
-}
-
-async function submitChangePassword() {
-  const p = getProfile(); if (!p) return;
-  const oldEl = document.getElementById('profile-pwd-old');
-  const newEl = document.getElementById('profile-pwd-new');
-  const new2El = document.getElementById('profile-pwd-new2');
-  const msg = document.getElementById('profile-pwd-msg');
-  const showMsg = (text, type) => {
-    msg.textContent = text;
-    msg.classList.remove('err','ok');
-    msg.classList.add(type, 'show');
-  };
-  const oldPwd = oldEl ? oldEl.value : '';
-  const newPwd = newEl.value;
-  const newPwd2 = new2El.value;
-  const hasPwd = !!p.passwordHash;
-  if (hasPwd) {
-    if (!oldPwd) return showMsg('נא להזין את הסיסמה הנוכחית', 'err');
-    let ok = false;
-    try { ok = await verifyProfilePassword(p, oldPwd); }
-    catch(e) { return showMsg('שגיאה: '+(e.message||''), 'err'); }
-    if (!ok) return showMsg('הסיסמה הנוכחית שגויה', 'err');
-  }
-  if (!newPwd) return showMsg('נא להזין סיסמה חדשה', 'err');
-  if (newPwd.length < 4) return showMsg('הסיסמה חייבת להיות באורך 4 תווים לפחות', 'err');
-  if (newPwd !== newPwd2) return showMsg('הסיסמאות החדשות אינן תואמות', 'err');
-  try {
-    const store = loadStore();
-    const profile = store.profiles[CURRENT_PROFILE_ID];
-    if (!profile) return showMsg('שגיאה: הפרופיל לא נמצא', 'err');
-    await setProfilePasswordFields(profile, newPwd);
-    saveStore(store);
-    showMsg(hasPwd ? '✅ הסיסמה שונתה בהצלחה' : '✅ סיסמה הוגדרה בהצלחה. הפרופיל מוגן.', 'ok');
-    renderProfilePasswordCard(profile);
-  } catch(e) {
-    showMsg('שגיאה בשמירת הסיסמה: '+(e.message||''), 'err');
-  }
-}
-
-function resetProfileData() {
-  if (!confirm('למחוק את כל היסטוריית המבחנים והסטטיסטיקות של פרופיל זה? הפעולה אינה הפיכה.')) return;
-  updateProfile(p => { p.examHistory=[]; p.trainingStats={}; });
-  renderProfilePage();
-}
-
-function deleteProfile() {
-  const p = getProfile(); if (!p) return;
-  if (!confirm('למחוק את הפרופיל "'+p.name+'" לחלוטין, כולל כל הנתונים? הפעולה אינה הפיכה.')) return;
-  const store = loadStore();
-  delete store.profiles[CURRENT_PROFILE_ID];
-  store.currentProfile = null;
-  saveStore(store);
-  CURRENT_PROFILE_ID = null;
-  showLogin();
 }
 
 // ============================================================
