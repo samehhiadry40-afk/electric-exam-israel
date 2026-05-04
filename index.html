@@ -315,6 +315,18 @@
     .btn-google:disabled{opacity:.6;cursor:not-allowed}
     .btn-google svg{width:20px;height:20px;flex-shrink:0}
 
+    /* ===== GUEST MODE ===== */
+    .login-divider{display:flex;align-items:center;gap:.75rem;margin:1.25rem 0 1rem;color:var(--n400);font-size:.78rem;font-weight:600}
+    .login-divider::before,.login-divider::after{content:"";flex:1;height:1px;background:var(--n200)}
+    .btn-guest{display:inline-flex;align-items:center;justify-content:center;gap:.5rem;background:transparent;color:var(--n600);border:1.5px dashed var(--n300);border-radius:8px;padding:.65rem 1.25rem;font-family:inherit;font-size:.88rem;font-weight:600;cursor:pointer;width:100%;transition:all .2s}
+    .btn-guest:hover{background:var(--n50);border-color:var(--n400);color:var(--n800)}
+    .guest-banner{display:none;background:#fef3c7;border-bottom:1.5px solid #fde68a;color:#92400e;padding:.55rem 1.25rem;font-size:.82rem;font-weight:600;text-align:center;line-height:1.4;position:sticky;top:64px;z-index:90;gap:.5rem;align-items:center;justify-content:center;flex-wrap:wrap}
+    .guest-banner.show{display:flex}
+    .guest-banner button{background:#92400e;color:white;border:none;border-radius:6px;padding:.3rem .85rem;font-family:inherit;font-size:.78rem;font-weight:700;cursor:pointer}
+    .guest-banner button:hover{background:#78350f}
+    .nav-profile.guest .nav-profile-avatar{background:linear-gradient(135deg,#9ca3af,#6b7280)}
+    .guest-info-card{background:#fef3c7;border:1.5px solid #fde68a;color:#92400e;padding:1rem 1.25rem;border-radius:10px;margin:1rem;font-size:.88rem;line-height:1.55;display:flex;gap:.75rem;align-items:flex-start}
+
     /* ===== SYNC INDICATOR (in nav) ===== */
     .sync-indicator{display:none;align-items:center;gap:.35rem;font-size:.7rem;color:rgba(255,255,255,.75);padding:.22rem .6rem;border-radius:12px;background:rgba(255,255,255,.08);margin-right:.4rem;cursor:default;transition:all .2s;white-space:nowrap;flex-shrink:0}
     .sync-indicator.show{display:inline-flex}
@@ -616,10 +628,16 @@
       <div class="nav-profile-menu-item" onclick="showPage('profile');closeProfileMenu()">👤 הפרופיל שלי</div>
       <div class="nav-profile-menu-item" onclick="showPage('stats');closeProfileMenu()">📊 הסטטיסטיקות שלי</div>
       <div class="nav-profile-menu-divider"></div>
-      <div class="nav-profile-menu-item danger" onclick="logout()">🚪 התנתק</div>
+      <div class="nav-profile-menu-item danger" id="nav-logout-item" onclick="logout()">🚪 התנתק</div>
     </div>
   </div>
 </nav>
+
+<!-- Guest mode warning banner -->
+<div class="guest-banner" id="guest-banner">
+  <span>⚠️ <strong>מצב אורח</strong> — היסטוריית הלמידה והסטטיסטיקות לא נשמרות. ברגע שתסגור או תרענן את הדף — הכל יאבד.</span>
+  <button onclick="exitGuestMode()">🔓 התחבר עם Google כדי לשמור</button>
+</div>
 
 <div class="shortcut-bar" id="shortcut-bar-study" style="display:none">
   <span>קיצורי מקלדת:</span>
@@ -657,6 +675,13 @@
     </button>
 
     <div class="login-error" id="login-error" style="margin-top:1rem"></div>
+
+    <div class="login-divider">או</div>
+
+    <button class="btn-guest" onclick="continueAsGuest()">
+      <span>👤</span>
+      <span>המשך כאורח (ללא שמירת היסטוריה)</span>
+    </button>
 
     <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--n200);font-size:.78rem;color:var(--n500);line-height:1.55;text-align:right">
       🔒 הנתונים שלך נשמרים בחשבון Firebase האישי שלך, מסונכרנים אוטומטית בין מכשירים, ומוגנים בחוקי גישה — רק אתה רואה את הנתונים שלך.
@@ -1202,7 +1227,7 @@
       </div>
       <div style="padding:0 1rem 1rem;display:flex;gap:.5rem;flex-wrap:wrap">
         <button class="btn btn-outline" onclick="resetProfileData()">🗑️ מחק היסטוריה ונתונים</button>
-        <button class="btn btn-danger" onclick="deleteCloudAccount()">❌ מחק חשבון לחלוטין</button>
+        <button class="btn btn-danger" id="btn-delete-cloud-account" onclick="deleteCloudAccount()">❌ מחק חשבון לחלוטין</button>
       </div>
     </div>
   </div>
@@ -2556,6 +2581,7 @@ let CURRENT_PROFILE_ID = null;            // = uid when signed in
 let AUTH_USER = null;                     // Firebase user object
 let PROFILE_CACHE = null;                 // last snapshot from Firestore (live-updated by onSnapshot)
 let SNAPSHOT_UNSUB = null;                // unsubscribe for active onSnapshot listener
+let GUEST_MODE = false;                   // true = in-memory only, no persistence
 
 // Read-only access to legacy localStorage profiles (used by migration dialog)
 function loadLocalProfiles() {
@@ -2748,8 +2774,50 @@ async function signInWithGoogle() {
 
 async function logout() {
   closeProfileMenu();
+  if (GUEST_MODE) { exitGuestMode(); return; }
   try { await fb.signOut(fb.auth); } catch(e) { console.warn(e); }
   // onAuthStateChanged will clean up state and show login
+}
+
+// ============================================================
+// GUEST MODE — use the app without signing in (data not persisted)
+// ============================================================
+function continueAsGuest() {
+  const ok = confirm(
+    '⚠️ מצב אורח — אזהרה!\n\n' +
+    'במצב זה ההיסטוריה והסטטיסטיקות שלך לא יישמרו.\n' +
+    'ברגע שתסגור או תרענן את הדף — כל הנתונים יאבדו ולא יסונכרנו לשום מקום.\n\n' +
+    'מומלץ להתחבר עם Google כדי שהנתונים יסונכרנו אוטומטית בין המחשב והנייד.\n\n' +
+    'האם להמשיך כאורח בכל זאת?'
+  );
+  if (!ok) return;
+  GUEST_MODE = true;
+  AUTH_USER = null;
+  CURRENT_PROFILE_ID = '__guest__';
+  PROFILE_CACHE = {
+    id: '__guest__',
+    displayName: 'אורח',
+    email: '',
+    photoURL: '',
+    createdAt: Date.now(),
+    examHistory: [],
+    trainingStats: {}
+  };
+  document.getElementById('login-overlay').classList.add('hide');
+  document.getElementById('app').style.display = 'block';
+  document.getElementById('guest-banner').classList.add('show');
+  setSyncStatus('synced'); // hides because AUTH_USER is null
+  updateNavProfile();
+  showPage('home');
+}
+
+function exitGuestMode() {
+  GUEST_MODE = false;
+  PROFILE_CACHE = null;
+  CURRENT_PROFILE_ID = null;
+  document.getElementById('guest-banner').classList.remove('show');
+  closeProfileMenu();
+  showLogin();
 }
 
 function showLogin(showConfigWarning) {
@@ -2768,8 +2836,20 @@ function showLogin(showConfigWarning) {
 function updateNavProfile() {
   const p = PROFILE_CACHE;
   const el = document.getElementById('nav-profile');
-  if (!p || !AUTH_USER) { el.style.display = 'none'; return; }
+  const logoutItem = document.getElementById('nav-logout-item');
+  if (!p || (!AUTH_USER && !GUEST_MODE)) { el.style.display = 'none'; return; }
   el.style.display = 'flex';
+  el.classList.toggle('guest', !!GUEST_MODE);
+
+  if (GUEST_MODE) {
+    document.getElementById('nav-profile-name').textContent = 'אורח';
+    const av = document.getElementById('nav-profile-avatar');
+    av.style.background = '';
+    av.textContent = '👤';
+    if (logoutItem) logoutItem.textContent = '🔓 כניסה עם Google';
+    return;
+  }
+
   const displayName = p.displayName || AUTH_USER.displayName || 'משתמש';
   document.getElementById('nav-profile-name').textContent = displayName;
   const av = document.getElementById('nav-profile-avatar');
@@ -2781,6 +2861,7 @@ function updateNavProfile() {
     av.style.background = '';
     av.textContent = (displayName || '?').trim().charAt(0).toUpperCase();
   }
+  if (logoutItem) logoutItem.textContent = '🚪 התנתק';
 }
 
 function toggleProfileMenu(e) {
@@ -2889,6 +2970,20 @@ async function migrationSkip() {
 // ============================================================
 // Uses a transaction so concurrent updates from another device don't clobber each other.
 async function trackAnswer(qId, isCorrect, source) {
+  // Guest mode: keep stats in memory only (lost on refresh — by design).
+  if (GUEST_MODE) {
+    if (!PROFILE_CACHE.trainingStats) PROFILE_CACHE.trainingStats = {};
+    const s = PROFILE_CACHE.trainingStats[qId] || {attempts:0, correct:0, history:[], lastAt:null, lastCorrect:null};
+    s.attempts = (s.attempts || 0) + 1;
+    if (isCorrect) s.correct = (s.correct || 0) + 1;
+    s.history = (s.history || []).concat([{ t: Date.now(), c: !!isCorrect, src: source || 'study' }]);
+    if (s.history.length > 30) s.history = s.history.slice(-30);
+    s.lastAt = Date.now();
+    s.lastCorrect = !!isCorrect;
+    PROFILE_CACHE.trainingStats[qId] = s;
+    refreshUIForProfile();
+    return;
+  }
   if (!AUTH_USER) return;
   setSyncStatus('saving');
   const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
@@ -2912,9 +3007,6 @@ async function trackAnswer(qId, isCorrect, source) {
 }
 
 async function saveExamToHistory(result) {
-  if (!AUTH_USER) return;
-  setSyncStatus('saving');
-  const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
   const entry = {
     date: Date.now(),
     score: result.score,
@@ -2926,6 +3018,17 @@ async function saveExamToHistory(result) {
     durationSec: result.durationSec,
     detail: result.detail
   };
+  // Guest mode: stay in memory only.
+  if (GUEST_MODE) {
+    if (!PROFILE_CACHE.examHistory) PROFILE_CACHE.examHistory = [];
+    PROFILE_CACHE.examHistory.unshift(entry);
+    if (PROFILE_CACHE.examHistory.length > 100) PROFILE_CACHE.examHistory = PROFILE_CACHE.examHistory.slice(0, 100);
+    refreshUIForProfile();
+    return;
+  }
+  if (!AUTH_USER) return;
+  setSyncStatus('saving');
+  const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
   try {
     // Transaction so we can clamp to 100 most recent without losing concurrent writes.
     await fb.runTransaction(fb.db, async (tx) => {
@@ -2962,6 +3065,13 @@ async function saveDisplayName() {
 }
 
 async function resetProfileData() {
+  if (GUEST_MODE) {
+    if (!confirm('למחוק את כל ההיסטוריה והסטטיסטיקות של מצב האורח?')) return;
+    PROFILE_CACHE.examHistory = [];
+    PROFILE_CACHE.trainingStats = {};
+    refreshUIForProfile();
+    return;
+  }
   if (!confirm('למחוק את כל היסטוריית המבחנים והסטטיסטיקות? הפעולה אינה הפיכה ותסונכרן לכל המכשירים שלך.')) return;
   if (!AUTH_USER) return;
   try {
@@ -3004,9 +3114,16 @@ function renderProfilePage() {
   }
   document.getElementById('profile-hero-name').textContent = displayName;
   const createdAt = p.createdAt ? new Date(p.createdAt) : new Date();
-  document.getElementById('profile-hero-since').textContent = 'חבר מאז ' + createdAt.toLocaleDateString('he-IL');
+  const sinceLabel = GUEST_MODE
+    ? 'מצב אורח · הנתונים זמניים בלבד'
+    : 'חבר מאז ' + createdAt.toLocaleDateString('he-IL');
+  document.getElementById('profile-hero-since').textContent = sinceLabel;
 
   renderAccountCard(p);
+
+  // Hide "delete cloud account" button when in guest mode (no cloud account to delete).
+  const deleteBtn = document.getElementById('btn-delete-cloud-account');
+  if (deleteBtn) deleteBtn.style.display = GUEST_MODE ? 'none' : '';
 
   const examHistory = p.examHistory || [];
   const trainingStats = p.trainingStats || {};
@@ -3104,27 +3221,71 @@ function formatDuration(sec) {
 }
 
 function renderAccountCard(p) {
-  const photoWrap = document.getElementById('account-photo-wrap');
-  const fallback  = document.getElementById('account-photo-fallback');
-  const nameEl = document.getElementById('account-display-name');
-  const emailEl = document.getElementById('account-email');
-  const inp = document.getElementById('account-name-input');
-  const msg = document.getElementById('account-msg');
+  // Find the account card by looking for its known children (photo wrap or name input).
+  let card = document.getElementById('account-photo-wrap');
+  if (card) card = card.closest('.card');
+  if (!card) {
+    const inp0 = document.getElementById('account-name-input');
+    if (inp0) card = inp0.closest('.card');
+  }
+  if (!card) {
+    // Already replaced previously — find any card with our marker.
+    card = document.getElementById('account-card-host');
+  }
+  if (!card) return;
+  card.id = 'account-card-host'; // stable handle for later re-renders
+
+  // Guest mode: render a friendly "register to save" prompt instead of Google info.
+  if (GUEST_MODE) {
+    card.innerHTML = `
+      <div class="card-header">👤 מצב אורח</div>
+      <div class="guest-info-card">
+        <div style="font-size:1.5rem">⚠️</div>
+        <div>
+          <strong>אתה כרגע במצב אורח.</strong><br>
+          הסטטיסטיקות שאתה רואה למטה הן <strong>זמניות</strong> ויאבדו ברגע שתסגור או תרענן את הדף.<br>
+          התחבר עם Google כדי לשמור אותן בענן ולסנכרן בין מכשירים.
+        </div>
+      </div>
+      <div style="padding:0 1rem 1rem">
+        <button class="btn-google" onclick="exitGuestMode()" style="width:auto">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+          </svg>
+          <span>התחבר עם Google ושמור את ההיסטוריה</span>
+        </button>
+      </div>`;
+    return;
+  }
 
   const displayName = p.displayName || (AUTH_USER && AUTH_USER.displayName) || 'משתמש';
   const email = p.email || (AUTH_USER && AUTH_USER.email) || '';
   const photoURL = AUTH_USER && AUTH_USER.photoURL;
+  const initial = (displayName || '?').trim().charAt(0).toUpperCase();
+  const photoHTML = photoURL
+    ? `<img src="${escHtml(photoURL)}" alt="" class="account-photo" referrerpolicy="no-referrer" onerror="this.outerHTML='<div class=&quot;account-photo-fallback&quot;>${escHtml(initial)}</div>'">`
+    : `<div class="account-photo-fallback">${escHtml(initial)}</div>`;
 
-  // Render photo (img if available, fallback to initial)
-  if (photoURL) {
-    photoWrap.innerHTML = `<img src="${escHtml(photoURL)}" alt="" class="account-photo" referrerpolicy="no-referrer" onerror="this.outerHTML='<div class=&quot;account-photo-fallback&quot;>${escHtml((displayName||'?').trim().charAt(0).toUpperCase())}</div>'">`;
-  } else {
-    photoWrap.innerHTML = `<div class="account-photo-fallback">${escHtml((displayName || '?').trim().charAt(0).toUpperCase())}</div>`;
-  }
-  nameEl.textContent = displayName;
-  emailEl.textContent = email || '—';
-  if (document.activeElement !== inp) inp.value = displayName;
-  if (msg) msg.classList.remove('show');
+  card.innerHTML = `
+    <div class="card-header">👤 חשבון Google — מסונכרן בענן</div>
+    <div class="account-info">
+      <div id="account-photo-wrap">${photoHTML}</div>
+      <div class="account-meta">
+        <div class="account-display-name" id="account-display-name">${escHtml(displayName)}</div>
+        <div class="account-email" id="account-email">${escHtml(email || '—')}</div>
+      </div>
+    </div>
+    <div class="account-name-row">
+      <div class="account-name-field">
+        <label class="login-field-label" for="account-name-input">שם תצוגה</label>
+        <input class="account-name-input" id="account-name-input" type="text" placeholder="שם להצגה" maxlength="40" value="${escHtml(displayName)}">
+      </div>
+      <button class="btn btn-primary" onclick="saveDisplayName()">💾 שמור שם</button>
+    </div>
+    <div class="account-msg" id="account-msg"></div>`;
 }
 
 // ============================================================
