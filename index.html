@@ -98,6 +98,7 @@
     .feedback.correct-fb .feedback-title{color:var(--secondary)}
     .feedback.wrong-fb .feedback-title{color:var(--danger)}
     .feedback-explanation{font-size:.87rem;line-height:1.7;color:var(--n700);margin-top:.65rem;padding-top:.65rem;border-top:1px solid rgba(0,0,0,.1);white-space:pre-line}
+    .feedback-explanation .question-image-wrap,.result-explanation .question-image-wrap{margin-top:.75rem}
 
     /* HINT */
     .hint-box{background:var(--warning-light);border:1.5px solid var(--warning);border-radius:10px;padding:.9rem 1.1rem;margin-top:.9rem;font-size:.87rem;color:var(--n800);line-height:1.6;display:none}
@@ -2028,10 +2029,11 @@ function shuffle(arr) {
 function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
-function buildImageHTML(imgPath, caption='', pdfPage=null) {
+function buildImageHTML(imgPath, caption='', pdfPage=null, altText=null) {
   if (!imgPath) return '';
+  const alt = altText || 'תרשים לשאלה';
   return `<div class="question-image-wrap">
-    <img src="${escHtml(imgPath)}" alt="תרשים לשאלה" loading="lazy"
+    <img src="${escHtml(imgPath)}" alt="${escHtml(alt)}" loading="lazy"
       onerror="this.parentElement.style.display='none'">
     ${caption ? `<div class="image-caption">${escHtml(caption)}</div>` : ''}
   </div>`;
@@ -2114,7 +2116,7 @@ function setupKeyboard() {
 // ============================================================
 function initHome() {
   const topicSet = new Set(DB.map(q=>q.topic));
-  const withExpl = DB.filter(q=>q.explanation).length;
+  const withExpl = DB.filter(q=>hasExplanationContent(q)).length;
   const withImg = DB.filter(q=>q.image).length;
   document.getElementById('home-stats').innerHTML = [
     {val:DB.length, label:'שאלות', color:'var(--primary)'},
@@ -2208,7 +2210,7 @@ function buildStudyQuestionHTML(q){
     const cls=isCorr?'correct-fb':'wrong-fb';
     const title=isCorr?'✅ תשובה נכונה!':
       `❌ תשובה שגויה — התשובה הנכונה היא ${q.correct_answer}. ${escHtml(q.options[q.correct_answer-1]||'')}`;
-    const expl=q.explanation?`<div class="feedback-explanation">${escHtml(cleanExplanation(q.explanation))}</div>`:'';
+    const expl=hasExplanationContent(q)?`<div class="feedback-explanation">${buildExplanationHTML(q)}</div>`:'';
     feedbackHTML=`<div class="feedback ${cls} show"><div class="feedback-title">${title}</div>${expl}</div>`;
   }
 
@@ -2240,7 +2242,7 @@ function buildStudyQuestionHTML(q){
       ${hintHTML}
       ${feedbackHTML}
       <div class="action-row">
-        ${answered===undefined&&q.explanation?`<button class="btn btn-warning" onclick="showHint(${q.id})" title="רמז ללא תשובה סופית">💡 רמז (H)</button>`:''}
+        ${answered===undefined&&q.explanation&&String(q.explanation).trim()?`<button class="btn btn-warning" onclick="showHint(${q.id})" title="רמז ללא תשובה סופית">💡 רמז (H)</button>`:''}
         <div class="spacer"></div>
         ${studyIndex>0?'<button class="btn btn-outline" onclick="prevQuestion()">◄ הקודמת (→)</button>':''}
         ${studyIndex<studyQuestions.length-1?'<button class="btn btn-primary" onclick="nextQuestion()">הבאה ► (←)</button>':''}
@@ -2271,6 +2273,23 @@ function cleanExplanation(text) {
   // Clean up leftover punctuation / whitespace
   t = t.replace(/\(\s*\)/g, '').replace(/,\s*\./g, '.').replace(/\.\s*\./g, '.').replace(/\s{2,}/g, ' ').trim();
   return t;
+}
+
+function hasExplanationContent(q) {
+  return q && ((q.explanation && String(q.explanation).trim()) || q.explanation_image);
+}
+
+/** טקסט הסבר + תמונה אופציונלית (שדה explanation_image ב-JSON) */
+function buildExplanationHTML(q) {
+  if (!q) return '';
+  const parts = [];
+  if (q.explanation && String(q.explanation).trim()) {
+    parts.push(escHtml(cleanExplanation(q.explanation)));
+  }
+  if (q.explanation_image) {
+    parts.push(buildImageHTML(q.explanation_image, '', null, 'איור להסבר'));
+  }
+  return parts.join('');
 }
 
 /**
@@ -2524,7 +2543,7 @@ function finishExam(){
         ${userOrig?`תשובתך: ${userText}<br>`:'<span style="color:var(--warning)">לא נענה</span><br>'}
         ${!isCorr?`<span style="color:var(--secondary)">✓ נכון: ${correctText}</span>`:''}
       </div>
-      ${q.explanation?`<button class="result-explain-btn" onclick="toggleExpl(${i})">📖 הסבר מפורט</button><div class="result-explanation" id="result-expl-${i}">${escHtml(cleanExplanation(q.explanation))}</div>`:''}
+      ${hasExplanationContent(q)?`<button class="result-explain-btn" onclick="toggleExpl(${i})">📖 הסבר מפורט</button><div class="result-explanation" id="result-expl-${i}">${buildExplanationHTML(q)}</div>`:''}
     </div>`;
   });
   document.getElementById('results-detail').innerHTML=detailHTML;
@@ -3381,8 +3400,8 @@ function renderStatsProblems() {
       </div>
       <div class="stats-problem-actions">
         <button class="btn btn-primary" style="font-size:.82rem;padding:.45rem .9rem" onclick="relearnQuestion(${q.id})">📚 פתח את השאלה ללמידה</button>
-        ${q.explanation ? `<button class="btn btn-outline" style="font-size:.82rem;padding:.45rem .9rem" onclick="showProblemExpl(${q.id})">📖 הצג הסבר</button>
-        <div id="problem-expl-${q.id}" style="display:none;margin-top:.55rem;padding-top:.55rem;border-top:1px dashed var(--n200);font-size:.85rem;color:var(--n600);line-height:1.65;white-space:pre-line;width:100%">${escHtml(cleanExplanation(q.explanation))}</div>` : ''}
+        ${hasExplanationContent(q) ? `<button class="btn btn-outline" style="font-size:.82rem;padding:.45rem .9rem" onclick="showProblemExpl(${q.id})">📖 הצג הסבר</button>
+        <div id="problem-expl-${q.id}" style="display:none;margin-top:.55rem;padding-top:.55rem;border-top:1px dashed var(--n200);font-size:.85rem;color:var(--n600);line-height:1.65;white-space:pre-line;width:100%">${buildExplanationHTML(q)}</div>` : ''}
       </div>
     </div>`;
   }).join('');
@@ -3658,7 +3677,7 @@ function initAdminPage() {
 
   // Stats
   const total = DB.length;
-  const withExpl = DB.filter(q=>q.explanation&&q.explanation.trim()).length;
+  const withExpl = DB.filter(q=>hasExplanationContent(q)).length;
   document.getElementById('admin-stats').textContent = total + ' שאלות במאגר | ' + withExpl + ' עם הסבר';
   document.getElementById('admin-missing-badge').textContent = MISSING_IDS.length + ' שאלות חסרות';
 
