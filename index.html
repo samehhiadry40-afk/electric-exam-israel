@@ -2235,6 +2235,7 @@ function buildStudyQuestionHTML(q){
     <div class="question-body">
       <div class="question-text">${escHtml(q.question)}</div>
       ${imgHTML}
+      ${q.question_after_image?`<div class="question-text">${escHtml(q.question_after_image)}</div>`:''}
       <div class="options-grid">${optHTML}</div>
       ${hintHTML}
       ${feedbackHTML}
@@ -2448,6 +2449,7 @@ function renderExamQuestion(){
     <div class="question-body">
       <div class="question-text">${escHtml(q.question)}</div>
       ${imgHTML}
+      ${q.question_after_image?`<div class="question-text">${escHtml(q.question_after_image)}</div>`:''}
       <div class="options-grid">${optHTML}</div>
     </div>
   </div>`;
