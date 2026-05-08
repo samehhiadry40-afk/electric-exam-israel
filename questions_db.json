@@ -4499,7 +4499,7 @@
         "S=85 [mm²]"
       ],
       "correct_answer": 2,
-      "explanation": ".ע\"פ העמסה והגנה תקנה10 : 𝑡≤ 𝐾𝑆 𝐼𝐾𝑚𝑖𝑛 ( )",
+      "explanation": "ע\"פ העמסה והגנה תקנה 10:\nt≤(KS/Ikmin)^2\nמדובר על כבל אלומיניום עם בידוד 90,  וע\"פ טבלה בתקנה 10, K=146\nע\"פ האופיין ב- t=3sec, נקבל Ikmin=5A, ולכן:\nS ≥(Ikmin*SQRT(t))/k => 60mm2",
       "image": "images/q_0281.jpg",
       "pdf_page": 100
     },
