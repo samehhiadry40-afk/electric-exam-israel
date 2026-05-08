@@ -68,6 +68,7 @@
     .question-topic-badge{background:rgba(255,255,255,.2);padding:.2rem .7rem;border-radius:20px;font-size:.75rem;font-weight:500;text-align:center}
     .question-body{padding:1.5rem}
     .question-text{font-size:.97rem;line-height:1.75;color:var(--n800);font-weight:500;margin-bottom:1rem}
+    .question-text-after-image{white-space:pre-line}
 
     /* QUESTION IMAGE */
     .question-image-wrap{margin-bottom:1.25rem;border:2px solid var(--n200);border-radius:10px;overflow:hidden;background:var(--n50);text-align:center}
@@ -686,9 +687,9 @@
 
     <div style="margin-top:1.5rem;padding-top:1.25rem;border-top:1px solid var(--n200);font-size:.78rem;color:var(--n500);line-height:1.55;text-align:right">
       🔒 הנתונים שלך נשמרים בחשבון Firebase האישי שלך, מסונכרנים אוטומטית בין מכשירים, ומוגנים בחוקי גישה — רק אתה רואה את הנתונים שלך.
-    </div>
+        </div>
   </div>
-</div>
+      </div>
 
 <!-- MIGRATION DIALOG (one-time import of local profiles to cloud) -->
 <div class="migrate-overlay" id="migrate-overlay">
@@ -1204,19 +1205,19 @@
       <div class="account-info">
         <div id="account-photo-wrap">
           <div class="account-photo-fallback" id="account-photo-fallback">?</div>
-        </div>
+            </div>
         <div class="account-meta">
           <div class="account-display-name" id="account-display-name">—</div>
           <div class="account-email" id="account-email">—</div>
-        </div>
-      </div>
+          </div>
+              </div>
       <div class="account-name-row">
         <div class="account-name-field">
           <label class="login-field-label" for="account-name-input">שם תצוגה</label>
           <input class="account-name-input" id="account-name-input" type="text" placeholder="שם להצגה" maxlength="40">
-        </div>
+            </div>
         <button class="btn btn-primary" onclick="saveDisplayName()">💾 שמור שם</button>
-      </div>
+              </div>
       <div class="account-msg" id="account-msg"></div>
     </div>
 
@@ -2237,7 +2238,7 @@ function buildStudyQuestionHTML(q){
     <div class="question-body">
       <div class="question-text">${escHtml(q.question)}</div>
       ${imgHTML}
-      ${q.question_after_image?`<div class="question-text">${escHtml(q.question_after_image)}</div>`:''}
+      ${q.question_after_image?`<div class="question-text question-text-after-image">${escHtml(q.question_after_image)}</div>`:''}
       <div class="options-grid">${optHTML}</div>
       ${hintHTML}
       ${feedbackHTML}
@@ -2468,7 +2469,7 @@ function renderExamQuestion(){
     <div class="question-body">
       <div class="question-text">${escHtml(q.question)}</div>
       ${imgHTML}
-      ${q.question_after_image?`<div class="question-text">${escHtml(q.question_after_image)}</div>`:''}
+      ${q.question_after_image?`<div class="question-text question-text-after-image">${escHtml(q.question_after_image)}</div>`:''}
       <div class="options-grid">${optHTML}</div>
     </div>
   </div>`;
@@ -2662,7 +2663,7 @@ async function bootstrapAuth() {
           errEl.classList.add('show');
         }
       }
-    } else {
+  } else {
       onSignedOut();
     }
   });
@@ -2720,8 +2721,8 @@ function enterApp() {
   SNAPSHOT_UNSUB = fb.onSnapshot(ref, { includeMetadataChanges: true }, (snap) => {
     if (!snap.exists()) {
       PROFILE_CACHE = null;
-      return;
-    }
+    return;
+  }
     PROFILE_CACHE = Object.assign({ id: AUTH_USER.uid }, snap.data());
     // Sync indicator: pendingWrites=true → still saving; fromCache + offline → offline
     if (snap.metadata.hasPendingWrites)        setSyncStatus('saving');
@@ -3029,15 +3030,15 @@ async function trackAnswer(qId, isCorrect, source) {
 
 async function saveExamToHistory(result) {
   const entry = {
-    date: Date.now(),
-    score: result.score,
-    correct: result.correct,
-    wrong: result.wrong,
-    skipped: result.skipped,
-    total: result.total,
-    pass: result.pass,
-    durationSec: result.durationSec,
-    detail: result.detail
+      date: Date.now(),
+      score: result.score,
+      correct: result.correct,
+      wrong: result.wrong,
+      skipped: result.skipped,
+      total: result.total,
+      pass: result.pass,
+      durationSec: result.durationSec,
+      detail: result.detail
   };
   // Guest mode: stay in memory only.
   if (GUEST_MODE) {
