@@ -60,6 +60,31 @@
     .topic-chip:hover{border-color:var(--primary);color:var(--primary)}
     .topic-chip.active{background:var(--primary);border-color:var(--primary);color:white}
 
+    .study-smart-row{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-bottom:1rem;padding:.65rem .85rem;background:var(--n50);border-radius:10px;border:1px solid var(--n200)}
+    .study-smart-label{font-size:.78rem;font-weight:700;color:var(--n600);width:100%}
+    @media(min-width:520px){.study-smart-label{width:auto;margin-left:.25rem}}
+    .study-smart-chip{padding:.32rem .75rem;border-radius:20px;font-size:.74rem;font-weight:600;cursor:pointer;border:1.5px solid var(--n300);background:white;color:var(--n600);transition:all .2s;font-family:inherit}
+    .study-smart-chip:hover{border-color:var(--secondary);color:var(--secondary)}
+    .study-smart-chip.active{background:var(--secondary);border-color:var(--secondary);color:white}
+
+    .flash-toolbar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:space-between;margin-bottom:1rem}
+    .flash-card-wrap{position:relative;min-height:260px;margin:1rem 0}
+    .flash-card-face{display:none;padding:1.35rem;border-radius:var(--radius);box-shadow:var(--shadow);min-height:240px;line-height:1.75}
+    .flash-card-wrap.show-q .flash-face-q{display:block;background:white;border:2px solid var(--n200)}
+    .flash-card-wrap.show-a .flash-face-a{display:block;background:linear-gradient(135deg,var(--primary-light),#fff);border:2px solid var(--primary)}
+    .flash-face-label{font-size:.72rem;font-weight:800;color:var(--n500);text-transform:uppercase;letter-spacing:.06em;margin-bottom:.5rem}
+    .flash-topic-pill{display:inline-block;font-size:.72rem;font-weight:600;background:var(--primary);color:white;padding:.2rem .65rem;border-radius:20px;margin-bottom:.75rem}
+    .flash-flip-hint{font-size:.78rem;color:var(--n400);margin-top:1rem;text-align:center}
+
+    .dash-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:1rem;margin-bottom:1.5rem}
+    .dash-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.1rem;border-right:4px solid var(--dash-c,var(--primary))}
+    .dash-val{font-size:1.65rem;font-weight:800;color:var(--dash-c,var(--primary));line-height:1}
+    .dash-lbl{font-size:.76rem;color:var(--n500);margin-top:.35rem;font-weight:500}
+    .dash-chart-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.25rem;margin-bottom:1.25rem;overflow-x:auto}
+    .dash-chart-title{font-size:1rem;font-weight:800;margin-bottom:1rem;color:var(--n800)}
+    .dash-svg-wrap{min-width:280px}
+    .dash-note{font-size:.78rem;color:var(--n500);margin-top:.75rem;line-height:1.55}
+
     /* QUESTION */
     .question-card{background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden}
     .question-header{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:white;padding:1.1rem 1.5rem;display:flex;justify-content:space-between;align-items:center}
@@ -605,14 +630,16 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.1 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.2 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
     <button class="nav-tab active" onclick="showPage('home')">🏠 ראשי</button>
     <button class="nav-tab" onclick="showPage('study')">📚 לימוד</button>
+    <button class="nav-tab" onclick="showPage('flashcards')">🗂️ כרטיסיות</button>
     <button class="nav-tab" onclick="showPage('exam')">📝 מבחן</button>
     <button class="nav-tab" onclick="showPage('stats')">📊 סטטיסטיקה</button>
+    <button class="nav-tab" onclick="showPage('progress')">📈 התקדמות</button>
     <button class="nav-tab" onclick="showPage('profile')">👤 פרופיל</button>
     <button class="nav-tab" onclick="showPage('theory')">📖 תיאוריה</button>
     <button class="nav-tab" onclick="showPage('tips')">📋 TIPS ספר</button>
@@ -629,6 +656,7 @@
     <div class="nav-profile-menu" id="nav-profile-menu">
       <div class="nav-profile-menu-item" onclick="showPage('profile');closeProfileMenu()">👤 הפרופיל שלי</div>
       <div class="nav-profile-menu-item" onclick="showPage('stats');closeProfileMenu()">📊 הסטטיסטיקות שלי</div>
+      <div class="nav-profile-menu-item" onclick="showPage('progress');closeProfileMenu()">📈 דשבורד התקדמות</div>
       <div class="nav-profile-menu-divider"></div>
       <div class="nav-profile-menu-item danger" id="nav-logout-item" onclick="logout()">🚪 התנתק</div>
     </div>
@@ -657,6 +685,12 @@
   <span><kbd>1</kbd><kbd>2</kbd><kbd>3</kbd><kbd>4</kbd> בחר תשובה</span>
   <span><kbd>S</kbd> דלג</span>
   <span><kbd>Esc</kbd> סיים מבחן</span>
+</div>
+<div class="shortcut-bar" id="shortcut-bar-flash" style="display:none">
+  <span>כרטיסיות:</span>
+  <span><kbd>רווח</kbd> הפוך כרטיס</span>
+  <span><kbd>→</kbd> הבא</span>
+  <span><kbd>←</kbd> הקודם</span>
 </div>
 
 <!-- LOGIN OVERLAY -->
@@ -755,6 +789,12 @@
         <span class="search-icon">🔍</span>
       </div>
       <div class="topic-filters" id="topic-filters"></div>
+      <div class="study-smart-row" id="study-smart-row">
+        <span class="study-smart-label">מיקוד לפי ביצועים:</span>
+        <button type="button" class="study-smart-chip active" data-smart="all" onclick="setStudySmartFilter('all')">הכל</button>
+        <button type="button" class="study-smart-chip" data-smart="wrong_last" onclick="setStudySmartFilter('wrong_last')" title="שאלות שהטעות האחרונה בהן הייתה שגויה">טעות אחרונה</button>
+        <button type="button" class="study-smart-chip" data-smart="low_pct" onclick="setStudySmartFilter('low_pct')" title="לפחות 2 ניסיונות ואחוז הצלחה מתחת ל-60%">אחוז נמוך (&lt;60%)</button>
+      </div>
     </div>
     <div class="study-nav">
       <div class="study-nav-info" id="study-nav-info">טוען...</div>
@@ -762,6 +802,7 @@
         <button class="btn btn-outline" onclick="prevQuestion()" id="btn-prev">◄ הקודמת</button>
         <button class="btn btn-outline" onclick="nextQuestion()" id="btn-next">הבאה ►</button>
         <button class="btn btn-outline" onclick="randomQuestion()" title="שאלה אקראית (R)">🎲</button>
+        <button class="btn btn-outline" onclick="shuffleStudyList()" title="ערבב את סדר השאלות ברשימה הנוכחית">🔀 ערבב סדר</button>
       </div>
     </div>
     <form onsubmit="jumpToQuestion(event)" style="display:flex;gap:.5rem;align-items:center;margin-bottom:1rem">
@@ -772,6 +813,36 @@
     </form>
     <div class="progress-bar-wrap"><div class="progress-bar" id="study-progress-bar"></div></div>
     <div id="study-question-container"></div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="page-flashcards" class="page">
+    <div class="card">
+      <div class="card-header">🗂️ כרטיסיות — שאלה מול תשובה נכונה</div>
+      <p style="font-size:.86rem;color:var(--n600);line-height:1.65;margin-bottom:1rem">מתאים להפסקות קצרות: קרא את השאלה, נסה לזכור את התשובה, ואז לחץ על הכרטיס או על «הפוך» כדי לראות את התשובה וההסבר המקוצר.</p>
+      <div class="search-box">
+        <input type="text" class="search-input" id="flash-search-input" placeholder="חפש בכרטיסיות..." oninput="onFlashSearch(this.value)">
+        <span class="search-icon">🔍</span>
+      </div>
+      <div class="topic-filters" id="flash-topic-filters"></div>
+      <div class="study-smart-row">
+        <span class="study-smart-label">בחירת חפיסה:</span>
+        <button type="button" class="study-smart-chip flash-smart-chip active" data-smart="all" onclick="setFlashSmartFilter('all')">הכל</button>
+        <button type="button" class="study-smart-chip flash-smart-chip" data-smart="wrong_last" onclick="setFlashSmartFilter('wrong_last')">טעות אחרונה</button>
+        <button type="button" class="study-smart-chip flash-smart-chip" data-smart="low_pct" onclick="setFlashSmartFilter('low_pct')">אחוז נמוך</button>
+      </div>
+    </div>
+    <div class="flash-toolbar">
+      <div style="font-size:.87rem;color:var(--n500);font-weight:600" id="flash-nav-info">—</div>
+      <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+        <button class="btn btn-outline" onclick="flashPrev()">◄ הקודם</button>
+        <button class="btn btn-warning" onclick="toggleFlashFlip()">🔄 הפוך כרטיס</button>
+        <button class="btn btn-outline" onclick="flashNext()">הבא ►</button>
+        <button class="btn btn-outline" onclick="shuffleFlashDeck()">🔀 ערבב</button>
+      </div>
+    </div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="flash-progress-bar"></div></div>
+    <div id="flash-card-root"></div>
   </div>
 
   <!-- EXAM -->
@@ -929,7 +1000,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.1</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.2</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1175,7 +1246,7 @@
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.1 · 1000 שאלות · 20 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.2 · 1000 שאלות · 20 נושאים
     </div>
   </div>
 
@@ -1276,6 +1347,25 @@
           </thead>
           <tbody id="stats-tbody"></tbody>
         </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- PROGRESS DASHBOARD -->
+  <div id="page-progress" class="page">
+    <div class="card">
+      <div class="card-header">📈 דשבורד התקדמות</div>
+      <p style="font-size:.86rem;color:var(--n600);line-height:1.65;margin-bottom:1.25rem">סיכום לאורך זמן לפי מבחני סימולציה ופעילות במצב לימוד. זמן הלימוד הוא הערכה גסה (כ־45 שניות לכל ניסיון בשאלה).</p>
+      <div class="dash-grid" id="progress-summary"></div>
+      <div class="dash-chart-card">
+        <div class="dash-chart-title">ציוני סימולציה לאורך זמן</div>
+        <div class="dash-svg-wrap" id="progress-chart-exams"></div>
+        <div class="dash-note" id="progress-chart-exams-note"></div>
+      </div>
+      <div class="dash-chart-card">
+        <div class="dash-chart-title">פעילות לימוד — ניסיונות לפי שבוע</div>
+        <div class="dash-svg-wrap" id="progress-chart-study"></div>
+        <div class="dash-note">כל עמודה = סך הניסיונות בשאלות (לימוד + מבחן) שהוזנו לאותו שבוע.</div>
       </div>
     </div>
   </div>
@@ -1988,6 +2078,10 @@ const THEORY_CHAPTERS = [
 let DB = null;
 let studyQuestions = [], studyIndex = 0, studyAnswered = {}, studyHintShown = {};
 let activeTopics = new Set(), searchQuery = '';
+let studySmartFilter = 'all'; // 'all' | 'wrong_last' | 'low_pct'
+
+let flashDeck = [], flashIndex = 0, flashShowAnswer = false;
+let flashActiveTopics = new Set(), flashSearchQuery = '', flashSmartFilter = 'all';
 let examQuestions = [], examIndex = 0, examAnswers = {}, examSkipped = new Set();
 let examTimer = null, examSecondsLeft = 3*60*60, examFinished = false;
 let currentPage = 'home';
@@ -1999,13 +2093,19 @@ async function init() {
   try {
     document.getElementById('loading-screen').style.display = 'flex';
     document.getElementById('load-status').textContent = 'טוען שאלות...';
-    const res = await fetch('questions_db.json?v=' + Date.now());
+    const res = await fetch('questions_db.json?v=' + Date.now(), { cache: 'no-store' });
     if (!res.ok) throw new Error('Failed to load');
     const data = await res.json();
     DB = data.questions;
+    // שאלה 400: בגרסאות קודמות הופיעה תמונה לא רלוונטית; ניקוי גם אם מטמון CDN החזיר JSON ישן
+    const q400 = DB.find(q => q.id === 400);
+    if (q400) {
+      q400.image = null;
+      if (q400.question_diagram_image) delete q400.question_diagram_image;
+    }
     document.getElementById('loading-screen').style.display = 'none';
 
-    initHome(); initStudy(); initTheory();
+    initHome(); initStudy(); initFlashcards(); initTheory();
     setupKeyboard();
 
     bootstrapAuth();
@@ -2040,6 +2140,12 @@ function buildImageHTML(imgPath, caption='', pdfPage=null, altText=null) {
   </div>`;
 }
 
+/** תמונת המשך אחרי טקסט question_after_image (למשל ארבע אפשרויות חיווט) */
+function buildQuestionDiagramHTML(q) {
+  if (!q || !q.question_diagram_image) return '';
+  return buildImageHTML(q.question_diagram_image, '', null, 'אפשרויות חיווט');
+}
+
 // ============================================================
 // PAGE NAV
 // ============================================================
@@ -2047,12 +2153,13 @@ function showPage(page) {
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.getElementById('page-'+page).classList.add('active');
-  const map={home:0,study:1,exam:2,stats:3,profile:4,theory:5,tips:6,admin:7};
+  const map={home:0,study:1,flashcards:2,exam:3,stats:4,progress:5,profile:6,theory:7,tips:8,admin:9};
   if(map[page]!==undefined) document.querySelectorAll('.nav-tab')[map[page]].classList.add('active');
   currentPage = page;
   const drawer=document.getElementById('slide-drawer');
   if(drawer){drawer.classList.remove('hidden');drawer.classList.remove('open');}
   document.getElementById('shortcut-bar-study').style.display = page==='study'?'flex':'none';
+  document.getElementById('shortcut-bar-flash').style.display = page==='flashcards'?'flex':'none';
   document.getElementById('shortcut-bar-exam').style.display = (page==='exam'&&document.getElementById('exam-active').style.display!=='none')?'flex':'none';
   const navTabs=document.getElementById('nav-tabs');
   if(navTabs) navTabs.classList.remove('open');
@@ -2060,6 +2167,8 @@ function showPage(page) {
   if(page==='admin') initAdminPage();
   if(page==='profile') renderProfilePage();
   if(page==='stats') renderStatsPage();
+  if(page==='progress') renderProgressDashboard();
+  if(page==='flashcards') rebuildFlashDeck();
 }
 
 function toggleNavMenu(e){
@@ -2082,6 +2191,14 @@ function setupKeyboard() {
   document.addEventListener('keydown', e => {
     const tag = document.activeElement.tagName;
     if (tag==='INPUT'||tag==='TEXTAREA') return;
+
+    if (currentPage === 'flashcards') {
+      if (e.key === ' ' || e.code === 'Space') {
+        e.preventDefault();
+        toggleFlashFlip();
+      } else if (e.key==='ArrowRight') { e.preventDefault(); flashPrev(); }
+      else if (e.key==='ArrowLeft') { e.preventDefault(); flashNext(); }
+    }
 
     if (currentPage === 'study') {
       if (e.key==='ArrowRight' || e.key==='ArrowLeft') {
@@ -2145,7 +2262,7 @@ function initStudy() {
 }
 
 function toggleTopic(topic) {
-  const chips=document.querySelectorAll('.topic-chip');
+  const chips=document.querySelectorAll('#topic-filters .topic-chip');
   if(topic==='all'){
     activeTopics.clear();chips.forEach(c=>c.classList.remove('active'));chips[0].classList.add('active');
   } else {
@@ -2160,13 +2277,44 @@ function toggleTopic(topic) {
 
 function onSearch(val){searchQuery=val.trim().toLowerCase();studyIndex=0;updateStudyList();}
 
+function setStudySmartFilter(mode) {
+  studySmartFilter = mode;
+  document.querySelectorAll('#study-smart-row .study-smart-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.smart === mode);
+  });
+  studyIndex = 0;
+  studyAnswered = {};
+  studyHintShown = {};
+  updateStudyList();
+}
+
+function matchesStudySmartFilter(q, stats) {
+  if (studySmartFilter === 'all') return true;
+  const s = stats[q.id];
+  if (!s || !s.attempts) return false;
+  if (studySmartFilter === 'wrong_last') return s.lastCorrect === false;
+  if (studySmartFilter === 'low_pct') return s.attempts >= 2 && (s.correct / s.attempts) < 0.6;
+  return true;
+}
+
 function updateStudyList(){
+  const p = getProfile();
+  const stats = (p && p.trainingStats) ? p.trainingStats : {};
   studyQuestions=DB.filter(q=>{
     if(q.image_options_missing||q.needs_manual_review) return false;
     const tm=activeTopics.size===0||activeTopics.has(q.topic);
     const sm=!searchQuery||q.question.toLowerCase().includes(searchQuery)||q.options.some(o=>o.toLowerCase().includes(searchQuery));
-    return tm&&sm;
+    return tm&&sm&&matchesStudySmartFilter(q, stats);
   });
+  renderStudyQuestion();
+}
+
+function shuffleStudyList() {
+  if (studyQuestions.length <= 1) return;
+  studyQuestions = shuffle(studyQuestions);
+  studyIndex = 0;
+  studyAnswered = {};
+  studyHintShown = {};
   renderStudyQuestion();
 }
 
@@ -2175,9 +2323,13 @@ function renderStudyQuestion(){
   const info=document.getElementById('study-nav-info');
   const pb=document.getElementById('study-progress-bar');
   if(studyQuestions.length===0){
-    container.innerHTML='<div style="text-align:center;padding:3rem;color:var(--n400)"><div style="font-size:2.5rem;margin-bottom:.5rem">🔍</div>לא נמצאו שאלות</div>';
+    const smartHint = studySmartFilter !== 'all'
+      ? '<div style="font-size:.82rem;margin-top:.85rem;color:var(--n500);max-width:460px;margin-inline:auto;line-height:1.6">אין שאלות שמתאימות לסינון. חזור ל<strong>הכל</strong>, או המשך לענות במצב לימוד כדי שיופיעו כאן שאלות ב<strong>טעות אחרונה</strong> / <strong>אחוז נמוך</strong>.</div>'
+      : '';
+    container.innerHTML='<div style="text-align:center;padding:3rem;color:var(--n400)"><div style="font-size:2.5rem;margin-bottom:.5rem">🔍</div>לא נמצאו שאלות</div>'+smartHint;
     info.textContent='אין שאלות';pb.style.width='0%';return;
   }
+  if (studyIndex >= studyQuestions.length) studyIndex = Math.max(0, studyQuestions.length - 1);
   const q=studyQuestions[studyIndex];
   pb.style.width=((studyIndex+1)/studyQuestions.length*100)+'%';
   info.textContent=`שאלה ${studyIndex+1} מתוך ${studyQuestions.length}`;
@@ -2226,6 +2378,7 @@ function buildStudyQuestionHTML(q){
   }
 
   const imgHTML = buildImageHTML(q.image, '', q.pdf_page);
+  const diagramHTML = buildQuestionDiagramHTML(q);
 
   return `<div class="question-card">
     <div class="question-header">
@@ -2239,6 +2392,7 @@ function buildStudyQuestionHTML(q){
       <div class="question-text">${escHtml(q.question)}</div>
       ${imgHTML}
       ${q.question_after_image?`<div class="question-text question-text-after-image">${escHtml(q.question_after_image)}</div>`:''}
+      ${diagramHTML}
       <div class="options-grid">${optHTML}</div>
       ${hintHTML}
       ${feedbackHTML}
@@ -2378,8 +2532,10 @@ function jumpToQuestion(e){
       activeTopics.clear();
       document.getElementById('search-input').value='';
       searchQuery='';
-      document.querySelectorAll('.topic-chip').forEach(c=>c.classList.remove('active'));
-      document.querySelectorAll('.topic-chip')[0]?.classList.add('active');
+      studySmartFilter = 'all';
+      document.querySelectorAll('#study-smart-row .study-smart-chip').forEach(c=>c.classList.toggle('active', c.dataset.smart==='all'));
+      document.querySelectorAll('#topic-filters .topic-chip').forEach(c=>c.classList.remove('active'));
+      document.querySelectorAll('#topic-filters .topic-chip')[0]?.classList.add('active');
       updateStudyList();
       idx=studyQuestions.findIndex(q=>q.id===id);
     }
@@ -2395,6 +2551,259 @@ function jumpToQuestion(e){
     input.style.background='var(--danger-light)';
     setTimeout(()=>{input.style.borderColor='';input.style.background='';},1500);
   }
+}
+
+// ============================================================
+// FLASHCARDS
+// ============================================================
+function initFlashcards() {
+  const topicCounts = {};
+  DB.forEach(q => { topicCounts[q.topic] = (topicCounts[q.topic] || 0) + 1; });
+  const container = document.getElementById('flash-topic-filters');
+  if (!container) return;
+  container.innerHTML = `<div class="topic-chip active" data-topic="all" onclick="flashToggleTopic('all')">הכל (${DB.length})</div>`;
+  Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).forEach(([topic,count])=>{
+    container.innerHTML += `<div class="topic-chip" data-topic="${escHtml(topic)}" onclick="flashToggleTopic('${escHtml(topic)}')">${escHtml(topic)} (${count})</div>`;
+  });
+  rebuildFlashDeck();
+}
+
+function flashToggleTopic(topic) {
+  const chips = document.querySelectorAll('#flash-topic-filters .topic-chip');
+  if (topic === 'all') {
+    flashActiveTopics.clear();
+    chips.forEach(c => c.classList.remove('active'));
+    chips[0]?.classList.add('active');
+  } else {
+    chips[0]?.classList.remove('active');
+    const chip = [...chips].find(c => c.dataset.topic === topic);
+    if (flashActiveTopics.has(topic)) { flashActiveTopics.delete(topic); chip?.classList.remove('active'); }
+    else { flashActiveTopics.add(topic); chip?.classList.add('active'); }
+    if (flashActiveTopics.size === 0) chips[0]?.classList.add('active');
+  }
+  rebuildFlashDeck();
+}
+
+function onFlashSearch(val) {
+  flashSearchQuery = val.trim().toLowerCase();
+  rebuildFlashDeck();
+}
+
+function setFlashSmartFilter(mode) {
+  flashSmartFilter = mode;
+  document.querySelectorAll('.flash-smart-chip').forEach(c => {
+    c.classList.toggle('active', c.dataset.smart === mode);
+  });
+  rebuildFlashDeck();
+}
+
+function matchesFlashSmartFilter(q, stats) {
+  if (flashSmartFilter === 'all') return true;
+  const s = stats[q.id];
+  if (!s || !s.attempts) return false;
+  if (flashSmartFilter === 'wrong_last') return s.lastCorrect === false;
+  if (flashSmartFilter === 'low_pct') return s.attempts >= 2 && (s.correct / s.attempts) < 0.6;
+  return true;
+}
+
+function rebuildFlashDeck() {
+  const p = getProfile();
+  const stats = (p && p.trainingStats) ? p.trainingStats : {};
+  flashDeck = DB.filter(q => {
+    if (q.image_options_missing || q.needs_manual_review) return false;
+    const tm = flashActiveTopics.size === 0 || flashActiveTopics.has(q.topic);
+    const sm = !flashSearchQuery || q.question.toLowerCase().includes(flashSearchQuery) || q.options.some(o => o && o.toLowerCase().includes(flashSearchQuery));
+    return tm && sm && matchesFlashSmartFilter(q, stats);
+  });
+  flashIndex = 0;
+  flashShowAnswer = false;
+  renderFlashcard();
+}
+
+function flashcardExplanationSnippet(q, maxLen) {
+  maxLen = maxLen || 400;
+  if (!hasExplanationContent(q)) return 'אין הסבר מלא במאגר לשאלה זו.';
+  let t = cleanExplanation(q.explanation || '');
+  t = t.replace(/\s+/g, ' ').trim();
+  if (t.length <= maxLen) return t;
+  t = t.substring(0, maxLen);
+  const ls = t.lastIndexOf(' ');
+  if (ls > maxLen * 0.55) t = t.substring(0, ls);
+  return t + '…';
+}
+
+function renderFlashcard() {
+  const root = document.getElementById('flash-card-root');
+  const info = document.getElementById('flash-nav-info');
+  const pb = document.getElementById('flash-progress-bar');
+  if (!root || !info || !pb) return;
+
+  if (flashDeck.length === 0) {
+    const smartHint = flashSmartFilter !== 'all'
+      ? '<div style="font-size:.85rem;margin-top:1rem;color:var(--n600);line-height:1.6">אין כרטיסים לפי הסינון. בחר <strong>הכל</strong> או צבור סטטיסטיקה במצב לימוד.</div>'
+      : '';
+    root.innerHTML = `<div class="card" style="text-align:center;padding:2.5rem 1rem;color:var(--n400)"><div style="font-size:2.5rem;margin-bottom:.5rem">🗂️</div><div>אין כרטיסים להצגה</div>${smartHint}</div>`;
+    info.textContent = 'ריק';
+    pb.style.width = '0%';
+    return;
+  }
+
+  if (flashIndex >= flashDeck.length) flashIndex = flashDeck.length - 1;
+  const q = flashDeck[flashIndex];
+  pb.style.width = ((flashIndex + 1) / flashDeck.length * 100) + '%';
+  info.textContent = `כרטיס ${flashIndex + 1} מתוך ${flashDeck.length} · שאלה #${q.id}`;
+
+  const correctText = escHtml(q.options[q.correct_answer - 1] || '—');
+  const imgPlate = buildImageHTML(q.image, '', q.pdf_page);
+  const diagramHTML = buildQuestionDiagramHTML(q);
+  const explImg = q.explanation_image ? buildImageHTML(q.explanation_image, '', null, 'איור להסבר') : '';
+
+  root.innerHTML = `
+    <div class="flash-card-wrap ${flashShowAnswer ? 'show-a' : 'show-q'}" onclick="toggleFlashFlip()" role="button" tabindex="0">
+      <div class="flash-card-face flash-face-q">
+        <span class="flash-topic-pill">${escHtml(q.topic)}</span>
+        <div class="flash-face-label">שאלה</div>
+        <div style="font-size:.95rem;font-weight:600;color:var(--n800)">${escHtml(q.question)}</div>
+        ${imgPlate}
+        ${q.question_after_image ? `<div style="margin-top:.75rem;font-size:.9rem;line-height:1.65">${escHtml(q.question_after_image)}</div>` : ''}
+        ${diagramHTML}
+        <div class="flash-flip-hint">לחץ על הכרטיס או על «הפוך» · רווח במקלדת</div>
+      </div>
+      <div class="flash-card-face flash-face-a">
+        <span class="flash-topic-pill">${escHtml(q.topic)}</span>
+        <div class="flash-face-label">תשובה נכונה</div>
+        <div style="font-size:1rem;font-weight:700;color:var(--secondary);margin-bottom:.75rem">${correctText}</div>
+        <div class="flash-face-label" style="margin-top:.5rem">הסבר מקוצר</div>
+        <div style="font-size:.88rem;color:var(--n700);white-space:pre-line;line-height:1.65">${escHtml(flashcardExplanationSnippet(q))}</div>
+        ${explImg}
+      </div>
+    </div>`;
+}
+
+function toggleFlashFlip() {
+  if (!flashDeck.length) return;
+  flashShowAnswer = !flashShowAnswer;
+  renderFlashcard();
+}
+
+function flashPrev() {
+  if (flashIndex > 0) { flashIndex--; flashShowAnswer = false; renderFlashcard(); }
+}
+
+function flashNext() {
+  if (flashIndex < flashDeck.length - 1) { flashIndex++; flashShowAnswer = false; renderFlashcard(); }
+}
+
+function shuffleFlashDeck() {
+  if (flashDeck.length <= 1) return;
+  flashDeck = shuffle(flashDeck);
+  flashIndex = 0;
+  flashShowAnswer = false;
+  renderFlashcard();
+}
+
+// ============================================================
+// PROGRESS DASHBOARD
+// ============================================================
+function mondayTimestamp(ts) {
+  const d = new Date(ts);
+  const day = d.getDay();
+  const diff = (day === 0 ? -6 : 1) - day;
+  d.setDate(d.getDate() + diff);
+  d.setHours(0, 0, 0, 0);
+  return d.getTime();
+}
+
+function renderProgressDashboard() {
+  const p = getProfile();
+  const wrapSum = document.getElementById('progress-summary');
+  const chartEx = document.getElementById('progress-chart-exams');
+  const noteEx = document.getElementById('progress-chart-exams-note');
+  const chartSt = document.getElementById('progress-chart-study');
+  if (!p || !wrapSum || !chartEx || !chartSt) return;
+
+  const examHistory = (p.examHistory || []).slice().sort((a,b)=>a.date - b.date);
+  const stats = p.trainingStats || {};
+  const SEC_PER_ATTEMPT = 45;
+
+  let trainingAttempts = 0;
+  const weekBuckets = {};
+  Object.values(stats).forEach(s => {
+    trainingAttempts += (s.attempts || 0);
+    (s.history || []).forEach(h => {
+      if (!h || !h.t) return;
+      const wk = mondayTimestamp(h.t);
+      weekBuckets[wk] = (weekBuckets[wk] || 0) + 1;
+    });
+  });
+
+  const studyTimeSec = trainingAttempts * SEC_PER_ATTEMPT;
+  const examTimeSec = examHistory.reduce((a, e) => a + (e.durationSec || 0), 0);
+  const avgScore = examHistory.length ? Math.round(examHistory.reduce((a,e)=>a+e.score,0) / examHistory.length) : null;
+
+  wrapSum.innerHTML = [
+    { val: examHistory.length, lbl: 'סימולציות שהושלמו', col: 'var(--primary)' },
+    { val: avgScore !== null ? avgScore : '—', lbl: 'ממוצע ציון (סימולציה)', col: avgScore !== null && avgScore >= 80 ? 'var(--secondary)' : 'var(--primary)' },
+    { val: formatDurationShort(studyTimeSec), lbl: 'זמן לימוד משוער', col: 'var(--secondary)' },
+    { val: formatDurationShort(examTimeSec), lbl: 'זמן כולל במבחני סימולציה', col: 'var(--warning)' },
+  ].map(s => `<div class="dash-card" style="--dash-c:${s.col}"><div class="dash-val">${s.val}</div><div class="dash-lbl">${s.lbl}</div></div>`).join('');
+
+  // Exam score chart (SVG)
+  if (examHistory.length === 0) {
+    chartEx.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--n400)">עדיין אין מבחנים בהיסטוריה — סיים סימולציה כדי לראות גרף ציונים.</div>';
+    if (noteEx) noteEx.textContent = '';
+  } else {
+    const W = 640, H = 220, padL = 44, padR = 16, padT = 18, padB = 42;
+    const innerW = W - padL - padR, innerH = H - padT - padB;
+    const pts = examHistory.map((e, i) => {
+      const x = padL + (examHistory.length <= 1 ? innerW / 2 : (i / (examHistory.length - 1)) * innerW);
+      const y = padT + innerH - (e.score / 100) * innerH;
+      return { x, y, e, i };
+    });
+    const pathD = pts.map((p0, i) => (i === 0 ? 'M' : 'L') + p0.x.toFixed(1) + ',' + p0.y.toFixed(1)).join(' ');
+    const circles = pts.map(p0 => `<circle cx="${p0.x.toFixed(1)}" cy="${p0.y.toFixed(1)}" r="5" fill="${p0.e.pass?'#0e9f6e':'#e02424'}"><title>${new Date(p0.e.date).toLocaleDateString('he-IL')} — ${p0.e.score}/100</title></circle>`).join('');
+    chartEx.innerHTML = `<svg viewBox="0 0 ${W} ${H}" width="100%" height="${H}" style="display:block;font-family:inherit">
+      <text x="${padL}" y="14" fill="var(--n500)" font-size="11" font-weight="700">100</text>
+      <text x="${padL}" y="${padT + innerH + 4}" fill="var(--n500)" font-size="11" font-weight="700">0</text>
+      <line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + innerH}" stroke="#e5e7eb" stroke-width="1"/>
+      <line x1="${padL}" y1="${padT + innerH}" x2="${padL + innerW}" y2="${padT + innerH}" stroke="#e5e7eb" stroke-width="1"/>
+      <line x1="${padL}" y1="${padT + innerH * 0.2}" x2="${padL + innerW}" y2="${padT + innerH * 0.2}" stroke="#f3f4f6" stroke-width="1"/>
+      <line x1="${padL}" y1="${padT + innerH * 0.5}" x2="${padL + innerW}" y2="${padT + innerH * 0.5}" stroke="#f3f4f6" stroke-width="1"/>
+      <line x1="${padL}" y1="${padT + innerH * 0.8}" x2="${padL + innerW}" y2="${padT + innerH * 0.8}" stroke="#f3f4f6" stroke-width="1"/>
+      <path d="${pathD}" fill="none" stroke="#1a56db" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+      ${circles}
+      ${pts.map(p0 => `<text x="${p0.x.toFixed(1)}" y="${H - 6}" text-anchor="middle" fill="#9ca3af" font-size="9">${p0.i + 1}</text>`).join('')}
+    </svg>`;
+    if (noteEx) noteEx.textContent = 'ציר אופקי: סדר כרונולוגי של המבחנים (מספר סידורי). נקודות ירוקות = עובר, אדום = לא עובר.';
+  }
+
+  const weeks = Object.keys(weekBuckets).map(Number).sort((a,b)=>a-b).slice(-14);
+  if (weeks.length === 0) {
+    chartSt.innerHTML = '<div style="text-align:center;padding:2rem;color:var(--n400)">אין עדיין ניסיונות מתועדים לפי שבוע. ענה על שאלות במצב לימוד או במבחן.</div>';
+  } else {
+    const maxC = Math.max(...weeks.map(w => weekBuckets[w]), 1);
+    const W2 = Math.max(520, weeks.length * 44), H2 = 200, pb = 52, pt = 14;
+    const bw = (W2 - 48) / weeks.length - 6;
+    const bars = weeks.map((wk, i) => {
+      const c = weekBuckets[wk];
+      const h = ((c / maxC) * (H2 - pb - pt));
+      const x = 24 + i * ((W2 - 48) / weeks.length);
+      const y = pt + (H2 - pb - pt) - h;
+      const lbl = new Date(wk).toLocaleDateString('he-IL', { day: 'numeric', month: 'short' });
+      return `<rect x="${x}" y="${y}" width="${Math.max(bw, 8)}" height="${h}" rx="4" fill="#1a56db" opacity=".85"><title>${lbl}: ${c} ניסיונות</title></rect>
+        <text x="${x + Math.max(bw,8)/2}" y="${H2 - 22}" text-anchor="middle" fill="#9ca3af" font-size="9">${lbl}</text>`;
+    }).join('');
+    chartSt.innerHTML = `<svg viewBox="0 0 ${W2} ${H2}" width="100%" height="${H2}" style="display:block">${bars}</svg>`;
+  }
+}
+
+function formatDurationShort(sec) {
+  sec = Math.round(sec || 0);
+  if (sec < 60) return sec + ' שנ׳';
+  const m = Math.floor(sec / 60);
+  if (m < 60) return m + ' דק׳';
+  const h = Math.floor(m / 60), rm = m % 60;
+  return h + ' שע׳' + (rm ? ' ' + rm + ' דק׳' : '');
 }
 
 // ============================================================
@@ -2458,6 +2867,7 @@ function renderExamQuestion(){
     optHTML+=`<div class="${cls}" onclick="examAnswer(${num})"><div class="option-num">${num}</div><div class="option-text">${escHtml(opt)}</div></div>`;
   });
   const imgHTML = buildImageHTML(q.image, '', q.pdf_page);
+  const diagramHTML = buildQuestionDiagramHTML(q);
   document.getElementById('exam-question-container').innerHTML=`<div class="question-card">
     <div class="question-header">
       <div>
@@ -2470,6 +2880,7 @@ function renderExamQuestion(){
       <div class="question-text">${escHtml(q.question)}</div>
       ${imgHTML}
       ${q.question_after_image?`<div class="question-text question-text-after-image">${escHtml(q.question_after_image)}</div>`:''}
+      ${diagramHTML}
       <div class="options-grid">${optHTML}</div>
     </div>
   </div>`;
@@ -2746,6 +3157,9 @@ function refreshUIForProfile() {
   try {
     if (currentPage === 'profile') renderProfilePage();
     else if (currentPage === 'stats') renderStatsPage();
+    else if (currentPage === 'progress') renderProgressDashboard();
+    else if (currentPage === 'study') updateStudyList();
+    else if (currentPage === 'flashcards') rebuildFlashDeck();
   } catch(e) { console.warn('UI refresh failed:', e); }
 }
 
@@ -3450,10 +3864,12 @@ function relearnQuestion(qId) {
   showPage('study');
   activeTopics.clear();
   searchQuery = '';
+  studySmartFilter = 'all';
+  document.querySelectorAll('#study-smart-row .study-smart-chip').forEach(c=>c.classList.toggle('active', c.dataset.smart==='all'));
   const searchEl = document.getElementById('search-input');
   if (searchEl) searchEl.value = '';
-  document.querySelectorAll('.topic-chip').forEach(c=>c.classList.remove('active'));
-  document.querySelectorAll('.topic-chip')[0]?.classList.add('active');
+  document.querySelectorAll('#topic-filters .topic-chip').forEach(c=>c.classList.remove('active'));
+  document.querySelectorAll('#topic-filters .topic-chip')[0]?.classList.add('active');
   studyAnswered = {};
   studyHintShown = {};
   updateStudyList();
@@ -3670,7 +4086,7 @@ function submitIdea(){
 // ============================================================
 let adminDB = null; // working copy of DB for admin edits
 
-const MISSING_IDS = [6,38,78,94,135,192,231,290,305,311,332,342,360,390,415,417,450,475,476,481,505,520,536,550,564,595,645,647,663,666,673,674,677,721,771,852,860,915,949];
+const MISSING_IDS = [6,38,78,94,135,192,231,290,305,311,332,342,360,390,415,417,450,475,476,481,505,520,536,550,564,595,645,647,663,666,673,674,677,721,771,852,860,915,949].filter(id => id !== 873);
 
 function initAdminPage() {
   // Clone DB for editing
@@ -3770,7 +4186,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-    version: '7.1',
+    version: '7.2',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),
