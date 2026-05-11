@@ -2210,7 +2210,7 @@ function setupKeyboard() {
         if (q && studyAnswered[q.id]===undefined) studyAnswer(q.id, parseInt(e.key));
       } else if (e.key.toLowerCase()==='h') {
         const q = studyQuestions[studyIndex];
-        if (q && studyAnswered[q.id]===undefined && q.explanation) showHint(q.id);
+        if (q && studyAnswered[q.id]===undefined && hasExplanationContent(q)) showHint(q.id);
       } else if (e.key.toLowerCase()==='r') {
         randomQuestion();
       } else if (e.key.toLowerCase()==='g') {
@@ -2397,7 +2397,7 @@ function buildStudyQuestionHTML(q){
       ${hintHTML}
       ${feedbackHTML}
       <div class="action-row">
-        ${answered===undefined&&q.explanation&&String(q.explanation).trim()?`<button class="btn btn-warning" onclick="showHint(${q.id})" title="רמז ללא תשובה סופית">💡 רמז (H)</button>`:''}
+        ${answered===undefined&&hasExplanationContent(q)?`<button class="btn btn-warning" onclick="showHint(${q.id})" title="רמז ללא תשובה סופית">💡 רמז (H)</button>`:''}
         <div class="spacer"></div>
         ${studyIndex>0?'<button class="btn btn-outline" onclick="prevQuestion()">◄ הקודמת (→)</button>':''}
         ${studyIndex<studyQuestions.length-1?'<button class="btn btn-primary" onclick="nextQuestion()">הבאה ► (←)</button>':''}
