@@ -7720,7 +7720,8 @@
         "kVA 1404"
       ],
       "correct_answer": 3,
-      "explanation": "העמסה המירבית נקבעת ע\"פ השנאי בעל מתח קצר הנמוך ביותר .       נשתמש בנוסחא:                      (       1       2 )       3        = + + ·                                                            %                         %1       %2       %3        = ( 630 + 500 + 400 ) 0. 04 = 1430                   0.04 0.05 0.04                          התשובה היא 3",
+      "explanation": "",
+      "explanation_image": "images/q_0482_explanation.png",
       "image": null,
       "pdf_page": 173
     },
