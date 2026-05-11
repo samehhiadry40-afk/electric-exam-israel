@@ -586,7 +586,7 @@
     import {
       initializeFirestore, persistentLocalCache, persistentMultipleTabManager,
       doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, runTransaction,
-      serverTimestamp, arrayUnion
+      serverTimestamp, arrayUnion, deleteField
     } from 'https://www.gstatic.com/firebasejs/10.13.2/firebase-firestore.js';
 
     // Firebase project: electrical-exam
@@ -612,7 +612,7 @@
         app, db, auth,
         GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged,
         doc, getDoc, setDoc, updateDoc, deleteDoc, onSnapshot, runTransaction,
-        serverTimestamp, arrayUnion,
+        serverTimestamp, arrayUnion, deleteField,
         configured: !String(firebaseConfig.apiKey).startsWith('PASTE_')
       };
     } catch (e) {
@@ -638,7 +638,7 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.5.3 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.5.4 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
@@ -1009,7 +1009,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.5.3</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.5.4</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1255,7 +1255,7 @@
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.5.3 · 1000 שאלות · 17 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.5.4 · 1000 שאלות · 17 נושאים
     </div>
   </div>
 
@@ -3170,6 +3170,87 @@ function loadLocalProfiles() {
 function getProfile() { return PROFILE_CACHE; }
 
 // ============================================================
+// Question #607 — correct answer fix + Firestore stats migration
+// ============================================================
+const Q607_FIX_QID = 607;
+
+function get607CorrectFromDB() {
+  try {
+    if (!DB || !DB.length) return 3;
+    const q = DB.find(x => x.id === Q607_FIX_QID);
+    return q ? q.correct_answer : 3;
+  } catch (e) {
+    return 3;
+  }
+}
+
+function patchExamHistory607(examHistory, correctAns) {
+  if (!examHistory || !examHistory.length) return { list: examHistory, changed: false };
+  let changed = false;
+  const list = examHistory.map(exam => {
+    if (!exam.detail || !Array.isArray(exam.detail)) return exam;
+    let touched = false;
+    const detail = exam.detail.map(d => {
+      const qid = typeof d.qId === 'string' ? parseInt(d.qId, 10) : Number(d.qId);
+      if (qid !== Q607_FIX_QID) return d;
+      const userOrig = d.userOrig;
+      const newIsCorrect = userOrig != null && userOrig !== '' && Number(userOrig) === Number(correctAns);
+      if (d.correctAns !== correctAns || !!d.isCorrect !== newIsCorrect) touched = true;
+      return Object.assign({}, d, { correctAns: correctAns, isCorrect: newIsCorrect });
+    });
+    if (!touched) return exam;
+    changed = true;
+    let correct = 0;
+    let skipped = 0;
+    detail.forEach(x => {
+      if (x.userOrig == null || x.userOrig === '') skipped++;
+      else if (x.isCorrect) correct++;
+    });
+    const wrong = 50 - correct - skipped;
+    const score = correct * 2;
+    const pass = score >= 80;
+    return Object.assign({}, exam, { detail: detail, correct: correct, wrong: wrong, skipped: skipped, score: score, pass: pass });
+  });
+  return { list: list, changed: changed };
+}
+
+async function maybeApply607DataFix(snap) {
+  if (!AUTH_USER || !window.fb || !fb.configured || !fb.deleteField) return;
+  if (!snap.exists()) return;
+  const data = snap.data();
+  if (data.dataFix607 === 'v2') return;
+
+  const correctAns = get607CorrectFromDB();
+  const patched = patchExamHistory607(data.examHistory, correctAns);
+  const examChanged = patched.changed;
+  const newHistory = patched.list;
+  const ts = data.trainingStats || {};
+  const has607 = ts[Q607_FIX_QID] != null || ts['607'] != null;
+
+  if (!examChanged && !has607) {
+    try {
+      await fb.updateDoc(fb.doc(fb.db, 'users', AUTH_USER.uid), {
+        dataFix607: 'v2',
+        updatedAt: fb.serverTimestamp()
+      });
+    } catch (e) {
+      console.warn('607 marker write failed:', e);
+    }
+    return;
+  }
+
+  const ref = fb.doc(fb.db, 'users', AUTH_USER.uid);
+  const upd = { dataFix607: 'v2', updatedAt: fb.serverTimestamp() };
+  if (examChanged) upd.examHistory = newHistory;
+  if (has607) upd['trainingStats.607'] = fb.deleteField();
+  try {
+    await fb.updateDoc(ref, upd);
+  } catch (e) {
+    console.warn('607 data fix failed:', e);
+  }
+}
+
+// ============================================================
 // SYNC STATUS INDICATOR
 // ============================================================
 function setSyncStatus(status) {
@@ -3279,6 +3360,7 @@ function enterApp() {
     else if (!navigator.onLine)                setSyncStatus('offline');
     else                                       setSyncStatus('synced');
     refreshUIForProfile();
+    maybeApply607DataFix(snap).catch(function(e) { console.warn('607 data fix:', e); });
   }, (err) => {
     console.error('Snapshot error:', err);
     setSyncStatus('offline');
@@ -4335,7 +4417,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-    version: '7.5.3',
+    version: '7.5.4',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),

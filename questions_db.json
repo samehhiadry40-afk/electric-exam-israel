@@ -1,5 +1,5 @@
 {
-  "version": "7.5.3",
+  "version": "7.5.4",
   "total": 1000,
   "questions": [
     {
@@ -9733,8 +9733,8 @@
         "מערכת למדידת האנרגיה החשמלית המסופקת למפעל.",
         "מערכת פיקוד של ציוד המיתוג מחדר D"
       ],
-      "correct_answer": 4,
-      "explanation": "ע\"פ Technical guide - ABB, 2015התשובה היא 4",
+      "correct_answer": 3,
+      "explanation": "ע\"פ Technical guide - ABB, 2015התשובה היא 3",
       "image": "images/q_0607.jpg",
       "pdf_page": 234
     },
