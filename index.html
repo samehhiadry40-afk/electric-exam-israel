@@ -2431,10 +2431,10 @@ function cleanExplanation(text) {
 }
 
 function hasExplanationContent(q) {
-  return q && ((q.explanation && String(q.explanation).trim()) || q.explanation_image);
+  return q && ((q.explanation && String(q.explanation).trim()) || q.explanation_image || (q.explanation_after_image && String(q.explanation_after_image).trim()));
 }
 
-/** טקסט הסבר + תמונה אופציונלית (שדה explanation_image ב-JSON) */
+/** טקסט הסבר + תמונה אופציונלית (שדות explanation_image / explanation_after_image ב-JSON) */
 function buildExplanationHTML(q) {
   if (!q) return '';
   const parts = [];
@@ -2443,6 +2443,9 @@ function buildExplanationHTML(q) {
   }
   if (q.explanation_image) {
     parts.push(buildImageHTML(q.explanation_image, '', null, 'איור להסבר'));
+  }
+  if (q.explanation_after_image && String(q.explanation_after_image).trim()) {
+    parts.push(`<div class="explanation-after-image" style="margin-top:.75rem;white-space:pre-line">${escHtml(cleanExplanation(q.explanation_after_image))}</div>`);
   }
   return parts.join('');
 }
@@ -2676,6 +2679,7 @@ function renderFlashcard() {
         <div class="flash-face-label" style="margin-top:.5rem">הסבר מקוצר</div>
         <div style="font-size:.88rem;color:var(--n700);white-space:pre-line;line-height:1.65">${escHtml(flashcardExplanationSnippet(q))}</div>
         ${explImg}
+        ${q.explanation_after_image ? `<div style="font-size:.88rem;color:var(--n700);white-space:pre-line;line-height:1.65;margin-top:.75rem">${escHtml(cleanExplanation(q.explanation_after_image))}</div>` : ''}
       </div>
     </div>`;
 }
