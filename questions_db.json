@@ -1,5 +1,5 @@
 {
-  "version": "7.4",
+  "version": "7.5",
   "total": 1000,
   "questions": [
     {
@@ -9044,7 +9044,7 @@
       ],
       "correct_answer": 1,
       "explanation": "ע\"פ מובלים תקנה 36א37 ,ג ,התשובה היא 1",
-      "image": null,
+      "image": "images/q_0564.png",
       "pdf_page": null
     },
     {
