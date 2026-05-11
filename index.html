@@ -638,7 +638,7 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.5.2 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.5.3 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
@@ -1009,7 +1009,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.5.2</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.5.3</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1255,7 +1255,7 @@
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.5.2 · 1000 שאלות · 17 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.5.3 · 1000 שאלות · 17 נושאים
     </div>
   </div>
 
@@ -2554,10 +2554,10 @@ function cleanExplanation(text) {
 }
 
 function hasExplanationContent(q) {
-  return q && ((q.explanation && String(q.explanation).trim()) || q.explanation_image || (q.explanation_after_image && String(q.explanation_after_image).trim()));
+  return q && ((q.explanation && String(q.explanation).trim()) || q.explanation_image || q.explanation_image_2 || (q.explanation_after_image && String(q.explanation_after_image).trim()));
 }
 
-/** טקסט הסבר + תמונה אופציונלית (שדות explanation_image / explanation_after_image ב-JSON) */
+/** טקסט הסבר + תמונה/ות אופציונליות (שדות explanation_image, explanation_image_2, explanation_after_image ב-JSON) */
 function buildExplanationHTML(q) {
   if (!q) return '';
   const parts = [];
@@ -2566,6 +2566,9 @@ function buildExplanationHTML(q) {
   }
   if (q.explanation_image) {
     parts.push(buildImageHTML(q.explanation_image, '', null, 'איור להסבר'));
+  }
+  if (q.explanation_image_2) {
+    parts.push(buildImageHTML(q.explanation_image_2, '', null, 'איור להסבר'));
   }
   if (q.explanation_after_image && String(q.explanation_after_image).trim()) {
     parts.push(`<div class="explanation-after-image" style="margin-top:.75rem;white-space:pre-line">${escHtml(cleanExplanation(q.explanation_after_image))}</div>`);
@@ -2784,6 +2787,7 @@ function renderFlashcard() {
   const imgPlate = buildImageHTML(q.image, '', q.pdf_page);
   const diagramHTML = buildQuestionDiagramHTML(q);
   const explImg = q.explanation_image ? buildImageHTML(q.explanation_image, '', null, 'איור להסבר') : '';
+  const explImg2 = q.explanation_image_2 ? buildImageHTML(q.explanation_image_2, '', null, 'איור להסבר') : '';
 
   root.innerHTML = `
     <div class="flash-card-wrap ${flashShowAnswer ? 'show-a' : 'show-q'}" onclick="toggleFlashFlip()" role="button" tabindex="0">
@@ -2803,6 +2807,7 @@ function renderFlashcard() {
         <div class="flash-face-label" style="margin-top:.5rem">הסבר מקוצר</div>
         <div style="font-size:.88rem;color:var(--n700);white-space:pre-line;line-height:1.65">${escHtml(flashcardExplanationSnippet(q))}</div>
         ${explImg}
+        ${explImg2}
         ${q.explanation_after_image ? `<div style="font-size:.88rem;color:var(--n700);white-space:pre-line;line-height:1.65;margin-top:.75rem">${escHtml(cleanExplanation(q.explanation_after_image))}</div>` : ''}
         <div class="personal-notes-wrap" onclick="event.stopPropagation()">
           <label class="personal-notes-label" for="personal-note-flash-${q.id}">הערה אישית</label>
@@ -4330,7 +4335,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-    version: '7.5.2',
+    version: '7.5.3',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),
