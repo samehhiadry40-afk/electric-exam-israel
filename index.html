@@ -59,6 +59,7 @@
     .topic-chip{padding:.35rem .8rem;border-radius:20px;font-size:.78rem;font-weight:500;cursor:pointer;border:1.5px solid var(--n300);background:white;color:var(--n600);transition:all .2s}
     .topic-chip:hover{border-color:var(--primary);color:var(--primary)}
     .topic-chip.active{background:var(--primary);border-color:var(--primary);color:white}
+    .topic-note-badge{display:inline;margin-inline-start:.15rem;font-size:.72rem;vertical-align:middle;opacity:.92;cursor:help}
 
     .study-smart-row{display:flex;flex-wrap:wrap;align-items:center;gap:.5rem;margin-bottom:1rem;padding:.65rem .85rem;background:var(--n50);border-radius:10px;border:1px solid var(--n200)}
     .study-smart-label{font-size:.78rem;font-weight:700;color:var(--n600);width:100%}
@@ -637,7 +638,7 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.5.2 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.5.3 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
@@ -801,6 +802,7 @@
         <button type="button" class="study-smart-chip active" data-smart="all" onclick="setStudySmartFilter('all')">הכל</button>
         <button type="button" class="study-smart-chip" data-smart="wrong_last" onclick="setStudySmartFilter('wrong_last')" title="שאלות שהטעות האחרונה בהן הייתה שגויה">טעות אחרונה</button>
         <button type="button" class="study-smart-chip" data-smart="low_pct" onclick="setStudySmartFilter('low_pct')" title="לפחות 2 ניסיונות ואחוז הצלחה מתחת ל-60%">אחוז נמוך (&lt;60%)</button>
+        <button type="button" class="study-smart-chip" data-smart="has_note" onclick="setStudySmartFilter('has_note')" title="שאלות שיש לך הערה אישית עליהן במכשיר זה">עם הערה 📝</button>
       </div>
     </div>
     <div class="study-nav">
@@ -1007,7 +1009,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.5.2</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.5.3</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1253,7 +1255,7 @@
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.5.2 · 1000 שאלות · 17 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.5.3 · 1000 שאלות · 17 נושאים
     </div>
   </div>
 
@@ -2085,7 +2087,7 @@ const THEORY_CHAPTERS = [
 let DB = null;
 let studyQuestions = [], studyIndex = 0, studyAnswered = {}, studyHintShown = {};
 let activeTopics = new Set(), searchQuery = '';
-let studySmartFilter = 'all'; // 'all' | 'wrong_last' | 'low_pct'
+let studySmartFilter = 'all'; // 'all' | 'wrong_last' | 'low_pct' | 'has_note'
 
 let flashDeck = [], flashIndex = 0, flashShowAnswer = false;
 let flashActiveTopics = new Set(), flashSearchQuery = '', flashSmartFilter = 'all';
@@ -2168,6 +2170,18 @@ function setQuestionNote(qId, text) {
   if (!t.trim()) delete m[key];
   else m[key] = t;
   saveQuestionNotesMap(m);
+  refreshTopicNoteBadges();
+  if (currentPage === 'study' && studyQuestions.length) {
+    const q = studyQuestions[studyIndex];
+    if (q && String(q.id) === String(qId)) {
+      const info = document.getElementById('study-nav-info');
+      if (info) {
+        const noteMark = questionHasLocalNote(q.id) ? ' · 📝' : '';
+        const searchMark = searchQuery ? ' · חיפוש' : '';
+        info.textContent = `שאלה ${studyIndex+1} מתוך ${studyQuestions.length}${noteMark}${searchMark}`;
+      }
+    }
+  }
 }
 
 function onQuestionNoteInput(qId, el) {
@@ -2178,6 +2192,50 @@ function onQuestionNoteInput(qId, el) {
 function syncPersonalNoteField(qId, suffix) {
   const ta = document.getElementById('personal-note-' + suffix + '-' + qId);
   if (ta) ta.value = getQuestionNote(qId);
+}
+
+function questionHasLocalNote(qId) {
+  return !!getQuestionNote(qId).trim();
+}
+
+/** מספר שאלות במכשיר זה עם הערה אישית; topicName === 'all' לכל המאגר */
+function countLocalNotesInTopic(topicName) {
+  const m = loadQuestionNotesMap();
+  return DB.filter(q => {
+    if (q.image_options_missing || q.needs_manual_review) return false;
+    if (!String(m[String(q.id)] || '').trim()) return false;
+    if (topicName === 'all') return true;
+    return q.topic === topicName;
+  }).length;
+}
+
+function applyTopicNoteBadge(chipEl, count) {
+  if (!chipEl) return;
+  let b = chipEl.querySelector('.topic-note-badge');
+  if (count > 0) {
+    if (!b) {
+      b = document.createElement('span');
+      b.className = 'topic-note-badge';
+      chipEl.appendChild(b);
+    }
+    b.textContent = '📝';
+    b.title = count === 1 ? 'שאלה אחת עם הערה במכשיר זה' : count + ' שאלות עם הערה במכשיר זה';
+  } else if (b) {
+    b.remove();
+  }
+}
+
+function refreshTopicNoteBadges() {
+  ['topic-filters', 'flash-topic-filters'].forEach(containerId => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const allChip = container.querySelector('.topic-chip[data-topic="all"]');
+    applyTopicNoteBadge(allChip, countLocalNotesInTopic('all'));
+    container.querySelectorAll('.topic-chip[data-topic]:not([data-topic="all"])').forEach(chip => {
+      const t = chip.dataset.topic;
+      if (t) applyTopicNoteBadge(chip, countLocalNotesInTopic(t));
+    });
+  });
 }
 function buildImageHTML(imgPath, caption='', pdfPage=null, altText=null) {
   if (!imgPath) return '';
@@ -2218,6 +2276,7 @@ function showPage(page) {
   if(page==='stats') renderStatsPage();
   if(page==='progress') renderProgressDashboard();
   if(page==='flashcards') rebuildFlashDeck();
+  if(page==='study' || page==='flashcards') refreshTopicNoteBadges();
 }
 
 function toggleNavMenu(e){
@@ -2307,6 +2366,7 @@ function initStudy() {
   Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).forEach(([topic,count])=>{
     container.innerHTML+=`<div class="topic-chip" data-topic="${escHtml(topic)}" onclick="toggleTopic('${escHtml(topic)}')">${escHtml(topic)} (${count})</div>`;
   });
+  refreshTopicNoteBadges();
   updateStudyList();
 }
 
@@ -2339,6 +2399,7 @@ function setStudySmartFilter(mode) {
 
 function matchesStudySmartFilter(q, stats) {
   if (studySmartFilter === 'all') return true;
+  if (studySmartFilter === 'has_note') return questionHasLocalNote(q.id);
   const s = stats[q.id];
   if (!s || !s.attempts) return false;
   if (studySmartFilter === 'wrong_last') return s.lastCorrect === false;
@@ -2372,16 +2433,23 @@ function renderStudyQuestion(){
   const info=document.getElementById('study-nav-info');
   const pb=document.getElementById('study-progress-bar');
   if(studyQuestions.length===0){
-    const smartHint = studySmartFilter !== 'all'
-      ? '<div style="font-size:.82rem;margin-top:.85rem;color:var(--n500);max-width:460px;margin-inline:auto;line-height:1.6">אין שאלות שמתאימות לסינון. חזור ל<strong>הכל</strong>, או המשך לענות במצב לימוד כדי שיופיעו כאן שאלות ב<strong>טעות אחרונה</strong> / <strong>אחוז נמוך</strong>.</div>'
-      : '';
+    let smartHint = '';
+    if (studySmartFilter !== 'all') {
+      if (studySmartFilter === 'has_note') {
+        smartHint = '<div style="font-size:.82rem;margin-top:.85rem;color:var(--n500);max-width:460px;margin-inline:auto;line-height:1.6">אין שאלות עם הערה אישית במכשיר זה (בהתאם לנושאים ולחיפוש הנוכחיים). הוסף הערה בשדה «הערה אישית» בשאלה, או בחר <strong>הכל</strong> בסינון המיקוד.</div>';
+      } else {
+        smartHint = '<div style="font-size:.82rem;margin-top:.85rem;color:var(--n500);max-width:460px;margin-inline:auto;line-height:1.6">אין שאלות שמתאימות לסינון. חזור ל<strong>הכל</strong>, או המשך לענות במצב לימוד כדי שיופיעו כאן שאלות ב<strong>טעות אחרונה</strong> / <strong>אחוז נמוך</strong>.</div>';
+      }
+    }
     container.innerHTML='<div style="text-align:center;padding:3rem;color:var(--n400)"><div style="font-size:2.5rem;margin-bottom:.5rem">🔍</div>לא נמצאו שאלות</div>'+smartHint;
     info.textContent='אין שאלות';pb.style.width='0%';return;
   }
   if (studyIndex >= studyQuestions.length) studyIndex = Math.max(0, studyQuestions.length - 1);
   const q=studyQuestions[studyIndex];
   pb.style.width=((studyIndex+1)/studyQuestions.length*100)+'%';
-  info.textContent=`שאלה ${studyIndex+1} מתוך ${studyQuestions.length}`;
+  const noteMark = questionHasLocalNote(q.id) ? ' · 📝' : '';
+  const searchMark = searchQuery ? ' · חיפוש' : '';
+  info.textContent=`שאלה ${studyIndex+1} מתוך ${studyQuestions.length}${noteMark}${searchMark}`;
   document.getElementById('btn-prev').disabled=studyIndex===0;
   document.getElementById('btn-next').disabled=studyIndex===studyQuestions.length-1;
   container.innerHTML=buildStudyQuestionHTML(q);
@@ -2623,6 +2691,7 @@ function initFlashcards() {
   Object.entries(topicCounts).sort((a,b)=>b[1]-a[1]).forEach(([topic,count])=>{
     container.innerHTML += `<div class="topic-chip" data-topic="${escHtml(topic)}" onclick="flashToggleTopic('${escHtml(topic)}')">${escHtml(topic)} (${count})</div>`;
   });
+  refreshTopicNoteBadges();
   rebuildFlashDeck();
 }
 
@@ -4261,7 +4330,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-    version: '7.5.2',
+    version: '7.5.3',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),
