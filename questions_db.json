@@ -11621,7 +11621,8 @@
         "[kA] 62"
       ],
       "correct_answer": 2,
-      "explanation": "ע\"פ .Basics for MV design according to IEC standard אימפדנס הקצר של הרשת: =              2 = (0.4·103)2 = 1. 6      Ω        100·106                     אימפדנס הקצר של שנאי :1 =              2              = (0.4·103)2 0. 06 = 6      Ω        1600·103             1       %        אימפדנס הקצר של שנאי :2 =              2              = (0.4·103)2 0. 08 = 8      Ω        1600·103             2       %               =        | |       +        = 3. 42 + 1. 6 = 5. 02      Ω                          1             2        =               = 400 3 = 46                    3 5.02·10−3                           התשובה היא 2",
+      "explanation": "",
+      "explanation_image": "images/q_0724_explanation.png",
       "image": null,
       "pdf_page": 303
     },
