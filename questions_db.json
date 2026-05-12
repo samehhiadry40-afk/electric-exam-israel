@@ -13409,9 +13409,10 @@
         "212.3V"
       ],
       "correct_answer": 1,
-      "explanation": ".התנגדות מוליך:הפאזה= = 0. 252Ω 90 0.028",
+      "explanation": "",
       "image": null,
-      "pdf_page": 356
+      "pdf_page": 356,
+      "explanation_image": "images/q_0832_explanation.png"
     },
     {
       "id": 833,
