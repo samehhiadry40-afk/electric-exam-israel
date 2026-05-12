@@ -1,5 +1,5 @@
 {
-  "version": "7.5.11",
+  "version": "7.5.12",
   "total": 1000,
   "questions": [
     {
@@ -11166,7 +11166,8 @@
         "4 דקות"
       ],
       "correct_answer": 3,
-      "explanation": "במצב עבודה רגיל השנאי הועמס: 470       100 = 75% במצב המאולץ השנאי יועמס: 940       100 = 150% ע\"פ הטבלה המוצגת השנאי יכול לעמוד בעומס זה למשך 8דקות מבלי שיגרם לו נזק. התשובה היא 3",
+      "explanation": null,
+      "explanation_image": "images/q_0696_explanation.png",
       "image": "images/q_0696.png",
       "pdf_page": 290
     },
