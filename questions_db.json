@@ -13375,9 +13375,10 @@
         "לא ניתן לתקן גורם הספק במתקנים המוזנים במ תח נמוך שהספקם עולה על100kW"
       ],
       "correct_answer": 2,
-      "explanation": ". , ,התשובה היא2 . φ2 = 23 ◦ φ1 = 36. 86 ◦ =  150(0. 75 − 0. 42 ) =  48. 8 𝐾𝑣𝑎𝑟 =  𝑃(𝑡𝑎𝑛 φ1 − 𝑡𝑎𝑛 φ2) 𝑄𝑐= 𝑄 1 −𝑄2",
+      "explanation": "",
       "image": null,
-      "pdf_page": 356
+      "pdf_page": 356,
+      "explanation_image": "images/q_0830_explanation.png"
     },
     {
       "id": 831,
