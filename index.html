@@ -638,7 +638,7 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.6.6 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.6.7 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
@@ -801,7 +801,7 @@
         <span class="study-smart-label">מיקוד לפי ביצועים:</span>
         <button type="button" class="study-smart-chip active" data-smart="all" onclick="setStudySmartFilter('all')">הכל</button>
         <button type="button" class="study-smart-chip" data-smart="wrong_last" onclick="setStudySmartFilter('wrong_last')" title="שאלות שהטעות האחרונה בהן הייתה שגויה">טעות אחרונה</button>
-        <button type="button" class="study-smart-chip" data-smart="low_pct" onclick="setStudySmartFilter('low_pct')" title="לפחות 2 ניסיונות ואחוז הצלחה מתחת ל-60%">אחוז נמוך (&lt;60%)</button>
+        <button type="button" class="study-smart-chip" data-smart="low_pct" onclick="setStudySmartFilter('low_pct')" title="לפחות 2 ניסיונות ואחוז הצלחה מתחת ל-50%">אחוז נמוך (&lt;50%)</button>
         <button type="button" class="study-smart-chip" data-smart="has_note" onclick="setStudySmartFilter('has_note')" title="שאלות שיש לך הערה אישית עליהן במכשיר זה">עם הערה 📝</button>
       </div>
     </div>
@@ -1009,7 +1009,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.6.6</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.6.7</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1255,7 +1255,7 @@
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.6.6 · 1000 שאלות · 17 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.6.7 · 1000 שאלות · 17 נושאים
     </div>
   </div>
 
@@ -1335,9 +1335,9 @@
         <select id="stats-filter-status" onchange="renderStatsTable()">
           <option value="all">כל השאלות</option>
           <option value="answered">שאלות שעניתי עליהן</option>
-          <option value="problem">בעייתיות (אחוז &lt; 60%)</option>
+          <option value="problem">בעייתיות (אחוז &lt; 50%)</option>
           <option value="never_correct">תמיד שגוי</option>
-          <option value="mastered">100% הצלחה</option>
+          <option value="mastered">נשלטות (אחוז &gt; 90%)</option>
         </select>
         <input type="text" id="stats-search" placeholder="חפש שאלה..." oninput="renderStatsTable()" style="flex:1;min-width:200px">
       </div>
@@ -2403,7 +2403,7 @@ function matchesStudySmartFilter(q, stats) {
   const s = stats[q.id];
   if (!s || !s.attempts) return false;
   if (studySmartFilter === 'wrong_last') return s.lastCorrect === false;
-  if (studySmartFilter === 'low_pct') return s.attempts >= 2 && (s.correct / s.attempts) < 0.6;
+  if (studySmartFilter === 'low_pct') return s.attempts >= 2 && (s.correct / s.attempts) < 0.5;
   return true;
 }
 
@@ -2732,7 +2732,7 @@ function matchesFlashSmartFilter(q, stats) {
   const s = stats[q.id];
   if (!s || !s.attempts) return false;
   if (flashSmartFilter === 'wrong_last') return s.lastCorrect === false;
-  if (flashSmartFilter === 'low_pct') return s.attempts >= 2 && (s.correct / s.attempts) < 0.6;
+  if (flashSmartFilter === 'low_pct') return s.attempts >= 2 && (s.correct / s.attempts) < 0.5;
   return true;
 }
 
@@ -3972,15 +3972,15 @@ function renderStatsPage() {
   const totalAttempts = ids.reduce((a,id)=>a+stats[id].attempts, 0);
   const totalCorrect = ids.reduce((a,id)=>a+stats[id].correct, 0);
   const overallPct = totalAttempts ? Math.round(totalCorrect/totalAttempts*100) : 0;
-  const problemCount = ids.filter(id => stats[id].attempts>=2 && (stats[id].correct/stats[id].attempts)<0.6).length;
-  const masteredCount = ids.filter(id => stats[id].attempts>=2 && stats[id].correct===stats[id].attempts).length;
+  const problemCount = ids.filter(id => stats[id].attempts>=2 && (stats[id].correct/stats[id].attempts)<0.5).length;
+  const masteredCount = ids.filter(id => stats[id].attempts>=2 && (stats[id].correct/stats[id].attempts)>0.9).length;
 
   document.getElementById('stats-summary').innerHTML = [
     {val: ids.length, lbl:'שאלות שעניתי', col:'var(--primary)'},
     {val: totalAttempts, lbl:'סך ניסיונות', col:'var(--primary)'},
     {val: overallPct + '%', lbl:'אחוז הצלחה כללי', col: overallPct>=80?'var(--secondary)':overallPct>=60?'var(--warning)':'var(--danger)'},
     {val: problemCount, lbl:'שאלות בעייתיות', col:'var(--danger)'},
-    {val: masteredCount, lbl:'נשלטות 100%', col:'var(--secondary)'},
+    {val: masteredCount, lbl:'נשלטות (>90%)', col:'var(--secondary)'},
   ].map(s => `<div class="stats-summary-card" style="--sc:${s.col}">
     <div class="stats-summary-val">${s.val}</div>
     <div class="stats-summary-lbl">${s.lbl}</div>
@@ -3993,12 +3993,12 @@ function renderStatsPage() {
 function renderStatsProblems() {
   const p = getProfile(); if (!p) return;
   const stats = p.trainingStats || {};
-  // Build candidates: at least 2 attempts and success rate < 60%, OR ever-wrong with 1 attempt? Use threshold of 2 attempts.
+  // Build candidates: at least 2 attempts and success rate < 50%
   const problems = [];
   Object.entries(stats).forEach(([qId, s]) => {
     if (s.attempts < 2) return;
     const pct = s.correct / s.attempts;
-    if (pct >= 0.6) return;
+    if (pct >= 0.5) return;
     const q = DB.find(x => x.id === parseInt(qId));
     if (!q) return;
     problems.push({q, s, pct});
@@ -4014,7 +4014,7 @@ function renderStatsProblems() {
       <div class="stats-empty-icon">🎉</div>
       <div style="font-weight:700;color:var(--n700);margin-bottom:.3rem">כל הכבוד!</div>
       <div style="font-size:.88rem">אין שאלות בעייתיות כרגע. המשך כך!</div>
-      <div style="font-size:.78rem;color:var(--n400);margin-top:.5rem">(שאלה נחשבת בעייתית אחרי לפחות 2 ניסיונות עם אחוז הצלחה מתחת ל-60%)</div>
+      <div style="font-size:.78rem;color:var(--n400);margin-top:.5rem">(שאלה נחשבת בעייתית אחרי לפחות 2 ניסיונות עם אחוז הצלחה מתחת ל-50%)</div>
     </div>`;
     return;
   }
@@ -4131,9 +4131,9 @@ function renderStatsTable() {
   rows = rows.filter(r => {
     if (topicFilter !== 'all' && r.q.topic !== topicFilter) return false;
     if (statusFilter === 'answered' && r.s.attempts === 0) return false;
-    if (statusFilter === 'problem' && !(r.s.attempts >= 2 && r.pct !== null && r.pct < 0.6)) return false;
+    if (statusFilter === 'problem' && !(r.s.attempts >= 2 && r.pct !== null && r.pct < 0.5)) return false;
     if (statusFilter === 'never_correct' && !(r.s.attempts >= 1 && r.s.correct === 0)) return false;
-    if (statusFilter === 'mastered' && !(r.s.attempts >= 1 && r.s.correct === r.s.attempts)) return false;
+    if (statusFilter === 'mastered' && !(r.s.attempts >= 2 && r.pct !== null && r.pct > 0.9)) return false;
     if (search && !r.q.question.toLowerCase().includes(search) && !String(r.q.id).includes(search)) return false;
     return true;
   });
@@ -4172,7 +4172,7 @@ function renderStatsTable() {
   tbody.innerHTML = rows.slice(0, 300).map(r => {
     const pctStr = r.pct===null ? '—' : Math.round(r.pct*100)+'%';
     const pctNum = r.pct===null ? 0 : Math.round(r.pct*100);
-    const color = r.pct===null ? 'var(--n300)' : r.pct>=0.8?'var(--secondary)':r.pct>=0.6?'var(--warning)':'var(--danger)';
+    const color = r.pct===null ? 'var(--n300)' : r.pct>0.9?'var(--secondary)':r.pct>=0.5?'var(--warning)':'var(--danger)';
     return `<tr>
       <td><span class="stats-q-id">#${r.q.id}</span></td>
       <td><div class="stats-q-text">${escHtml(r.q.question.substring(0,140))}${r.q.question.length>140?'...':''}</div></td>
@@ -4417,7 +4417,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-    version: '7.6.6',
+    version: '7.6.7',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),
