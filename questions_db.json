@@ -12353,9 +12353,10 @@
         "[kA] 28"
       ],
       "correct_answer": 1,
-      "explanation": "ע\"פ :Basics for MV design according to IEC standard =              2 = (0.4·103)2 = 4      Ω אימפדנס הקצר של הרשת:        40·106                     אימפדנס הקצר של השנאי: =              2              = (0.4·103)2 0. 05 = 6. 4      Ω        1250·103                    %        אימפדנס הקצר של המערכת:        =        +        = 6. 4 + 4 = 10. 4      Ω                                  =               = 400 3 = 22. 2                    3 10.4·10−3                           ולכן התשובה היא 1",
+      "explanation": "",
       "image": "images/q_0769.png",
-      "pdf_page": 324
+      "pdf_page": 324,
+      "explanation_image": "images/q_0769_explanation.png"
     },
     {
       "id": 770,
