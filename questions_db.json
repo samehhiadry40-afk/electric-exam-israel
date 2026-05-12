@@ -12890,10 +12890,11 @@
         "500MVA"
       ],
       "correct_answer": 3,
-      "explanation": "השנאים הם בעלי אוורור מאולץ ONAFולכן:        =        = 30                   1 2        = 160                    = 0. 15       % (משנה הדרגות נמצא בצד המתח הגבוה לכן נשתמש במתח Uהראשוני). ע\"פ Basics for MV design according to IEC standard אימפדנס הקצר של השנאים: =        =              2              = (160·103)2 0. 15 = 128Ω             1             2        30·106       %        |        =        = |       128 = 64Ω                          1 2             2 =              2 = (160·103)2 = 400                          64                           התשובה היא 3",
+      "explanation": "",
       "image": "images/q_0801.png",
       "question_after_image": "מהו הספק הקצר במערכת כאשר השנאים מחוברים במקביל?",
-      "pdf_page": 342
+      "pdf_page": 342,
+      "explanation_image": "images/q_0801_explanation.png"
     },
     {
       "id": 802,
