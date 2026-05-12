@@ -1,5 +1,5 @@
 {
-  "version": "7.7.4",
+  "version": "7.7.5",
   "total": 1000,
   "questions": [
     {
@@ -14112,7 +14112,7 @@
       ],
       "correct_answer": 4,
       "explanation": "ע\"פ מתקן רפואי תקנה 14סעיף ( ,)9התשובה היא 4",
-      "image": null,
+      "image": "images/q_0875.png",
       "pdf_page": 371
     },
     {
