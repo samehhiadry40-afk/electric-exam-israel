@@ -638,7 +638,7 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.6.7 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.6.8 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
@@ -1009,7 +1009,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.6.7</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.6.8</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1255,7 +1255,7 @@
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.6.7 · 1000 שאלות · 17 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.6.8 · 1000 שאלות · 17 נושאים
     </div>
   </div>
 
@@ -2250,7 +2250,16 @@ function buildImageHTML(imgPath, caption='', pdfPage=null, altText=null) {
 /** תמונת המשך אחרי טקסט question_after_image (למשל ארבע אפשרויות חיווט) */
 function buildQuestionDiagramHTML(q) {
   if (!q || !q.question_diagram_image) return '';
-  return buildImageHTML(q.question_diagram_image, '', null, 'אפשרויות חיווט');
+  const alt = (q.question_diagram_alt != null && String(q.question_diagram_alt).trim()) ? String(q.question_diagram_alt).trim() : 'אפשרויות חיווט';
+  return buildImageHTML(q.question_diagram_image, '', null, alt);
+}
+
+/** טקסט אחרי question_diagram_image (למשל שאלה סופית אחרי שלט נתונים) */
+function buildQuestionTextAfterDiagramHTML(q, flashStyle) {
+  const t = q && q.question_text_after_diagram && String(q.question_text_after_diagram).trim();
+  if (!t) return '';
+  if (flashStyle) return `<div style="margin-top:.75rem;font-size:.9rem;line-height:1.65">${escHtml(t)}</div>`;
+  return `<div class="question-text question-text-after-image">${escHtml(t)}</div>`;
 }
 
 // ============================================================
@@ -2497,6 +2506,7 @@ function buildStudyQuestionHTML(q){
 
   const imgHTML = buildImageHTML(q.image, '', q.pdf_page);
   const diagramHTML = buildQuestionDiagramHTML(q);
+  const afterDiagramHTML = buildQuestionTextAfterDiagramHTML(q, false);
 
   return `<div class="question-card">
     <div class="question-header">
@@ -2511,6 +2521,7 @@ function buildStudyQuestionHTML(q){
       ${imgHTML}
       ${q.question_after_image?`<div class="question-text question-text-after-image">${escHtml(q.question_after_image)}</div>`:''}
       ${diagramHTML}
+      ${afterDiagramHTML}
       <div class="options-grid">${optHTML}</div>
       ${hintHTML}
       ${feedbackHTML}
@@ -2786,6 +2797,7 @@ function renderFlashcard() {
   const correctText = escHtml(q.options[q.correct_answer - 1] || '—');
   const imgPlate = buildImageHTML(q.image, '', q.pdf_page);
   const diagramHTML = buildQuestionDiagramHTML(q);
+  const afterDiagramHTML = buildQuestionTextAfterDiagramHTML(q, true);
   const explImg = q.explanation_image ? buildImageHTML(q.explanation_image, '', null, 'איור להסבר') : '';
   const explImg2 = q.explanation_image_2 ? buildImageHTML(q.explanation_image_2, '', null, 'איור להסבר') : '';
 
@@ -2798,6 +2810,7 @@ function renderFlashcard() {
         ${imgPlate}
         ${q.question_after_image ? `<div style="margin-top:.75rem;font-size:.9rem;line-height:1.65">${escHtml(q.question_after_image)}</div>` : ''}
         ${diagramHTML}
+        ${afterDiagramHTML}
         <div class="flash-flip-hint">לחץ על הכרטיס או על «הפוך» · רווח במקלדת</div>
       </div>
       <div class="flash-card-face flash-face-a">
@@ -3007,6 +3020,7 @@ function renderExamQuestion(){
   });
   const imgHTML = buildImageHTML(q.image, '', q.pdf_page);
   const diagramHTML = buildQuestionDiagramHTML(q);
+  const afterDiagramHTML = buildQuestionTextAfterDiagramHTML(q, false);
   document.getElementById('exam-question-container').innerHTML=`<div class="question-card">
     <div class="question-header">
       <div>
@@ -3020,6 +3034,7 @@ function renderExamQuestion(){
       ${imgHTML}
       ${q.question_after_image?`<div class="question-text question-text-after-image">${escHtml(q.question_after_image)}</div>`:''}
       ${diagramHTML}
+      ${afterDiagramHTML}
       <div class="options-grid">${optHTML}</div>
     </div>
   </div>`;
@@ -4417,7 +4432,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-    version: '7.6.7',
+    version: '7.6.8',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),
