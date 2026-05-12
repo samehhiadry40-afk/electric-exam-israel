@@ -11491,7 +11491,8 @@
         "אף תשובה אינה נכונה"
       ],
       "correct_answer": 3,
-      "explanation": ".התנגדות מוליך:הפאזה= = 0. 16Ω 150 0.017",
+      "explanation": "",
+      "explanation_image": "images/q_0716_explanation.png",
       "image": null,
       "pdf_page": 300
     },
