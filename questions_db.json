@@ -13341,9 +13341,10 @@
         "20.8%"
       ],
       "correct_answer": 3,
-      "explanation": "עבור גל סינוסואידלי       (      ) =                          ω      פירוק פוריה של הגל הוא הגל עצמו ולכן:        נניח שנתונים לנו בשאלה ערכי ,rmsבכל מקרה לא נתון רכיב (       רכיב )DCלכן התוצאה תהיה זהה.        = 75       ,        = 15       ,        = 10                         1                   3                   5 נשתמש בנוסחא :2-67 =                    152+102       100 = 24% התשובה היא 3 Electrical Installation Guide, 2018Schneider Electric",
+      "explanation": "",
       "image": null,
-      "pdf_page": 355
+      "pdf_page": 355,
+      "explanation_image": "images/q_0828_explanation.png"
     },
     {
       "id": 829,
