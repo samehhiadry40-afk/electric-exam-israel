@@ -1,5 +1,5 @@
 {
-  "version": "7.9.5",
+  "version": "7.9.6",
   "total": 1000,
   "questions": [
     {
@@ -15571,7 +15571,7 @@
       ],
       "correct_answer": 3,
       "explanation": "ע\"פ אל פסק תקנה ,1התשובה היא 3",
-      "image": "images/q_0965.png",
+      "image": "images/q_0966.png",
       "pdf_page": 400
     },
     {
@@ -15635,7 +15635,7 @@
       ],
       "correct_answer": 3,
       "explanation": "ע\"פ אל פסק תקנה ,4התשובה היא 3",
-      "image": null,
+      "image": "images/q_0970.png",
       "pdf_page": 403
     },
     {
