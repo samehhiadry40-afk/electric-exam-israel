@@ -638,7 +638,7 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.9.7 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.9.8 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
@@ -1009,7 +1009,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.9.7</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.9.8</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1255,7 +1255,7 @@
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.9.7 · 1000 שאלות · 17 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.9.8 · 1000 שאלות · 17 נושאים
     </div>
   </div>
 
@@ -2136,6 +2136,49 @@ function shuffle(arr) {
   for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
   return a;
 }
+
+/** אפשרות מטא (תשובות 1+2, כל התשובות נכונות, אף תשובה…) — במבחן לא מערבבים כדי לשמור על מספור התשובות */
+function isMetaAnswerOption(text) {
+  const t = String(text || '').trim();
+  if (!t) return false;
+  if (/כל\s*התשובות\s+נכונות/i.test(t)) return true;
+  if (/^תשובות/i.test(t) && /נכונ|הן\s*נכונ/i.test(t)) return true;
+  if (/^אף\s*תשובה/i.test(t) && /(לא|אינ)/i.test(t) && /נכונ/i.test(t)) return true;
+  return false;
+}
+
+function questionHasMetaAnswerOptions(q) {
+  return (q.options || []).some(isMetaAnswerOption);
+}
+
+function buildExamQuestionOptions(q) {
+  const opts = q.options.map((text, i) => ({ origNum: i + 1, text })).filter(o => o.text);
+  if (questionHasMetaAnswerOptions(q)) {
+    const shuffleMap = {}, reverseMap = {};
+    opts.forEach((opt, i) => {
+      shuffleMap[i + 1] = opt.origNum;
+      reverseMap[opt.origNum] = i + 1;
+    });
+    return {
+      shuffledOptions: opts.map(o => o.text),
+      shuffleMap,
+      reverseMap,
+      correctShuffled: reverseMap[q.correct_answer],
+    };
+  }
+  const shuf = shuffle(opts);
+  const shuffleMap = {}, reverseMap = {};
+  shuf.forEach((opt, i) => {
+    shuffleMap[i + 1] = opt.origNum;
+    reverseMap[opt.origNum] = i + 1;
+  });
+  return {
+    shuffledOptions: shuf.map(o => o.text),
+    shuffleMap,
+    reverseMap,
+    correctShuffled: reverseMap[q.correct_answer],
+  };
+}
 function escHtml(s) {
   return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
 }
@@ -2964,11 +3007,8 @@ function formatDurationShort(sec) {
 function startExam(){
   const raw=[...DB].filter(q=>!q.image_options_missing&&!q.needs_manual_review).sort(()=>Math.random()-.5).slice(0,50);
   examQuestions=raw.map(q=>{
-    const opts=q.options.map((text,i)=>({origNum:i+1,text})).filter(o=>o.text);
-    const shuf=shuffle(opts);
-    const shuffleMap={},reverseMap={};
-    shuf.forEach((opt,i)=>{shuffleMap[i+1]=opt.origNum;reverseMap[opt.origNum]=i+1;});
-    return {...q,shuffledOptions:shuf.map(o=>o.text),shuffleMap,reverseMap,correctShuffled:reverseMap[q.correct_answer]};
+    const built = buildExamQuestionOptions(q);
+    return {...q,...built};
   });
   examIndex=0;examAnswers={};examSkipped=new Set();examFinished=false;examSecondsLeft=3*60*60;
   document.getElementById('exam-start').style.display='none';
@@ -4432,7 +4472,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-        version: '7.9.7',
+        version: '7.9.8',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),
