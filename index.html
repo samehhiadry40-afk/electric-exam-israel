@@ -308,7 +308,7 @@
     .tips-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:1rem;margin-bottom:1.75rem}
     .tip-card-new{background:white;border-radius:var(--radius);box-shadow:var(--shadow);padding:1.2rem 1.4rem;border-right:4px solid var(--tc,#f59e0b);transition:all .2s;cursor:default}
     .tip-card-new:hover{box-shadow:var(--shadow-lg);transform:translateY(-3px)}
-    .tip-card-header{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.65rem}
+    .tip-card-header{display:flex;align-items:flex-start;gap:.75rem;margin-bottom:.65rem;flex-wrap:wrap}
     .tip-badge{font-family:monospace;font-size:.68rem;font-weight:700;padding:3px 8px;border-radius:5px;flex-shrink:0;margin-top:2px;background:var(--tb,#fef3c7);color:var(--tc,#d97706)}
     .tip-card-title{font-size:.88rem;font-weight:700;color:var(--n800);line-height:1.3}
     .tip-card-body{font-size:.82rem;color:var(--n600);line-height:1.65}
@@ -335,6 +335,17 @@
     .tt-blue{background:#dbeafe;color:#1e3a8a;border:1px solid #93c5fd}
     .tt-purple{background:#ede9fe;color:#5b21b6;border:1px solid #c4b5fd}
     .tips-note{font-size:.75rem;color:var(--n400);font-style:italic;line-height:1.5}
+    .tip-page{font-family:monospace;font-size:.65rem;font-weight:700;color:#92400e;background:#fef3c7;border:1px solid #fde68a;padding:2px 8px;border-radius:5px;flex-shrink:0;white-space:nowrap}
+    .tips-pages-map{background:white;border-radius:var(--radius);box-shadow:var(--shadow);overflow:hidden;margin-bottom:1.75rem;border-top:3px solid #1a56db}
+    .tips-pages-map-header{padding:1rem 1.5rem;background:linear-gradient(90deg,#1e3a8a,#1a56db);color:white}
+    .tips-pages-map-header h3{font-size:.95rem;font-weight:700;margin:0}
+    .tips-pages-map-sub{font-size:.75rem;opacity:.75;margin-top:.25rem}
+    .tips-pages-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:0}
+    .tips-page-item{display:flex;justify-content:space-between;align-items:center;padding:10px 1.25rem;border-bottom:1px solid var(--n100);font-size:.82rem;gap:.75rem}
+    .tips-page-item:hover{background:var(--n50)}
+    .tips-page-item:last-child{border-bottom:none}
+    .tips-page-label{color:var(--n700);font-weight:600;line-height:1.35}
+    .tips-page-num{font-family:monospace;font-weight:800;color:#1a56db;background:#dbeafe;padding:3px 10px;border-radius:6px;flex-shrink:0}
 
     /* Formulas */
     .tips-formulas-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1rem;margin-bottom:1.5rem}
@@ -638,7 +649,7 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.9.10 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.9.11 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
@@ -1009,7 +1020,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.9.10</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.9.11</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1024,20 +1035,39 @@
         <div class="tips-chip"><span class="tips-chip-num">15</span><span class="tips-chip-lbl">מובלים</span></div>
         <div class="tips-chip"><span class="tips-chip-num">18</span><span class="tips-chip-lbl">צינורות</span></div>
         <div class="tips-chip"><span class="tips-chip-num">19</span><span class="tips-chip-lbl">מעגלים</span></div>
-        <div class="tips-chip"><span class="tips-chip-num">42</span><span class="tips-chip-lbl">ניתוק</span></div>
+        <div class="tips-chip"><span class="tips-chip-num">42</span><span class="tips-chip-lbl">ניתוק · עמ׳137</span></div>
         <div class="tips-chip"><span class="tips-chip-num">47</span><span class="tips-chip-lbl">קבלים</span></div>
         <div class="tips-chip"><span class="tips-chip-num">55</span><span class="tips-chip-lbl">בדיקות</span></div>
         <div class="tips-chip"><span class="tips-chip-num">70</span><span class="tips-chip-lbl">עמידות</span></div>
-        <div class="tips-chip"><span class="tips-chip-num">ת׳ 1</span><span class="tips-chip-lbl">תוספת ראשונה</span></div>
-        <div class="tips-chip"><span class="tips-chip-num">ת׳ 2</span><span class="tips-chip-lbl">ערכי Iz</span></div>
-        <div class="tips-chip"><span class="tips-chip-num">ת׳ 3</span><span class="tips-chip-lbl">שיטות התקנה</span></div>
+        <div class="tips-chip"><span class="tips-chip-num">384</span><span class="tips-chip-lbl">תוספת ראשונה</span></div>
+        <div class="tips-chip"><span class="tips-chip-num">384</span><span class="tips-chip-lbl">תוספת שניה · Iz</span></div>
+        <div class="tips-chip"><span class="tips-chip-num">397</span><span class="tips-chip-lbl">תוספת שלישית</span></div>
+      </div>
+    </div>
+
+    <!-- Book page map -->
+    <div class="tips-pages-map">
+      <div class="tips-pages-map-header">
+        <h3>📖 מפת עמודים לסימון בספר — לפני הבחינה</h3>
+        <div class="tips-pages-map-sub">מספרי עמודים מתוך תקנות החשמל 2017 (מהדורת הבחינה)</div>
+      </div>
+      <div class="tips-pages-grid">
+        <div class="tips-page-item"><span class="tips-page-label">תוספת ראשונה — מקדמי תיקון</span><span class="tips-page-num">384</span></div>
+        <div class="tips-page-item"><span class="tips-page-label">תוספת שניה — ערכי Iz</span><span class="tips-page-num">384</span></div>
+        <div class="tips-page-item"><span class="tips-page-label">תוספת שלישית — שיטות התקנה</span><span class="tips-page-num">397</span></div>
+        <div class="tips-page-item"><span class="tips-page-label">טבלה 90.5 (י"ג — מגש לא מחורר)</span><span class="tips-page-num">393</span></div>
+        <div class="tips-page-item"><span class="tips-page-label">טבלה 90.6 (ל"א — קבור באדמה)</span><span class="tips-page-num">394</span></div>
+        <div class="tips-page-item"><span class="tips-page-label">טבלה 90.7 (ט"ז — סולם כבלים)</span><span class="tips-page-num">395</span></div>
+        <div class="tips-page-item"><span class="tips-page-label">נוסחת זמן ניתוק · זרם קצר · שטח חתך</span><span class="tips-page-num">375</span></div>
+        <div class="tips-page-item"><span class="tips-page-label">עכבת לולאת תקלה — תקנה 42</span><span class="tips-page-num">137</span></div>
+        <div class="tips-page-item"><span class="tips-page-label">טעינת רכב חשמלי (EV)</span><span class="tips-page-num">569</span></div>
       </div>
     </div>
 
     <!-- 15 Tips Cards -->
     <div class="tips-section-title">
       <div class="tips-section-icon" style="background:#fef3c7">💡</div>
-      <span>15 טיפים לניצחון בבחינה</span>
+      <span>טיפים לניצחון בבחינה — עם מספרי עמוד</span>
     </div>
     <div class="tips-cards-grid">
 
@@ -1052,6 +1082,7 @@
       <div class="tip-card-new" style="--tc:#059669;--tb:#d1fae5">
         <div class="tip-card-header">
           <span class="tip-badge" style="background:#d1fae5;color:#065f46">TIP 02</span>
+          <span class="tip-page">עמ׳ 372</span>
           <span class="tip-card-title">תקנה 6 — הנוסחה הכי חשובה</span>
         </div>
         <div class="tip-card-body">כמעט כל חישוב כבל מתחיל כאן:<br>
@@ -1065,9 +1096,9 @@
           <span class="tip-card-title">שלוש התוספות — שלוש שאלות נפרדות</span>
         </div>
         <div class="tip-card-body">
-          <span class="tip-hl">תוספת 1:</span> מקדמי תיקון (טמפ', צפיפות)<br>
-          <span class="tip-hl">תוספת 2:</span> טבלאות Iz (90.5 / 90.6 / 90.7)<br>
-          <span class="tip-hl">תוספת 3:</span> שיטות התקנה → מצא שיטה → לך לטבלה
+          <span class="tip-hl">תוספת 1:</span> מקדמי תיקון — <strong>עמ׳ 384</strong><br>
+          <span class="tip-hl">תוספת 2:</span> טבלאות Iz — <strong>עמ׳ 384</strong> (טבלאות 90.5→393, 90.6→394, 90.7→395)<br>
+          <span class="tip-hl">תוספת 3:</span> שיטות התקנה — <strong>עמ׳ 397</strong> → מצא שיטה → לך לטבלה
         </div>
       </div>
 
@@ -1077,9 +1108,9 @@
           <span class="tip-card-title">קוד שיטות ההתקנה — קרא מהר</span>
         </div>
         <div class="tip-card-body">
-          <code>י"ג</code> = מגש לא מחורר → טבלה 90.5<br>
-          <code>ט"ז</code> = סולם כבלים → טבלה 90.7<br>
-          <code>ל"א</code> = קבור באדמה → טבלה 90.6
+          <code>י"ג</code> = מגש לא מחורר → טבלה 90.5 (עמ׳ 393)<br>
+          <code>ט"ז</code> = סולם כבלים → טבלה 90.7 (עמ׳ 395)<br>
+          <code>ל"א</code> = קבור באדמה → טבלה 90.6 (עמ׳ 394)
         </div>
       </div>
 
@@ -1094,6 +1125,7 @@
       <div class="tip-card-new" style="--tc:#d97706;--tb:#fef3c7">
         <div class="tip-card-header">
           <span class="tip-badge">TIP 06</span>
+          <span class="tip-page">עמ׳ 146</span>
           <span class="tip-card-title">הארקה TT → תקנה 70 ישירות</span>
         </div>
         <div class="tip-card-body">נוסחה: <code>RE ≤ 50V / ΔI</code><br>זמן ניתוק → תקנה 42(ב).<br>שיטת TN עם זמן ניתוק → תקנה 42(א) + תחום מגנטי מא"ז.</div>
@@ -1102,6 +1134,7 @@
       <div class="tip-card-new" style="--tc:#059669;--tb:#d1fae5">
         <div class="tip-card-header">
           <span class="tip-badge" style="background:#d1fae5;color:#065f46">TIP 07</span>
+          <span class="tip-page">עמ׳ 306</span>
           <span class="tip-card-title">גנרטורים → תקנה 11(ב) בלבד</span>
         </div>
         <div class="tip-card-body">90% מהשאלות על גנרטורים עוסקות בסעיף ב — היכן מחברים את התקן הבקרה (לפני מערכת ההחלפה, בצד חח"י בלבד).</div>
@@ -1118,6 +1151,7 @@
       <div class="tip-card-new" style="--tc:#7c3aed;--tb:#ede9fe">
         <div class="tip-card-header">
           <span class="tip-badge" style="background:#ede9fe;color:#5b21b6">TIP 09</span>
+          <span class="tip-page">עמ׳ 193</span>
           <span class="tip-card-title">קבל לשיפור cosφ → תקנה 47</span>
         </div>
         <div class="tip-card-body">סעיף א: חובת נגד פריקה.<br>סעיף ב: <code>t = 60 שניות</code>, מתח יורד ל-<code>≤ 50V</code>.<br>נוסחה: <code>R ≤ t / (C·ln(U₀/Uc))</code></div>
@@ -1126,14 +1160,16 @@
       <div class="tip-card-new" style="--tc:#e02424;--tb:#fde8e8">
         <div class="tip-card-header">
           <span class="tip-badge" style="background:#fde8e8;color:#9b1c1c">TIP 10</span>
+          <span class="tip-page">עמ׳ 204</span>
           <span class="tip-card-title">לוח סוג 2 = חישוב לולאת תקלה שונה!</span>
         </div>
-        <div class="tip-card-body">לוח מבודד (סוג 2) → לפי תקנה 8: לולאת התקלה נחשבת לפי <strong>המפסק הגדול בלוח</strong>, לא מפסק ההזנה. חריג חשוב!</div>
+        <div class="tip-card-body">לוח מבודד (סוג 2) → לפי תקנה 8: לולאת התקלה נחשבת לפי <strong>המפסק הגדול בלוח</strong>, לא מפסק ההזנה. חריג חשוב!<br>עכבת לולאת תקלה (תקנה 42) — סמן <strong>עמ׳ 137</strong>.</div>
       </div>
 
       <div class="tip-card-new" style="--tc:#d97706;--tb:#fef3c7">
         <div class="tip-card-header">
           <span class="tip-badge">TIP 11</span>
+          <span class="tip-page">עמ׳ 250</span>
           <span class="tip-card-title">קוטר צינור → תקנה 15(ג)</span>
         </div>
         <div class="tip-card-body">מוליך בודד: <code>D_פנימי = 1.65 × Ø_מוליך</code><br>לשניים ויותר מוליכים — יש נוסחה שונה + טבלה בתקנה.</div>
@@ -1142,6 +1178,7 @@
       <div class="tip-card-new" style="--tc:#059669;--tb:#d1fae5">
         <div class="tip-card-header">
           <span class="tip-badge" style="background:#d1fae5;color:#065f46">TIP 12</span>
+          <span class="tip-page">עמ׳ 107</span>
           <span class="tip-card-title">עבודה במתקן חי → תקנות 1 + 14</span>
         </div>
         <div class="tip-card-body">תקנה 1: הגדרת "עבודה במתקן חי" — כוללת מדידה!<br>תקנה 14: כיצד לבצע — ציוד מגן אישי בחלקים חיים.</div>
@@ -1150,15 +1187,17 @@
       <div class="tip-card-new" style="--tc:#1a56db;--tb:#dbeafe">
         <div class="tip-card-header">
           <span class="tip-badge" style="background:#dbeafe;color:#1e3a8a">TIP 13</span>
-          <span class="tip-card-title">מתקן חקלאי → תקנה 1(א) + 10×</span>
+          <span class="tip-page">עמ׳ 405</span>
+          <span class="tip-card-title">מתקן חקלאי — הגנה מפני זרם יתר</span>
         </div>
-        <div class="tip-card-body">דרישה ייחודית: זרם קצר מינימלי ≥ <code>10 × זרם הפעלת מפ"ז</code>.<br>בנוסף לכל דרישות תקנה 42 הרגילות.</div>
+        <div class="tip-card-body">דרישה ייחודית: זרם קצר מינימלי ≥ <code>10 × זרם הפעלת מפ"ז</code>.<br>בנוסף לכל דרישות תקנה 42 — עכבת לולאת תקלה <strong>עמ׳ 137</strong>.</div>
       </div>
 
       <div class="tip-card-new" style="--tc:#7c3aed;--tb:#ede9fe">
         <div class="tip-card-header">
           <span class="tip-badge" style="background:#ede9fe;color:#5b21b6">TIP 14</span>
-          <span class="tip-card-title">מערכות PV → פרק ייעודי — סוף הספר</span>
+          <span class="tip-page">עמ׳ 543</span>
+          <span class="tip-card-title">מערכות PV → עמ׳ 543</span>
         </div>
         <div class="tip-card-body">לכל שאלות פוטו-וולטאיות יש פרק נפרד בסוף הספר. אל תחפש בתקנות הרגילות — ישירות לפרק PV.</div>
       </div>
@@ -1168,7 +1207,16 @@
           <span class="tip-badge" style="background:#fde8e8;color:#9b1c1c">TIP 15</span>
           <span class="tip-card-title">לפני כל חישוב — זהה TN vs TT</span>
         </div>
-        <div class="tip-card-body"><span class="tip-hl">TN:</span> לולאת תקלה → מגנטי מפסק → ניתוק מהיר<br><span class="tip-hl2">TT:</span> RE ≤ 50/ΔI → מפ"ז הכרחי<br>שיטה שונה = נוסחה שונה לגמרי!</div>
+        <div class="tip-card-body"><span class="tip-hl">TN:</span> לולאת תקלה → מגנטי מפסק → ניתוק מהיר — עכבת לולאת תקלה (תקנה 42) <strong>עמ׳ 137</strong><br><span class="tip-hl2">TT:</span> RE ≤ 50/ΔI → מפ"ז הכרחי<br>שיטה שונה = נוסחה שונה לגמרי!</div>
+      </div>
+
+      <div class="tip-card-new" style="--tc:#1a56db;--tb:#dbeafe">
+        <div class="tip-card-header">
+          <span class="tip-badge" style="background:#dbeafe;color:#1e3a8a">EV</span>
+          <span class="tip-page">עמ׳ 569</span>
+          <span class="tip-card-title">טעינת רכב חשמלי — עמדות טעינה</span>
+        </div>
+        <div class="tip-card-body">שאלות על עמדות טעינה / EV — פתח ישר <strong>עמוד 569</strong>. פרק ייעודי — לא בתקנות הכלליות.</div>
       </div>
 
     </div>
@@ -1192,15 +1240,15 @@
           </tr>
         </thead>
         <tbody>
-          <tr><td><span class="tips-topic">הארקות ואיפוס TN, TT, IT</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 3</span><span class="tips-tag tt-gold">תקנה 42</span><span class="tips-tag tt-gold">תקנה 70</span></div></td><td class="tips-note">3=יסוד, 42=זמן ניתוק, 70=עמידות אלקטרודה</td></tr>
+          <tr><td><span class="tips-topic">הארקות ואיפוס TN, TT, IT</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 3</span><span class="tips-tag tt-gold">תקנה 42</span><span class="tips-tag tt-gold">תקנה 70</span></div></td><td class="tips-note">3=יסוד, 42=זמן ניתוק (עכבת לולאת תקלה עמ׳137), 70=עמידות אלקטרודה</td></tr>
           <tr><td><span class="tips-topic">מפסקי מגן (מפ"ז) והארקות</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 8</span><span class="tips-tag tt-gold">תקנה 42</span><span class="tips-tag tt-gold">תקנה 70</span></div></td><td class="tips-note">8=לוחות, 42=הגנה נגד שוק חשמלי</td></tr>
           <tr><td><span class="tips-topic">מבטחים, הגנות, זינה צפה</span></td><td><div class="tips-tags"><span class="tips-tag tt-green">תקנה 6</span></div></td><td class="tips-note">עמסת יתר + קצר — הכל בתקנה 6</td></tr>
-          <tr><td><span class="tips-topic">חישובי חתך כבל / הגנות זרם יתר</span></td><td><div class="tips-tags"><span class="tips-tag tt-green">תקנה 6</span><span class="tips-tag tt-blue">תוספת 1</span><span class="tips-tag tt-blue">תוספת 2</span><span class="tips-tag tt-blue">תוספת 3</span></div></td><td class="tips-note">ת׳1=מקדמים, ת׳2=Iz, ת׳3=שיטת התקנה</td></tr>
+          <tr><td><span class="tips-topic">חישובי חתך כבל / הגנות זרם יתר</span></td><td><div class="tips-tags"><span class="tips-tag tt-green">תקנה 6</span><span class="tips-tag tt-blue">תוספת 1</span><span class="tips-tag tt-blue">תוספת 2</span><span class="tips-tag tt-blue">תוספת 3</span></div></td><td class="tips-note">ת׳1+2 עמ׳384, ת׳3 עמ׳397, טבלאות 90.5–7 עמ׳393–395, נוסחת ניתוק עמ׳375</td></tr>
           <tr><td><span class="tips-topic">מבנים, לוחות, מתקני הזנה</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 8</span><span class="tips-tag tt-gold">תקנה 19</span></div></td><td class="tips-note">8=לוחות (סוג 1/2), 19=מעגלים סופיים</td></tr>
           <tr><td><span class="tips-topic">שנאים ומתקנים</span></td><td><div class="tips-tags"><span class="tips-tag tt-purple">פרק שנאים 30–35</span></div></td><td class="tips-note">חיבורים, קבוצות, מתח קצר Uk%</td></tr>
           <tr><td><span class="tips-topic">גנרטורים ומערכות גיבוי</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 11</span></div></td><td class="tips-note">סעיף ב = מיקום התקן בקרה ביחס למערכת ההחלפה</td></tr>
           <tr><td><span class="tips-topic">מתקנים ארעיים ותאורת חוץ</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 19</span><span class="tips-tag tt-gold">תקנה 42</span></div></td><td class="tips-note">מעגלים סופיים + אזורים מיוחדים</td></tr>
-          <tr><td><span class="tips-topic">מתקנים חקלאיים</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 1(א)</span><span class="tips-tag tt-green">תקנה 6</span><span class="tips-tag tt-gold">תקנה 42</span></div></td><td class="tips-note">IKmin ≥ 10× זרם הפעלת מפ"ז</td></tr>
+          <tr><td><span class="tips-topic">מתקנים חקלאיים</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 1(א)</span><span class="tips-tag tt-green">תקנה 6</span><span class="tips-tag tt-gold">תקנה 42</span></div></td><td class="tips-note">הגנה מפני זרם יתר — עמ׳405, IKmin ≥ 10× מפ"ז</td></tr>
           <tr><td><span class="tips-topic">עבודה במתקן חי</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 1</span><span class="tips-tag tt-gold">תקנה 14</span></div></td><td class="tips-note">1=הגדרות (מדידה=עבודה חיה!), 14=כיצד לבצע</td></tr>
           <tr><td><span class="tips-topic">עבודה בטיחותית במתקנים</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 14</span><span class="tips-tag tt-blue">תקנה 55</span></div></td><td class="tips-note">55=בדיקות (מינימום בידוד 1MΩ)</td></tr>
           <tr><td><span class="tips-topic">מובלים (צינורות)</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 15</span><span class="tips-tag tt-gold">תקנה 18</span></div></td><td class="tips-note">15(ג)=נוסחת קוטר, 18=ציפוי/עומק</td></tr>
@@ -1209,9 +1257,9 @@
           <tr><td><span class="tips-topic">חדרי רחצה / אמבטיה</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 19</span><span class="tips-tag tt-purple">תרשים אזורים</span></div></td><td class="tips-note">אזורים 0,1,2,3 — תרשים בתוך התקנה</td></tr>
           <tr><td><span class="tips-topic">שנאי זרם ומדידה</span></td><td><div class="tips-tags"><span class="tips-tag tt-blue">תקנה 55</span><span class="tips-tag tt-purple">פרק מדידה</span></div></td><td class="tips-note">בדיקות ואימות</td></tr>
           <tr><td><span class="tips-topic">רשתות מתח גבוה</span></td><td><div class="tips-tags"><span class="tips-tag tt-purple">פרק מ"ג</span></div></td><td class="tips-note">IT רשת, סליל פטרסון, זינה צפה</td></tr>
-          <tr><td><span class="tips-topic">מערכות סולאריות PV</span></td><td><div class="tips-tags"><span class="tips-tag tt-purple">פרק PV</span></div></td><td class="tips-note">פרק ייעודי — סוף הספר</td></tr>
+          <tr><td><span class="tips-topic">מערכות סולאריות PV</span></td><td><div class="tips-tags"><span class="tips-tag tt-purple">פרק PV</span></div></td><td class="tips-note">פרק ייעודי — עמ׳543</td></tr>
           <tr><td><span class="tips-topic">מנתקים ומפסקים</span></td><td><div class="tips-tags"><span class="tips-tag tt-gold">תקנה 8</span><span class="tips-tag tt-purple">פרק מנתקים</span></div></td><td class="tips-note">סוגי מנתקים ותנאי שימוש</td></tr>
-          <tr><td><span class="tips-topic">עמדות טעינה (EV)</span></td><td><div class="tips-tags"><span class="tips-tag tt-purple">פרק EV</span></div></td><td class="tips-note">תקנות ייעודיות לכלי רכב חשמליים</td></tr>
+          <tr><td><span class="tips-topic">עמדות טעינה (EV)</span></td><td><div class="tips-tags"><span class="tips-tag tt-purple">פרק EV</span></div></td><td class="tips-note">טעינת רכב חשמלי — עמ׳569</td></tr>
         </tbody>
       </table>
     </div>
@@ -1252,10 +1300,15 @@
         <div class="tips-formula-eq">D_פנימי = 1.65 × Ø_מוליך</div>
         <div class="tips-formula-note">למוליך בודד. לשניים+ — טבלה נפרדת בתקנה</div>
       </div>
+      <div class="tips-formula-card" style="border-top-color:#f59e0b">
+        <div class="tips-formula-label" style="color:#d97706">זמן ניתוק · זרם קצר · שטח חתך — עמ׳ 375</div>
+        <div class="tips-formula-eq">t<sub>n</sub> ↔ I<sub>sc</sub> ↔ S</div>
+        <div class="tips-formula-note">נוסחת הקשר בין זמן ניתוק המפסק, זרם הקצר ושטח חתך המוליך — סמן עמוד 375</div>
+      </div>
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.9.10 · 1000 שאלות · 17 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.9.11 · 1000 שאלות · 17 נושאים
     </div>
   </div>
 
@@ -4472,7 +4525,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-        version: '7.9.10',
+        version: '7.9.11',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),
