@@ -68,6 +68,19 @@
     .study-smart-chip:hover{border-color:var(--secondary);color:var(--secondary)}
     .study-smart-chip.active{background:var(--secondary);border-color:var(--secondary);color:white}
 
+    .study-engineer-filter-wrap{margin-bottom:1rem}
+    .study-engineer-filter{display:flex;align-items:center;justify-content:space-between;gap:1rem;width:100%;padding:.85rem 1.15rem;border-radius:12px;border:2px solid #7c3aed;background:linear-gradient(135deg,#f5f3ff 0%,#ede9fe 45%,#fef3c7 100%);cursor:pointer;font-family:inherit;text-align:right;transition:transform .15s,box-shadow .2s,border-color .2s;box-shadow:0 4px 18px rgba(124,58,237,.18)}
+    .study-engineer-filter:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,58,237,.28);border-color:#5b21b6}
+    .study-engineer-filter.active{background:linear-gradient(135deg,#5b21b6 0%,#7c3aed 55%,#6d28d9 100%);border-color:#4c1d95;color:white;box-shadow:0 8px 28px rgba(91,33,182,.45)}
+    .study-engineer-filter-text{display:flex;flex-direction:column;gap:.2rem;flex:1;min-width:0}
+    .study-engineer-filter-title{font-size:.95rem;font-weight:800;color:#5b21b6;line-height:1.35}
+    .study-engineer-filter.active .study-engineer-filter-title{color:#fff}
+    .study-engineer-filter-sub{font-size:.76rem;font-weight:600;color:#6b7280;line-height:1.4}
+    .study-engineer-filter.active .study-engineer-filter-sub{color:rgba(255,255,255,.88)}
+    .study-engineer-filter-badge{font-family:monospace;font-size:.82rem;font-weight:800;padding:.35rem .75rem;border-radius:8px;background:#7c3aed;color:white;flex-shrink:0;white-space:nowrap}
+    .study-engineer-filter.active .study-engineer-filter-badge{background:rgba(255,255,255,.22);color:#fff;border:1px solid rgba(255,255,255,.35)}
+    .question-engineer-badge{display:inline-block;font-size:.68rem;font-weight:800;color:#5b21b6;background:#ede9fe;border:1px solid #c4b5fd;padding:2px 8px;border-radius:6px;margin-top:.35rem}
+
     .flash-toolbar{display:flex;flex-wrap:wrap;gap:.5rem;align-items:center;justify-content:space-between;margin-bottom:1rem}
     .flash-card-wrap{position:relative;min-height:260px;margin:1rem 0}
     .flash-card-face{display:none;padding:1.35rem;border-radius:var(--radius);box-shadow:var(--shadow);min-height:240px;line-height:1.75}
@@ -649,7 +662,7 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.9.11 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.9.12 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
@@ -808,6 +821,15 @@
         <span class="search-icon">🔍</span>
       </div>
       <div class="topic-filters" id="topic-filters"></div>
+      <div class="study-engineer-filter-wrap">
+        <button type="button" class="study-engineer-filter" id="study-engineer-filter-btn" onclick="toggleStudyEngineerFilter()" aria-pressed="false">
+          <span class="study-engineer-filter-text">
+            <span class="study-engineer-filter-title">⚡ שאלות מתח גבוה למהנדסים בלבד</span>
+            <span class="study-engineer-filter-sub">סעיף מ"ג בלבד · עמוד 413 ואילך במאגר השאלות הרשמי</span>
+          </span>
+          <span class="study-engineer-filter-badge" id="study-engineer-filter-count">—</span>
+        </button>
+      </div>
       <div class="study-smart-row" id="study-smart-row">
         <span class="study-smart-label">מיקוד לפי ביצועים:</span>
         <button type="button" class="study-smart-chip active" data-smart="all" onclick="setStudySmartFilter('all')">הכל</button>
@@ -1020,7 +1042,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.9.11</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.9.12</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1308,7 +1330,7 @@
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.9.11 · 1000 שאלות · 17 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.9.12 · 1000 שאלות · 17 נושאים
     </div>
   </div>
 
@@ -2141,6 +2163,43 @@ let DB = null;
 let studyQuestions = [], studyIndex = 0, studyAnswered = {}, studyHintShown = {};
 let activeTopics = new Set(), searchQuery = '';
 let studySmartFilter = 'all'; // 'all' | 'wrong_last' | 'low_pct' | 'has_note'
+let studyEngineerOnly = false;
+
+/** שאלות מ"ג למהנדסים בלבד — עמוד 413+ במאגר או engineers_only במאגר */
+function isEngineerOnlyQuestion(q) {
+  if (!q) return false;
+  if (q.engineers_only === true) return true;
+  if (q.pdf_page != null && q.pdf_page >= 413) return true;
+  return q.topic === 'שנאים, רשתות מתח גבוה ומתקנים' &&
+    q.pdf_id && String(q.pdf_id).startsWith('16');
+}
+
+function countEngineerOnlyQuestions() {
+  if (!DB) return 0;
+  return DB.filter(q =>
+    !q.image_options_missing && !q.needs_manual_review && isEngineerOnlyQuestion(q)
+  ).length;
+}
+
+function updateStudyEngineerFilterUI() {
+  const btn = document.getElementById('study-engineer-filter-btn');
+  const countEl = document.getElementById('study-engineer-filter-count');
+  const n = countEngineerOnlyQuestions();
+  if (countEl) countEl.textContent = n ? `${n} שאלות` : '0';
+  if (btn) {
+    btn.classList.toggle('active', studyEngineerOnly);
+    btn.setAttribute('aria-pressed', studyEngineerOnly ? 'true' : 'false');
+  }
+}
+
+function toggleStudyEngineerFilter() {
+  studyEngineerOnly = !studyEngineerOnly;
+  updateStudyEngineerFilterUI();
+  studyIndex = 0;
+  studyAnswered = {};
+  studyHintShown = {};
+  updateStudyList();
+}
 
 let flashDeck = [], flashIndex = 0, flashShowAnswer = false;
 let flashActiveTopics = new Set(), flashSearchQuery = '', flashSmartFilter = 'all';
@@ -2472,6 +2531,7 @@ function initStudy() {
     container.innerHTML+=`<div class="topic-chip" data-topic="${escHtml(topic)}" onclick="toggleTopic('${escHtml(topic)}')">${escHtml(topic)} (${count})</div>`;
   });
   refreshTopicNoteBadges();
+  updateStudyEngineerFilterUI();
   updateStudyList();
 }
 
@@ -2519,7 +2579,8 @@ function updateStudyList(){
     if(q.image_options_missing||q.needs_manual_review) return false;
     const tm=activeTopics.size===0||activeTopics.has(q.topic);
     const sm=!searchQuery||q.question.toLowerCase().includes(searchQuery)||q.options.some(o=>o.toLowerCase().includes(searchQuery));
-    return tm&&sm&&matchesStudySmartFilter(q, stats);
+    const em=!studyEngineerOnly||isEngineerOnlyQuestion(q);
+    return tm&&sm&&em&&matchesStudySmartFilter(q, stats);
   });
   renderStudyQuestion();
 }
@@ -2539,7 +2600,9 @@ function renderStudyQuestion(){
   const pb=document.getElementById('study-progress-bar');
   if(studyQuestions.length===0){
     let smartHint = '';
-    if (studySmartFilter !== 'all') {
+    if (studyEngineerOnly) {
+      smartHint = '<div class="study-smart-label" style="font-size:.82rem;margin-top:.85rem;color:var(--n500);max-width:520px;margin-inline:auto;line-height:1.6">אין שאלות מתח גבוה למהנדסים לפי הסינון הנוכחי. כבה את הסינון הסגול או הרחב את נושאי החיפוש.</div>';
+    } else if (studySmartFilter !== 'all') {
       if (studySmartFilter === 'has_note') {
         smartHint = '<div style="font-size:.82rem;margin-top:.85rem;color:var(--n500);max-width:460px;margin-inline:auto;line-height:1.6">אין שאלות עם הערה אישית במכשיר זה (בהתאם לנושאים ולחיפוש הנוכחיים). הוסף הערה בשדה «הערה אישית» בשאלה, או בחר <strong>הכל</strong> בסינון המיקוד.</div>';
       } else {
@@ -2554,7 +2617,8 @@ function renderStudyQuestion(){
   pb.style.width=((studyIndex+1)/studyQuestions.length*100)+'%';
   const noteMark = questionHasLocalNote(q.id) ? ' · 📝' : '';
   const searchMark = searchQuery ? ' · חיפוש' : '';
-  info.textContent=`שאלה ${studyIndex+1} מתוך ${studyQuestions.length}${noteMark}${searchMark}`;
+  const engMark = studyEngineerOnly ? ' · מ"ג מהנדסים' : '';
+  info.textContent=`שאלה ${studyIndex+1} מתוך ${studyQuestions.length}${engMark}${noteMark}${searchMark}`;
   document.getElementById('btn-prev').disabled=studyIndex===0;
   document.getElementById('btn-next').disabled=studyIndex===studyQuestions.length-1;
   container.innerHTML=buildStudyQuestionHTML(q);
@@ -2603,12 +2667,17 @@ function buildStudyQuestionHTML(q){
   const imgHTML = buildImageHTML(q.image, '', q.pdf_page);
   const diagramHTML = buildQuestionDiagramHTML(q);
   const afterDiagramHTML = buildQuestionTextAfterDiagramHTML(q, false);
+  const pageLabel = q.pdf_page != null ? ` · עמ׳ ${q.pdf_page}` : '';
+  const engineerBadge = isEngineerOnlyQuestion(q)
+    ? '<div class="question-engineer-badge">⚡ מ&quot;ג · למהנדסים בלבד</div>'
+    : '';
 
   return `<div class="question-card">
     <div class="question-header">
       <div>
         <div class="question-num-label">שאלה מספר ${q.id}</div>
-        <div class="question-id-label">מזהה: ${q.pdf_id||'—'}</div>
+        <div class="question-id-label">מזהה: ${q.pdf_id||'—'}${pageLabel}</div>
+        ${engineerBadge}
       </div>
       <div class="question-topic-badge">${escHtml(q.topic)}</div>
     </div>
@@ -2769,9 +2838,11 @@ function jumpToQuestion(e){
       document.getElementById('search-input').value='';
       searchQuery='';
       studySmartFilter = 'all';
+      studyEngineerOnly = false;
       document.querySelectorAll('#study-smart-row .study-smart-chip').forEach(c=>c.classList.toggle('active', c.dataset.smart==='all'));
       document.querySelectorAll('#topic-filters .topic-chip').forEach(c=>c.classList.remove('active'));
       document.querySelectorAll('#topic-filters .topic-chip')[0]?.classList.add('active');
+      updateStudyEngineerFilterUI();
       updateStudyList();
       idx=studyQuestions.findIndex(q=>q.id===id);
     }
@@ -4525,7 +4596,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-        version: '7.9.11',
+        version: '7.9.12',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),
