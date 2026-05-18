@@ -662,7 +662,7 @@
     <span style="font-size:1.6rem">⚡</span>
     <div>
       <div class="nav-brand-title">בחינת רישוי חשמל</div>
-      <div class="nav-brand-sub">מאגר גרסה 7.9.12 | 1000 שאלות</div>
+      <div class="nav-brand-sub">מאגר גרסה 7.9.13 | 1000 שאלות</div>
     </div>
   </div>
   <div class="nav-tabs" id="nav-tabs">
@@ -825,7 +825,7 @@
         <button type="button" class="study-engineer-filter" id="study-engineer-filter-btn" onclick="toggleStudyEngineerFilter()" aria-pressed="false">
           <span class="study-engineer-filter-text">
             <span class="study-engineer-filter-title">⚡ שאלות מתח גבוה למהנדסים בלבד</span>
-            <span class="study-engineer-filter-sub">סעיף מ"ג בלבד · עמוד 413 ואילך במאגר השאלות הרשמי</span>
+            <span class="study-engineer-filter-sub">180 שאלות לפי רשימת המאגר הרשמי (מתח גבוה · למהנדסים בלבד)</span>
           </span>
           <span class="study-engineer-filter-badge" id="study-engineer-filter-count">—</span>
         </button>
@@ -1042,7 +1042,7 @@
     <div class="tips-hero">
       <div class="tips-hero-badge">⚡ בחינת רישוי חשמל — מדריך עזר</div>
       <div class="tips-hero-title">TIPS לעבודה עם ספר תקנות החשמל</div>
-      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.9.12</p>
+      <p class="tips-hero-sub">תקנות החשמל 2017 · מותר להיכנס עם הספר לבחינה · מאגר שאלות גרסה 7.9.13</p>
     </div>
 
     <!-- Quick Reference Chips -->
@@ -1330,7 +1330,7 @@
     </div>
 
     <div style="text-align:center;color:var(--n400);font-size:.8rem;padding:1.25rem 0;border-top:1px solid var(--n200)">
-      תקנות החשמל 2017 · מאגר שאלות גרסה 7.9.12 · 1000 שאלות · 17 נושאים
+      תקנות החשמל 2017 · מאגר שאלות גרסה 7.9.13 · 1000 שאלות · 17 נושאים
     </div>
   </div>
 
@@ -2165,13 +2165,10 @@ let activeTopics = new Set(), searchQuery = '';
 let studySmartFilter = 'all'; // 'all' | 'wrong_last' | 'low_pct' | 'has_note'
 let studyEngineerOnly = false;
 
-/** שאלות מ"ג למהנדסים בלבד — עמוד 413+ במאגר או engineers_only במאגר */
+/** שאלות מ"ג למהנדסים בלבד — רשימת מזהים רשמית (engineers_only במאגר) */
 function isEngineerOnlyQuestion(q) {
   if (!q) return false;
-  if (q.engineers_only === true) return true;
-  if (q.pdf_page != null && q.pdf_page >= 413) return true;
-  return q.topic === 'שנאים, רשתות מתח גבוה ומתקנים' &&
-    q.pdf_id && String(q.pdf_id).startsWith('16');
+  return q.engineers_only === true;
 }
 
 function countEngineerOnlyQuestions() {
@@ -4596,7 +4593,7 @@ function adminAddQuestion() {
 function adminExportJSON() {
   const sorted = [...DB].sort((a,b)=>a.id-b.id);
   const exportData = {
-        version: '7.9.12',
+        version: '7.9.13',
     total: sorted.length,
     missing_ids: MISSING_IDS.filter(id => !DB.find(q=>q.id===id)),
     audit_date: new Date().toISOString().slice(0,10),
